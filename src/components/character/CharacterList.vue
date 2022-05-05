@@ -26,11 +26,17 @@
       </tbody>
     </v-table>
     <v-pagination
+      :model-value="pagination.Page"
       :length="pagination.PageTotal"
       @update:modelValue ="updatePage"
     >
-
     </v-pagination>
+    <v-overlay v-model="isLoading" class="align-center justify-center">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      />
+    </v-overlay>
   </div>
 </template>
 
@@ -45,17 +51,20 @@ export default defineComponent({
 
     watch(() => store.getters["character/getCharactersData"])
     watch(() => store.getters["pagination/getPagination"])
+    watch(() => store.getters["getIsLoading"])
 
     const updatePage = async (page) => {
-      console.log(page)
+      store.dispatch('updateIsLoading', true)
       const response = await getCharactersData(store.getters["character/getNameText"], store.getters["character/getServerText"], page)
       store.dispatch('character/updateCharactersData', response.Results)
       store.dispatch('pagination/updatePagination', response.Pagination)
+      store.dispatch('updateIsLoading', false)
     }
 
     return {
       characters: computed(() => store.getters["character/getCharactersData"]),
       pagination: computed(() => store.getters["pagination/getPagination"]),
+      isLoading: computed(() => store.getters["getIsLoading"]),
       updatePage
     }
   }

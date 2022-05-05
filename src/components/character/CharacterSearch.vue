@@ -75,11 +75,13 @@ export default defineComponent({
     }
 
     const searchCharacter = async () => {
+      store.dispatch('updateIsLoading', true)
       const response = await getCharactersData(characterName.value, server.value)
       store.dispatch('character/updateCharactersData', response.Results)
       store.dispatch('character/updateNameText', characterName)
       store.dispatch('character/updateServerText', server)
       store.dispatch('pagination/updatePagination', response.Pagination)
+      store.dispatch('updateIsLoading', false)
     }
 
     return {

@@ -1,3 +1,6 @@
+// グローバル
+export const UPDATE_IS_LOADING = 'updateIsLoading'
+
 // キャラクター
 export const UPDATE_CHARACTERS_DATA = 'updateCharactersData'
 export const UPDATE_CHARACTER_DETAIL = 'updateCharacterDetail'
