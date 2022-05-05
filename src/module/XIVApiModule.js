@@ -13,4 +13,20 @@ module.exports = {
     return characterData
   },
 
+  /**
+   * XIVAPIでキャラクタIDからキャラクタの詳細データを取得する
+   * @param characterID キャラID
+   * @returns {Promise<*>} キャラクタ詳細データ
+   */
+  async getCharacterDetail(characterID) {
+    const url = 'https://xivapi.com/character/' + characterID
+    const characterDetail = await getResponseByUrl(url)
+    return characterDetail.Character
+  },
+
+  async getItemByName(itemName) {
+    const url = 'https://xivapi.com/search?language=ja&indexes=item&columns=ID,Name_ja,Icon,LevelItem&string=' + itemName
+    const response = await getResponseByUrl(url)
+    return response
+  }
 }

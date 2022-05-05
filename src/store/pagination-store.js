@@ -1,4 +1,4 @@
-import {UPDATE_PAGINATION} from "@/store/mutation-type";
+import {UPDATE_PAGINATION} from "@/store/mutation-type"
 
 export default {
   namespaced: true,

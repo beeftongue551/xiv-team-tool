@@ -1,5 +1,6 @@
 // グローバル
 export const UPDATE_IS_LOADING = 'updateIsLoading'
+export const UPDATE_OPEN_MODAL = 'updateOpenModal'
 
 // キャラクター
 export const UPDATE_CHARACTERS_DATA = 'updateCharactersData'

@@ -20,7 +20,7 @@
               />
             </v-avatar>
           </td>
-          <td>{{character.Name}}</td>
+          <td @click="openCharacterDetail(character.ID)">{{character.Name}}</td>
           <td>{{character.Lang}}</td>
         </tr>
       </tbody>
@@ -43,7 +43,7 @@
 <script>
 import {computed, defineComponent, watch} from "vue";
 import {useStore} from "vuex";
-import {getCharactersData} from "@/module/XIVApiModule";
+import {getCharacterDetail, getCharactersData} from "@/module/XIVApiModule";
 
 export default defineComponent({
   setup() {
@@ -61,10 +61,18 @@ export default defineComponent({
       store.dispatch('updateIsLoading', false)
     }
 
+    const openCharacterDetail = async (id) => {
+      const response = await getCharacterDetail(id)
+      console.log(response)
+      store.dispatch('character/updateCharacterDetail', response)
+      store.dispatch('updateOpenModal', true)
+    }
+
     return {
       characters: computed(() => store.getters["character/getCharactersData"]),
       pagination: computed(() => store.getters["pagination/getPagination"]),
       isLoading: computed(() => store.getters["getIsLoading"]),
+      openCharacterDetail,
       updatePage
     }
   }
