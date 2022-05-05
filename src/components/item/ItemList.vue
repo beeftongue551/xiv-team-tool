@@ -4,8 +4,12 @@
       <v-expansion-panel
         v-for="itemData in itemsData"
         :key="itemData.id"
-        :title="itemData.name"
       >
+        <v-expansion-panel-title>
+          {{itemData.name}}
+          <v-spacer />
+          IL: {{itemData.itemLevel}}
+        </v-expansion-panel-title>
         <v-expansion-panel-text>
           <v-container>
             <v-row no-gutters>
