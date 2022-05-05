@@ -31,12 +31,7 @@
       @update:modelValue ="updatePage"
     >
     </v-pagination>
-    <v-overlay v-model="isLoading" class="align-center justify-center">
-      <v-progress-circular
-        indeterminate
-        size="64"
-      />
-    </v-overlay>
+    <LoadingCircular />
   </div>
 </template>
 
@@ -44,14 +39,15 @@
 import {computed, defineComponent, watch} from "vue";
 import {useStore} from "vuex";
 import {getCharacterDetail, getCharactersData} from "@/module/XIVApiModule";
+import LoadingCircular from "@/components/LoaingCircular";
 
 export default defineComponent({
+  components: {LoadingCircular},
   setup() {
     const store = useStore()
 
     watch(() => store.getters["character/getCharactersData"])
     watch(() => store.getters["pagination/getPagination"])
-    watch(() => store.getters["getIsLoading"])
 
     const updatePage = async (page) => {
       store.dispatch('updateIsLoading', true)
@@ -71,7 +67,6 @@ export default defineComponent({
     return {
       characters: computed(() => store.getters["character/getCharactersData"]),
       pagination: computed(() => store.getters["pagination/getPagination"]),
-      isLoading: computed(() => store.getters["getIsLoading"]),
       openCharacterDetail,
       updatePage
     }

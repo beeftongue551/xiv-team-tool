@@ -49,7 +49,7 @@
               </div>
             </v-card-header>
             <v-card-text>
-              <div class="text-caption">アイテムを検索して最安値やレシピを見たい場合はこちら</div>
+              <div class="text-caption">アイテムを検索して各DCのマーケット状況を<br />見たい場合はこちら</div>
             </v-card-text>
             <v-card-actions>
               <v-btn variant="outlined" to="/item" nuxt>
@@ -74,7 +74,5 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'HomeView',
-
-
 });
 </script>

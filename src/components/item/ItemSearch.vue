@@ -29,6 +29,7 @@
         </v-row>
       </v-container>
     </v-form>
+    <LoadingCircular />
   </div>
 </template>
 
@@ -39,9 +40,11 @@ import {getItemByName} from "@/module/XIVApiModule";
 import {useStore} from "vuex";
 import {getMarketByIDs} from "@/module/UniversalisApiModule";
 import {ItemData} from "@/class/ItemData";
+import LoadingCircular from "@/components/LoaingCircular";
 
 export default defineComponent({
   name: "ItemSearch",
+  components: {LoadingCircular},
   setup() {
     const store = useStore()
 
@@ -51,7 +54,7 @@ export default defineComponent({
     let itemsData = ref([])
 
     const itemSearch = async () => {
-
+      store.dispatch('updateIsLoading', true)
       const xivResponse = await getItemByName(itemName.value)
       const xivItemData = xivResponse.Results
       store.dispatch('pagination/updatePagination', xivResponse.Pagination)
@@ -73,6 +76,7 @@ export default defineComponent({
         }
       })
       store.dispatch('item/updateItemsData', itemsData)
+      store.dispatch('updateIsLoading', false)
     }
 
     return {

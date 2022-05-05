@@ -1,6 +1,5 @@
 <template>
   <div>
-    ItemListComponent
     <v-expansion-panels variant="accordion">
       <v-expansion-panel
         v-for="itemData in itemsData"
