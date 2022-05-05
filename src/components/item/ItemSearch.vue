@@ -61,6 +61,7 @@ export default defineComponent({
       })
       const marketData = await getMarketByIDs(itemIDs, dataCenter.value)
       let itemsData = []
+      store.dispatch('item/updateItemsData', itemsData)
       xivItemData.forEach((itemData) => {
         //複数のアイテムでマーケット情報があるものを処理する
         if(marketData.items!== undefined && marketData.items[itemData.ID] !== undefined) {

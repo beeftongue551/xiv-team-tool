@@ -45,7 +45,7 @@
           >
             <v-card-header>
               <div>
-                <div class="text-h6 mb-1">キャラ検索</div>
+                <div class="text-h6 mb-1">アイテム検索</div>
               </div>
             </v-card-header>
             <v-card-text>
