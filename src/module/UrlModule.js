@@ -8,7 +8,7 @@ module.exports = {
      */
     async getResponseByUrl(url) {
         let dataCash
-        axios(url).then(response => {
+        await axios(url).then(response => {
             return response.data
         }).then(data => {
             dataCash = data

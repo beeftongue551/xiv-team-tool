@@ -1,0 +1,35 @@
+<template>
+  <div>
+    <h3>ET : {{eorzeaTime}} LT : {{realTime}}</h3>
+  </div>
+</template>
+
+<script>
+import {defineComponent, onMounted, ref} from "vue";
+import EorzeaTime from "eorzea-time";
+
+export default defineComponent({
+  name: "EorzeaTime",
+  setup() {
+    let realTime = ref('')
+    let eorzeaTime = ref('')
+
+    const updateTime = () => {
+      //リアルタイムの更新を行う
+      let currentDate = new Date()
+      realTime.value = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds()
+      //エオルゼア時間の取得を行う
+      const time = new EorzeaTime();
+      eorzeaTime.value = time.toString()
+    }
+    onMounted(()=>{
+      setInterval(updateTime, 1000)
+    })
+
+    return {
+      realTime,
+      eorzeaTime
+    }
+  }
+})
+</script>
