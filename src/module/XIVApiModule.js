@@ -6,9 +6,9 @@ module.exports = {
    * @param server サーバ
    * @returns {Promise<*>} 該当するキャラクタ情報（複数）
    */
-  async getCharactersData(name, server) {
+  async getCharactersData(name, server, page = 1) {
     let characterData = {}
-    const url = 'https://xivapi.com/character/search?name=' + name.value + '&server=' + server.value
+    const url = 'https://xivapi.com/character/search?name=' + name + '&server=' + server + '&page=' + page
     characterData = await getResponseByUrl(url)
     return characterData
   },

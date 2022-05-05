@@ -23,7 +23,7 @@
           </v-col>
           <v-col
             cols="12"
-            md="2"
+            md="1"
           >
             <v-btn
                 class="mx-2"
@@ -75,9 +75,10 @@ export default defineComponent({
     }
 
     const searchCharacter = async () => {
-      const response = await getCharactersData(characterName, server)
-      console.log(response)
+      const response = await getCharactersData(characterName.value, server.value)
       store.dispatch('character/updateCharactersData', response.Results)
+      store.dispatch('character/updateNameText', characterName)
+      store.dispatch('character/updateServerText', server)
       store.dispatch('pagination/updatePagination', response.Pagination)
     }
 

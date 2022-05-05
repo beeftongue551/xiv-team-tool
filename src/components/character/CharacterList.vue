@@ -25,23 +25,38 @@
         </tr>
       </tbody>
     </v-table>
+    <v-pagination
+      :length="pagination.PageTotal"
+      @update:modelValue ="updatePage"
+    >
+
+    </v-pagination>
   </div>
 </template>
 
 <script>
 import {computed, defineComponent, watch} from "vue";
 import {useStore} from "vuex";
+import {getCharactersData} from "@/module/XIVApiModule";
 
 export default defineComponent({
   setup() {
     const store = useStore()
 
-    watch(() => store.getters["character/getCharactersData"], function () {
-      console.log("characters update")
-    })
+    watch(() => store.getters["character/getCharactersData"])
+    watch(() => store.getters["pagination/getPagination"])
+
+    const updatePage = async (page) => {
+      console.log(page)
+      const response = await getCharactersData(store.getters["character/getNameText"], store.getters["character/getServerText"], page)
+      store.dispatch('character/updateCharactersData', response.Results)
+      store.dispatch('pagination/updatePagination', response.Pagination)
+    }
 
     return {
-      characters: computed(() => store.getters["character/getCharactersData"])
+      characters: computed(() => store.getters["character/getCharactersData"]),
+      pagination: computed(() => store.getters["pagination/getPagination"]),
+      updatePage
     }
   }
 })
