@@ -10,10 +10,10 @@
     </div>
     <v-container>
       <v-row no-gutters>
-        <v-col cols="2">
+        <v-col cols="auto">
           <v-card
               class="mx-auto"
-              width="344"
+              width="334"
               variant="outlined"
           >
             <v-card-header>
@@ -37,10 +37,10 @@
             </v-card-actions>
           </v-card>
         </v-col>
-        <v-col >
+        <v-col cols="auto">
           <v-card
               class="mx-auto"
-              width="344"
+              width="334"
               variant="outlined"
           >
             <v-card-header>

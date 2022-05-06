@@ -14,6 +14,10 @@ export default defineComponent({
     let realTime = ref('')
     let eorzeaTime = ref('')
 
+    /**
+     * LTとETの更新を行う
+     * @return {void}
+     */
     const updateTime = () => {
       //リアルタイムの更新を行う
       let currentDate = new Date()

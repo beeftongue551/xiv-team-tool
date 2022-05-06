@@ -13,7 +13,6 @@ import CharacterList from "@/components/character/CharacterList";
 import CharacterModal from "@/components/character/CharacterModal";
 import {defineComponent, onMounted} from "vue";
 import {useStore} from "vuex";
-import {computed} from "vue";
 export default defineComponent ({
   name: "CharacterView",
   components: {CharacterList, CharacterSearch, CharacterModal},
@@ -24,7 +23,6 @@ export default defineComponent ({
     })
 
     return {
-      characters: computed(() => store.getters["character/getCharactersData"])
     }
   }
 })

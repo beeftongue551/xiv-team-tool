@@ -91,6 +91,11 @@ export default defineComponent({
       store.dispatch('updateOpenModal', false)
     }
 
+    /**
+     * データセンタ付きのサーバ情報からデータセンタを削除する
+     * @param {string} serverText XIVAPIから取得したデータセンタ付きのサーバ情報
+     * @return {string} サーバテキスト
+     */
     const serverSplit = function (serverText) {
       const dataCenter = {
         mana: " [Mana]",
@@ -105,7 +110,13 @@ export default defineComponent({
       return server
     }
 
-
+    /**
+     *
+     * @param {array} logsData
+     * @param {number} enemyID
+     * @param {string} enemyName
+     * @return {{percentile: number, color: string, enemyName: string, count: number}}
+     */
     const logsCount = (logsData, enemyID, enemyName) => {
       let enemyLog = {
         enemyName: enemyName,

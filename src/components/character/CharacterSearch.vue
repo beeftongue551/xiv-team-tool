@@ -69,11 +69,19 @@ export default defineComponent({
     const server = ref("")
     //let charactersData =  ref([])
 
+    /**
+     * データセンタの値が変更された際に選択できるサーバを決定する
+     * @return {void}
+     */
     const changedDataCenter = () => {
       server.value = ''
       servers.value = dataCenterServers.value[dataCenter.value]
     }
 
+    /**
+     * キャラクターを検索しstoreに情報を格納する
+     * @return {Promise<void>}
+     */
     const searchCharacter = async () => {
       store.dispatch('updateIsLoading', true)
       const response = await getCharactersData(characterName.value, server.value)

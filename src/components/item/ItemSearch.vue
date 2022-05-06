@@ -53,11 +53,14 @@ export default defineComponent({
     const dataCenter = ref('')
     let itemsData = ref([])
 
+    /**
+     * アイテム検索を行いstoreに情報を格納する
+     * @return {Promise<void>}
+     */
     const itemSearch = async () => {
       store.dispatch('updateIsLoading', true)
       const xivResponse = await getItemByName(itemName.value)
       const xivItemData = xivResponse.Results
-      store.dispatch('pagination/updatePagination', xivResponse.Pagination)
       let itemIDs = []
       xivItemData.forEach((item) =>{
         itemIDs.push(item.ID)
@@ -75,6 +78,7 @@ export default defineComponent({
           itemsData.push(new ItemData(itemData,marketData))
         }
       })
+      store.dispatch('pagination/updatePagination', xivResponse.Pagination)
       store.dispatch('item/updateItemsData', itemsData)
       store.dispatch('updateIsLoading', false)
     }

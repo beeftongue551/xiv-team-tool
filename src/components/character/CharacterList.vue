@@ -49,6 +49,11 @@ export default defineComponent({
     watch(() => store.getters["character/getCharactersData"])
     watch(() => store.getters["pagination/getPagination"])
 
+    /**
+     * ページネーションでページが更新された際に該当するページのキャラクタデータを取得する
+     * @param {number} page ページ番号
+     * @return {Promise<void>}
+     */
     const updatePage = async (page) => {
       store.dispatch('updateIsLoading', true)
       const response = await getCharactersData(store.getters["character/getNameText"], store.getters["character/getServerText"], page)
@@ -57,6 +62,11 @@ export default defineComponent({
       store.dispatch('updateIsLoading', false)
     }
 
+    /**
+     * キャラクタの詳細情報を検索しstoreに格納する
+     * @param {number} id ID
+     * @return {Promise<void>}
+     */
     const openCharacterDetail = async (id) => {
       const response = await getCharacterDetail(id)
       console.log(response)
