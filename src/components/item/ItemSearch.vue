@@ -30,6 +30,7 @@
       </v-container>
     </v-form>
     <LoadingCircular />
+    <SearchFailure :is-open="snackbar"/>
   </div>
 </template>
 
@@ -41,10 +42,11 @@ import {useStore} from "vuex";
 import {getMarketByIDs} from "@/module/UniversalisApiModule";
 import {ItemData} from "@/class/ItemData";
 import LoadingCircular from "@/components/LoaingCircular";
+import SearchFailure from "@/components/SearchFailure";
 
 export default defineComponent({
   name: "ItemSearch",
-  components: {LoadingCircular},
+  components: {SearchFailure, LoadingCircular},
   setup() {
     const store = useStore()
 
@@ -52,12 +54,20 @@ export default defineComponent({
     const dataCenters = ref(['Mana','Gaia','Elemental'])
     const dataCenter = ref('')
     let itemsData = ref([])
+    let snackbar = ref(false)
 
     /**
      * アイテム検索を行いstoreに情報を格納する
      * @return {Promise<void>}
      */
     const itemSearch = async () => {
+      //入力不備がある場合の処理
+      if(itemName.value === '' || dataCenter.value === ''){
+        snackbar.value = true
+        return
+      }
+      snackbar.value = false
+
       store.dispatch('updateIsLoading', true)
       const xivResponse = await getItemByName(itemName.value)
       const xivItemData = xivResponse.Results
@@ -67,6 +77,7 @@ export default defineComponent({
       })
       const marketData = await getMarketByIDs(itemIDs, dataCenter.value)
       let itemsData = []
+      // storeの初期化
       store.dispatch('item/updateItemsData', itemsData)
       xivItemData.forEach((itemData) => {
         //複数のアイテムでマーケット情報があるものを処理する
@@ -78,9 +89,11 @@ export default defineComponent({
           itemsData.push(new ItemData(itemData,marketData))
         }
       })
+      // storeにデータを格納する
       store.dispatch('pagination/updatePagination', xivResponse.Pagination)
       store.dispatch('item/updateItemsData', itemsData)
       store.dispatch('updateIsLoading', false)
+
     }
 
     return {
@@ -88,7 +101,7 @@ export default defineComponent({
       dataCenters,
       dataCenter,
       itemsData,
-
+      snackbar,
       itemSearch
     }
   }
