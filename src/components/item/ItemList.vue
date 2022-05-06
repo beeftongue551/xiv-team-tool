@@ -45,6 +45,20 @@
               >
                 HQ最安値：{{itemData.minPriceHQ}}
               </v-col>
+              <v-col
+                cols="12"
+                sm="4"
+              >
+                <v-btn color="secondary" @click="openRecipe(itemData.id)">
+                  レシピ検索
+                  <v-icon
+                  large
+                  color="white"
+                  >
+                    mdi-magnify
+                  </v-icon>
+                </v-btn>
+              </v-col>
             </v-row>
           </v-container>
         </v-expansion-panel-text>
@@ -56,6 +70,7 @@
 <script>
 import {computed, defineComponent, watch} from "vue";
 import {useStore} from "vuex";
+import {getRecipeByItemID} from "@/module/XIVApiModule";
 
 export default defineComponent({
   name: "ItemList",
@@ -63,8 +78,14 @@ export default defineComponent({
     const store = useStore()
     watch(() => store.getters['item/getItemsData'])
 
+    const openRecipe = async (id) => {
+      const recipeData = await getRecipeByItemID(id)
+      store.dispatch('recipe/updateRecipeData', recipeData)
+    }
+
     return {
-      itemsData: computed(() => store.getters['item/getItemsData'])
+      itemsData: computed(() => store.getters['item/getItemsData']),
+      openRecipe
     }
   }
 })

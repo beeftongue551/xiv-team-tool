@@ -28,5 +28,57 @@ module.exports = {
     const url = 'https://xivapi.com/search?language=ja&indexes=item&columns=ID,Name_ja,Icon,LevelItem&string=' + itemName
     const response = await getResponseByUrl(url)
     return response
-  }
+  },
+
+  /**
+   * XIVAPIでアイテムIDからレシピIDを取得し、
+   * レシピIDからレシピ情報を取得する。
+   * @param itemID
+   * @return {Promise<{amountResult: number, itemID: number, itemIngredients: *[], name: string, job: string}|undefined>}
+   */
+  async getRecipeByItemID(itemID) {
+    let recipeData = {
+      itemID: 0,
+      name: '',
+      job:'',
+      itemIngredients: [],
+      amountResult:0
+    }
+
+    // XIVAPIでレシピIDの取得 複数ある場合は1つのみを対象とする。
+    // HACK: 複数ある場合の対処を考えてもいいかも
+    const url = 'https://xivapi.com/item/' + itemID + '?columns=Recipes'
+    let response = await getResponseByUrl(url)
+    const recipes = response.Recipes
+    if(recipes === null ||recipes.length===0  ) {
+      return undefined
+    }
+
+    // XIVAPIでレシピ情報の取得
+    const url2 = 'https://xivapi.com/recipe/' + recipes[0].ID
+    response = await getResponseByUrl(url2)
+
+    //素材データの格納
+    let ingredients = []
+    for (let i = 0; i < 10; i++) {
+      const amountIngredient = 'AmountIngredient' + i
+      const ItemIngredient = 'ItemIngredient' + i
+      if(response[amountIngredient] !== 0) {
+        const ingredientData = {
+          id: response[ItemIngredient].ID,
+          amount: response[amountIngredient],
+          name: response[ItemIngredient].Name_ja
+        }
+        ingredients.push(ingredientData)
+      }
+    }
+
+    //各データの格納
+    recipeData.itemID = itemID
+    recipeData.name = response.Name_ja
+    recipeData.job = response.ClassJob.Name_ja
+    recipeData.amountResult = response.AmountResult
+    recipeData.itemIngredients = ingredients
+    return recipeData
+  },
 }

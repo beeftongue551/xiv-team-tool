@@ -5,7 +5,6 @@
             color="primary"
         >
           <v-btn
-              icon
               dark
               @click="modalClose"
           >

@@ -11,6 +11,8 @@ module.exports = {
     itemIDs.forEach((id) => {
       url += id + ','
     })
+    url = url.slice(0, -1)
+    url += '?listings=1&entries=0'
     const marketData = await getResponseByUrl(url)
     return marketData
   }
