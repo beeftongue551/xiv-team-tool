@@ -20,8 +20,11 @@
       <v-card-text>一つあたりの経費：{{gillParOne}} ギル</v-card-text>
       <v-card-actions>
         <v-btn color="error" @click="closeRecipe">close</v-btn>
+        <v-spacer />
+        <v-btn color="warning" @click="detailRecipe">詳細レシピ</v-btn>
       </v-card-actions>
     </v-card>
+    <SearchFailure :is-open="snackbar" msg="未実装の機能です"/>
   </div>
 </template>
 
@@ -29,14 +32,17 @@
 import {defineComponent, ref, watch} from "vue";
 import {useStore} from "vuex";
 import {getMarketByIDs} from "@/module/UniversalisApiModule";
+import SearchFailure from "@/components/SearchFailure";
 
 export default defineComponent({
   name: "RecipeCard",
+  components: {SearchFailure},
   setup() {
     const store = useStore()
     let recipeData = ref({})
     let amount = ref(0)
     let gillParOne = ref(0)
+    let snackbar = ref(false)
 
     watch(() => store.getters['recipe/getRecipeData'],async (newVal) => {
       recipeData.value = newVal
@@ -53,19 +59,24 @@ export default defineComponent({
       amount.value = recipeData.value.amountResult
       gillParOne.value = totalGill / amount.value
       gillParOne.value = gillParOne.value.toFixed(0)
-      console.log(itemIngredients)
     })
 
     const closeRecipe = () => {
       recipeData.value = {}
     }
 
+    const detailRecipe = () => {
+      snackbar.value = true
+    }
+
     return {
       amount,
       recipeData,
       gillParOne,
+      snackbar,
 
-      closeRecipe
+      closeRecipe,
+      detailRecipe
     }
   }
 })

@@ -30,7 +30,7 @@
       </v-container>
     </v-form>
     <LoadingCircular />
-    <SearchFailure :is-open="snackbar"/>
+    <SearchFailure :is-open="snackbar" msg="値を入力してください"/>
   </div>
 </template>
 
