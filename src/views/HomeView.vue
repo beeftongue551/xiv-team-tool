@@ -66,13 +66,34 @@
         </v-col>
       </v-row>
     </v-container>
+    <NoticeList title="お知らせ" :notice-details="noticeDetails"/>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, ref} from 'vue';
+import NoticeList from "@/components/Notification/NoticeList";
 
 export default defineComponent({
   name: 'HomeView',
+  components: {NoticeList},
+  setup() {
+    const noticeDetails = ref([
+      {
+        type: '機能追加',
+        date: '2022/5/6',
+        text: 'レシピ表示機能の追加を行いました！'
+      },
+      {
+        type: 'お知らせ',
+        date: '2022/5/４',
+        text: 'BeefTools公開しました！'
+      }
+    ])
+
+    return {
+      noticeDetails
+    }
+  }
 });
 </script>
