@@ -9,7 +9,7 @@
       <label class="explanation-text"><strong>XIVTeamTool</strong>はプレイヤーを手助けする便利サイトを目指して作成されているサイトです。</label>
     </div>
     <v-container>
-      <v-row no-gutters>
+      <v-row no-gutters justify="center">
         <v-col cols="auto">
           <v-card
               class="mx-auto"
