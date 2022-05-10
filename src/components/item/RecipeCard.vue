@@ -17,7 +17,7 @@
         </tr>
         </tbody>
       </v-table>
-      <v-card-text>一つあたりの経費：{{gillParOne}} ギル</v-card-text>
+      <v-card-text>一つあたりの最小経費：{{gillParOne}} ギル</v-card-text>
       <v-card-actions>
         <v-btn color="error" @click="closeRecipe">close</v-btn>
         <v-spacer />
