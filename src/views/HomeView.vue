@@ -81,6 +81,11 @@ export default defineComponent({
     const noticeDetails = ref([
       {
         type: '機能追加',
+        date: '2022/5/10',
+        text: 'お知らせ機能の追加を行いました！'
+      },
+      {
+        type: '機能追加',
         date: '2022/5/6',
         text: 'レシピ表示機能の追加を行いました！'
       },
