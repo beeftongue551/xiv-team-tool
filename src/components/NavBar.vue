@@ -18,14 +18,17 @@
     <v-list-item prepend-icon="mdi-account-search" title="キャラ検索" value="キャラ検索" to="/character" />
     <v-list-item prepend-icon="mdi-store" title="アイテム検索" value="アイテム検索" to="/item"/>
   </v-navigation-drawer>
+
+  <LoadingCircular />
 </template>
 
 <script>
 import {ref} from "vue";
 import EorzeaTime from "@/components/EorzeaTime";
+import LoadingCircular from "@/components/LoaingCircular";
 export default {
   name: "NavBar",
-  components: {EorzeaTime},
+  components: {LoadingCircular, EorzeaTime},
   setup() {
     const drawer = ref(false)
 

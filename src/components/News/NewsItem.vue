@@ -1,10 +1,10 @@
 <template>
   <v-list-item>
     <v-list-item-header>
-      <v-list-item-title><v-chip class="ma-2" color="red">{{noticeDetail.type}}</v-chip> {{noticeDetail.date}}</v-list-item-title>
+      <v-list-item-title><v-chip class="ma-2" color="red">{{newsDetail.type}}</v-chip> {{newsDetail.date}}</v-list-item-title>
     </v-list-item-header>
-    <br>
-    {{noticeDetail.text}}
+    <v-spacer />
+    {{newsDetail.text}}
   </v-list-item>
 </template>
 
@@ -12,8 +12,8 @@
 import {defineComponent} from "vue"
 
 export default defineComponent({
-  name: "NoticeItem",
-  props: ['noticeDetail'],
+  name: "NewsItem",
+  props: ['newsDetail'],
   setup() {
     return {}
   }

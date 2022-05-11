@@ -29,7 +29,6 @@
         </v-row>
       </v-container>
     </v-form>
-    <LoadingCircular />
     <SearchFailure :is-open="snackbar" msg="値を入力してください"/>
   </div>
 </template>
@@ -41,12 +40,11 @@ import {getItemByName} from "@/module/XIVApiModule";
 import {useStore} from "vuex";
 import {getMarketByIDs} from "@/module/UniversalisApiModule";
 import {ItemData} from "@/class/ItemData";
-import LoadingCircular from "@/components/LoaingCircular";
 import SearchFailure from "@/components/SearchFailure";
 
 export default defineComponent({
   name: "ItemSearch",
-  components: {SearchFailure, LoadingCircular},
+  components: {SearchFailure},
   setup() {
     const store = useStore()
 
@@ -93,7 +91,6 @@ export default defineComponent({
       store.dispatch('pagination/updatePagination', xivResponse.Pagination)
       store.dispatch('item/updateItemsData', itemsData)
       store.dispatch('updateIsLoading', false)
-
     }
 
     return {

@@ -7,27 +7,26 @@
         </thead>
         <tbody>
         <tr
-          v-for="noticeDetail in noticeDetails"
-          :key="noticeDetail"
+          v-for="newsDetail in newsDetails"
+          :key="newsDetail.id"
         >
-          <NoticeItem :notice-detail="noticeDetail" />
+          <NewsItem :news-detail="newsDetail" />
         </tr>
         </tbody>
       </v-table>
     </v-card>
   </v-row>
-
 </template>
 
 <script>
 import {defineComponent} from "vue"
-import NoticeItem from "@/components/Notification/NoticeItem";
+import NewsItem from "@/components/News/NewsItem";
 
 
 export default defineComponent({
   name: "NoticeList",
-  props:['title', 'noticeDetails'],
-  components:{NoticeItem},
+  props:['title', 'newsDetails'],
+  components:{NewsItem},
   setup() {
     return {
     }

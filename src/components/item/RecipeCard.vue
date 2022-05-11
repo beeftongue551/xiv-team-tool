@@ -45,6 +45,7 @@ export default defineComponent({
     let snackbar = ref(false)
 
     watch(() => store.getters['recipe/getRecipeData'],async (newVal) => {
+      store.dispatch('updateIsLoading', true)
       recipeData.value = newVal
       const itemIngredients = []
       let totalGill = 0
@@ -59,6 +60,7 @@ export default defineComponent({
       amount.value = recipeData.value.amountResult
       gillParOne.value = totalGill / amount.value
       gillParOne.value = gillParOne.value.toFixed(0)
+      store.dispatch('updateIsLoading', false)
     })
 
     const closeRecipe = () => {
