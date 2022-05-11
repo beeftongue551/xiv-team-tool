@@ -19,6 +19,7 @@
         @click="submitSchedule(true)"
       >送信して追加入力</v-btn>
     </v-form>
+    <SearchFailure :msg="msg" :is-open="isFailure"/>
   </div>
 </template>
 
@@ -28,9 +29,13 @@ import dayjs from "dayjs"
 // import {createXIVSchedule} from "@/module/ScheduleApiModule"
 // import {Schedule} from "@/class/Schedule"
 import {useRouter} from "vue-router";
+import {Schedule} from "@/class/Schedule";
+import SearchFailure from "@/components/SearchFailure";
+import {createXIVSchedule, getXIVScheduleListByName} from "@/module/BeefApiModule";
 
 export default defineComponent({
   name: "ScheduleForm",
+  components: {SearchFailure},
   setup() {
     const router = useRouter()
 
@@ -44,10 +49,12 @@ export default defineComponent({
     const isEntry = ref(false)
     const valid = ref(false)
     const entryLabel = ref('参加しません')
+    const isFailure = ref(false)
+    const msg = ref('')
 
     onMounted(() => {
       for(let i = 0; i < 7; i++){
-        sevenDays.value.push(dayjs().add(i, 'day').format('YYYY/M/D'))
+        sevenDays.value.push(dayjs().add(i, 'day').format('YYYY-MM-D'))
       }
     })
 
@@ -60,14 +67,38 @@ export default defineComponent({
       }
     })
 
-    const submitSchedule = (add = false) => {
-      // const scheduleData = new Schedule(isEntry, nickname, day, time)
-      // createXIVSchedule(scheduleData)
-      if(add) {
+    const submitSchedule = async (add = false) => {
+      let scheduleData;
+      if (isEntry.value === true) {
+        scheduleData = new Schedule(1, nickname.value, day.value, time.value)
+      } else {
+        scheduleData = new Schedule(0, nickname.value, day.value, time.value)
+      }
+
+      console.log(scheduleData)
+
+      if (nickname.value === '' || day.value === '') {
+        msg.value = '未入力箇所があります。'
+        isFailure.value = true
+        return
+      }
+      const existingSchedule = await getXIVScheduleListByName(nickname.value)
+
+      for (const schedule of existingSchedule) {
+        if (day.value.toString() === schedule.scheduleDate) {
+          msg.value = '入力済みの日付です'
+          isFailure.value = true
+          return
+        }
+      }
+
+      if (add) {
         time.value = ''
         day.value = ''
+        createXIVSchedule(scheduleData)
       } else {
         console.log('toHome')
+        createXIVSchedule(scheduleData)
         router.push('/')
       }
     }
@@ -81,6 +112,8 @@ export default defineComponent({
       day,
       entryLabel,
       valid,
+      isFailure,
+      msg,
       submitSchedule
     }
   }

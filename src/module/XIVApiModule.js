@@ -28,8 +28,7 @@ module.exports = {
 
   async getItemByName(itemName) {
     const url = XIV_API_URL + 'search?language=ja&indexes=item&columns=ID,Name_ja,Icon,LevelItem&string=' + itemName
-    const response = await getResponseByUrl(url)
-    return response
+    return await getResponseByUrl(url)
   },
 
   /**

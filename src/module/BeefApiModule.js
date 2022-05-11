@@ -1,5 +1,5 @@
 const {getResponseByUrl, postResponseByUrl} = require("@/module/UrlModule");
-const {BEEF_API_URL} = require("@/module/ModuleType");
+const {BEEF_API_URL, DEBUG_API_URL} = require("@/module/ModuleType");
 
 module.exports = {
 
@@ -13,12 +13,22 @@ module.exports = {
   },
 
   /**
+   * BeefAPIで名前が一致する人のスケジュールを取得する
+   * @param {string} name 名前
+   * @return {Promise<*>} スケジュール表
+   */
+  async getXIVScheduleListByName(name) {
+    const url = DEBUG_API_URL + 'schedule/user/' + name
+    return await getResponseByUrl(url)
+  },
+
+  /**
    * BeefAPIでスケジュールの登録を行う
-   * @param schedule スケジュール
+   * @param {Schedule} schedule スケジュール
    * @return {Promise<*>}
    */
   async createXIVSchedule(schedule) {
-    const url = BEEF_API_URL + 'schedule'
+    const url = DEBUG_API_URL + 'schedule'
     return await postResponseByUrl(url, schedule)
   },
 
@@ -29,7 +39,17 @@ module.exports = {
    * @return {Promise<*>}
    */
   async getNewsList() {
-    const url =BEEF_API_URL + 'news'
+    const url = BEEF_API_URL + 'news'
+    return await getResponseByUrl(url)
+  },
+
+  /**
+   * BeefAPIでお知らせを指定件数取得する
+   * @param {number} limit 最大取得数
+   * @return {Promise<*>}
+   */
+  async getNewsListLimit(limit) {
+    const url = BEEF_API_URL + 'news/limit/' + limit
     return await getResponseByUrl(url)
   }
 }

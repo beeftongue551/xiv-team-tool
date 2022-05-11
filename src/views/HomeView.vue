@@ -73,7 +73,7 @@
 <script>
 import {defineComponent, onMounted, ref} from 'vue';
 import NewsList from "@/components/News/NewsList";
-import {getNewsList} from "@/module/BeefApiModule";
+import {getNewsListLimit} from "@/module/BeefApiModule";
 
 export default defineComponent({
   name: 'HomeView',
@@ -82,7 +82,7 @@ export default defineComponent({
     const newsDetails = ref([])
 
     onMounted(async () => {
-      newsDetails.value = await getNewsList()
+      newsDetails.value = await getNewsListLimit(1)
     })
 
     return {
