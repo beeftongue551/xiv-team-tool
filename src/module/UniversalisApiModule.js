@@ -1,4 +1,5 @@
 const {getResponseByUrl} = require("@/module/UrlModule");
+const {UNIVERSALIS_API_URL} = require("@/module/ModuleType");
 module.exports = {
   /**
    * UniversailsAPIで複数のアイテムIDからマーケット情報を取得する
@@ -7,7 +8,7 @@ module.exports = {
    * @return {Promise<*>} マーケット情報
    */
   async getMarketByIDs(itemIDs, dataCenter) {
-    let url = 'https://universalis.app/api/v2/'+ dataCenter +'/'
+    let url = UNIVERSALIS_API_URL + dataCenter +'/'
     itemIDs.forEach((id) => {
       url += id + ','
     })

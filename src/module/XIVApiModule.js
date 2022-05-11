@@ -1,14 +1,16 @@
 const {getResponseByUrl} = require("@/module/UrlModule");
+const {XIV_API_URL} = require("@/module/ModuleType");
 module.exports = {
   /**
    * XIVAPIで名前とサーバからキャラクタの情報を取得する
    * @param name 名前
    * @param server サーバ
+   * @param page ページ数
    * @returns {Promise<*>} 該当するキャラクタ情報（複数）
    */
   async getCharactersData(name, server, page = 1) {
     let characterData = {}
-    const url = 'https://xivapi.com/character/search?name=' + name + '&server=' + server + '&page=' + page
+    const url = XIV_API_URL + 'character/search?name=' + name + '&server=' + server + '&page=' + page
     characterData = await getResponseByUrl(url)
     return characterData
   },
@@ -19,13 +21,13 @@ module.exports = {
    * @returns {Promise<*>} キャラクタ詳細データ
    */
   async getCharacterDetail(characterID) {
-    const url = 'https://xivapi.com/character/' + characterID
+    const url = XIV_API_URL + 'character/' + characterID
     const characterDetail = await getResponseByUrl(url)
     return characterDetail.Character
   },
 
   async getItemByName(itemName) {
-    const url = 'https://xivapi.com/search?language=ja&indexes=item&columns=ID,Name_ja,Icon,LevelItem&string=' + itemName
+    const url = XIV_API_URL + 'search?language=ja&indexes=item&columns=ID,Name_ja,Icon,LevelItem&string=' + itemName
     const response = await getResponseByUrl(url)
     return response
   },
@@ -47,7 +49,7 @@ module.exports = {
 
     // XIVAPIでレシピIDの取得 複数ある場合は1つのみを対象とする。
     // HACK: 複数ある場合の対処を考えてもいいかも
-    const url = 'https://xivapi.com/item/' + itemID + '?columns=Recipes'
+    const url = XIV_API_URL + 'item/' + itemID + '?columns=Recipes'
     let response = await getResponseByUrl(url)
     const recipes = response.Recipes
     if(recipes === null ||recipes.length===0  ) {
@@ -55,7 +57,7 @@ module.exports = {
     }
 
     // XIVAPIでレシピ情報の取得
-    const url2 = 'https://xivapi.com/recipe/' + recipes[0].ID
+    const url2 = XIV_API_URL + 'recipe/' + recipes[0].ID
     response = await getResponseByUrl(url2)
 
     //素材データの格納

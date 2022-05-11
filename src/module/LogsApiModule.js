@@ -1,4 +1,5 @@
 const {getResponseByUrl} = require("@/module/UrlModule");
+const {LOGS_API_KEY, LOGS_API_URL} = require("@/module/ModuleType");
 
 module.exports = {
   /**
@@ -8,10 +9,8 @@ module.exports = {
    * @returns {Promise<void>} Logs情報
    */
   async getLogsData(name, server) {
-    // Logsから与えられたapiKey
-    const apiKey = '963b26b6-90bf-4a6f-a30e-4ba1689e4b00'
-    const url = 'https://www.fflogs.com/v1/parses/character/'
-      + name + '/' + server + '/JP?includeCombatantInfo=true&api_key=' + apiKey
+    const url = LOGS_API_URL + 'parses/character/'
+      + name + '/' + server + '/JP?includeCombatantInfo=true&api_key=' + LOGS_API_KEY
     return await getResponseByUrl(url)
   },
 }
