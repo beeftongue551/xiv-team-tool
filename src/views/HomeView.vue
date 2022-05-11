@@ -71,14 +71,19 @@
 </template>
 
 <script>
-import { defineComponent, ref} from 'vue';
+import {defineComponent, onMounted, ref} from 'vue';
 import NewsList from "@/components/News/NewsList";
+import {getNewsList} from "@/module/BeefApiModule";
 
 export default defineComponent({
   name: 'HomeView',
   components: {NewsList},
   setup() {
     const newsDetails = ref([])
+
+    onMounted(async () => {
+      newsDetails.value = await getNewsList()
+    })
 
     return {
       newsDetails: newsDetails

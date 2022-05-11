@@ -1,11 +1,11 @@
 <template>
-  <v-list-item>
+  <v-divider></v-divider>
+  <v-list>
     <v-list-item-header>
-      <v-list-item-title><v-chip class="ma-2" color="red">{{newsDetail.type}}</v-chip> {{newsDetail.date}}</v-list-item-title>
+      <v-list-item-title><v-chip class="ma-2" color="red">{{newsDetail.newsType}}</v-chip> {{newsDetail.newsDate}}</v-list-item-title>
     </v-list-item-header>
-    <v-spacer />
-    {{newsDetail.text}}
-  </v-list-item>
+      {{newsDetail.newsText}}
+  </v-list>
 </template>
 
 <script>
