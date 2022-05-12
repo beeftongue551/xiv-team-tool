@@ -7,7 +7,10 @@
                     type="password"
                     maxlength="4"
                     hint="4文字の英数字で入力してください"/>
-      <v-btn @click="characterRegistration"/>
+      <div class="d-flex justify-space-around">
+        <v-btn color="secondary" @click="characterRegistration">Sing Up</v-btn>
+        <v-btn color="error" to="/">CANCEL</v-btn>
+      </div>
     </v-form>
     <SearchFailure :msg="msg" :is-open="isOpen" />
   </div>
