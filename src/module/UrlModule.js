@@ -18,6 +18,12 @@ module.exports = {
     return dataCash
   },
 
+  /**
+   *
+   * @param url
+   * @param body
+   * @return {Promise<*>}
+   */
   async postResponseByUrl(url, body) {
     let dataCash
     await axios.post(url,body).then(data => {
@@ -26,5 +32,22 @@ module.exports = {
       console.error('通信に失敗しました',error)
     })
     return dataCash
+  },
+
+  /**
+   * Deleteメソッドでサーバ通信を行う
+   * @param url URL
+   * @return {Promise<*>} 通信成功時: レスポンス情報, 失敗時: -1
+   */
+  async deleteResponseByUrl(url) {
+    let result
+    await axios.delete(url).then(response => {
+      result = response
+    }).catch(error => {
+      console.error('通信に失敗しました',error)
+      result = -1
+    })
+    return result
   }
+
 }

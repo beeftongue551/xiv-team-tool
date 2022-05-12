@@ -18,6 +18,10 @@
         class="mr-4"
         @click="submitSchedule(true)"
       >送信して追加入力</v-btn>
+      <v-btn
+        color="error"
+        class="mr-4"
+        @click="deleteScheduleByName">削除</v-btn>
     </v-form>
     <SearchFailure :msg="msg" :is-open="isFailure"/>
   </div>
@@ -31,7 +35,11 @@ import dayjs from "dayjs"
 import {useRouter} from "vue-router";
 import {Schedule} from "@/class/Schedule";
 import SearchFailure from "@/components/SearchFailure";
-import {createXIVSchedule, getXIVScheduleListByName} from "@/module/BeefApiModule";
+import {
+  createXIVSchedule,
+  deleteXIVScheduleByName,
+  getXIVScheduleListByName
+} from "@/module/BeefApiModule";
 
 export default defineComponent({
   name: "ScheduleForm",
@@ -103,6 +111,11 @@ export default defineComponent({
       }
     }
 
+    const deleteScheduleByName = () => {
+      const result = deleteXIVScheduleByName(nickname.value)
+      console.log(result)
+    }
+
     return {
       nickname,
       sevenDays,
@@ -114,7 +127,8 @@ export default defineComponent({
       valid,
       isFailure,
       msg,
-      submitSchedule
+      submitSchedule,
+      deleteScheduleByName
     }
   }
 })
