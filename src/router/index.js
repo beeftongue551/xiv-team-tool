@@ -4,6 +4,7 @@ import CharacterView from "@/views/CharacterView";
 import ItemView from "@/views/ItemView";
 import ScheduleEditView from "@/views/ScheduleEditView";
 import SignUpView from "@/views/SignUpView";
+import LoginView from "@/views/LoginView";
 const routes = [
   {
     path: '/',
@@ -29,6 +30,11 @@ const routes = [
     path: '/sign-up',
     name:'signUp',
     component: SignUpView
+  },
+  {
+    path:'/login',
+    name:'login',
+    component: LoginView
   }
 ]
 

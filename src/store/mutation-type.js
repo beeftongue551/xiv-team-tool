@@ -24,3 +24,6 @@ export const PUSH_FAVORITE_CHARACTER_ID = 'pushFavoriteCharacterID'
 export const REMOVE_FAVORITE_CHARACTER_ID = 'removeFavoriteCharacterID'
 export const PUSH_FAVORITE_RECIPE_ID = 'pushFavoriteRecipeID'
 export const REMOVE_FAVORITE_RECIPE_ID = 'removeFavoriteRecipeID'
+
+// ユーザ情報
+export const UPDATE_USER_CHARACTER = 'updateUserCharacter'

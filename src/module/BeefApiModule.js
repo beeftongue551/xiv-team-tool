@@ -93,5 +93,18 @@ module.exports = {
     const url = DEBUG_API_URL + 'sign-up'
     const userCharacter = new UserCharacter(id, name, server, password)
     postResponseByUrl(url, userCharacter)
+  },
+
+  /**
+   *
+   * @param {number} id ID
+   * @param {string} password パスワード
+   * @return {UserCharacter} キャラクタ情報
+   */
+  async loginUserCharacter(id,password) {
+    const url = DEBUG_API_URL + 'login'
+    const userCharacter = new UserCharacter(id, '', '', password)
+    const response = await postResponseByUrl(url, userCharacter)
+    return new UserCharacter(response.id, response.characterName, response.serverName, '', response.teamId, response.favoriteItemId)
   }
 }

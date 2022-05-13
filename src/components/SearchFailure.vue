@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-snackbar
+      color="error"
       timeout="-1"
       v-model="snackbar"
     >

@@ -27,7 +27,7 @@ module.exports = {
   async postResponseByUrl(url, body) {
     let dataCash
     await axios.post(url,body).then(data => {
-      dataCash = data
+      dataCash = data.data
     }).catch(error => {
       console.error('通信に失敗しました',error)
     })

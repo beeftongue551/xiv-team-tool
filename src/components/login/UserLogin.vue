@@ -8,8 +8,7 @@
                     maxlength="4"
                     hint="4文字の英数字で入力してください"/>
       <div class="d-flex justify-space-around">
-        <v-btn color="secondary" @click="characterRegistration">Sing Up</v-btn>
-        <v-btn color="error" to="/">CANCEL</v-btn>
+        <v-btn color="secondary" @click="userLogin">Login</v-btn>
       </div>
     </v-form>
     <SearchFailure :msg="msg" :is-open="isOpen" />
@@ -18,14 +17,13 @@
 
 <script>
 import {defineComponent, ref} from "vue"
-import InputServer from "@/components/character/InputServer";
 import SearchFailure from "@/components/SearchFailure";
-import {getCharactersData} from "@/module/XIVApiModule";
+import InputServer from "@/components/character/InputServer";
 import {useStore} from "vuex";
-import {getUserCharacterByNameAndServer, signUpUserCharacter} from "@/module/BeefApiModule";
+import {getUserCharacterByNameAndServer, loginUserCharacter} from "@/module/BeefApiModule";
 
 export default defineComponent({
-  name: "SignUp",
+  name: "UserLogin",
   components: {SearchFailure, InputServer},
   setup() {
     const store = useStore()
@@ -36,11 +34,6 @@ export default defineComponent({
     const msg = ref('')
     const isOpen = ref(false)
 
-
-    const changeServer = (...selectServer) =>{
-      server.value = selectServer[0]
-    }
-
     const failureOpen = (errorMsg) => {
       msg.value = errorMsg
       isOpen.value = true
@@ -50,25 +43,29 @@ export default defineComponent({
       },5000)
     }
 
-    
-    const characterRegistration = async () => {
+    const changeServer = (...selectServer) =>{
+      server.value = selectServer[0]
+    }
+
+    const userLogin = async () => {
       store.dispatch('updateIsLoading', true)
       if (characterName.value === '' || server.value === '' || password.value.length !== 4) {
         failureOpen('適切な値を入力してください')
         return
       }
-      const character = await getCharactersData(characterName.value, server.value)
-      if (character.Results.length !== 1 || character.Results[0].Name !== characterName.value) {
-        failureOpen('キャラクター名が正しくありません')
+      const userCharacters = await getUserCharacterByNameAndServer(characterName.value, server.value)
+      if (userCharacters.length !== 1) {
+        failureOpen('ユーザーが存在しません')
         return
       }
-      const userCharacter = await getUserCharacterByNameAndServer(characterName.value, server.value)
-      if(userCharacter.length !== 0) {
-        failureOpen('すでに登録されたキャラクターです')
+      const user = await loginUserCharacter(userCharacters[0].id, password.value)
+      console.log(user)
+      if(user.id === undefined) {
+        failureOpen('パスワードが間違っています')
         return
       }
-
-      await signUpUserCharacter(character.Results[0].ID, characterName.value, server.value, password.value)
+      store.dispatch('user/updateUserCharacter', user)
+      console.log(store.getters['user/getUserCharacter'])
       store.dispatch('updateIsLoading', false)
     }
 
@@ -78,8 +75,8 @@ export default defineComponent({
       password,
       msg,
       isOpen,
-      changeServer,
-      characterRegistration,
+      userLogin,
+      changeServer
     }
   }
 })

@@ -4,6 +4,7 @@ import PaginationStore from "@/store/pagination-store";
 import {UPDATE_IS_LOADING, UPDATE_OPEN_MODAL} from "@/store/mutation-type";
 import ItemStore from "@/store/item-store";
 import RecipeStore from "@/store/recipe-store";
+import UserStore from "@/store/user-store";
 
 export default createStore({
   state: {
@@ -38,6 +39,7 @@ export default createStore({
     character: CharacterStore,
     item: ItemStore,
     recipe: RecipeStore,
-    pagination: PaginationStore
+    pagination: PaginationStore,
+    user: UserStore
   }
 })

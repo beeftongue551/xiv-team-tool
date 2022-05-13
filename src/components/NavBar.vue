@@ -6,6 +6,7 @@
     <v-toolbar-title>XIVTeamTool</v-toolbar-title>
     <v-spacer />
     <EorzeaTime />
+    <v-btn to="/login" v-show="user.id===0">LOGIN</v-btn>
     <v-btn icon="mdi-home" to="/" />
   </v-app-bar>
 
@@ -23,16 +24,26 @@
 </template>
 
 <script>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import EorzeaTime from "@/components/EorzeaTime";
 import LoadingCircular from "@/components/LoaingCircular";
+import {useStore} from "vuex";
 export default {
   name: "NavBar",
   components: {LoadingCircular, EorzeaTime},
   setup() {
+    const store = useStore()
+
     const drawer = ref(false)
+    const user = ref({})
+
+    onMounted(() => {
+      user.value = store.getters['user/getUserCharacter']
+      console.log(user.value)
+    })
 
     return{
+      user,
       drawer
     }
   }
