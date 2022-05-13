@@ -22,6 +22,7 @@ import InputServer from "@/components/character/InputServer";
 import SearchFailure from "@/components/SearchFailure";
 import {getCharactersData} from "@/module/XIVApiModule";
 import {useStore} from "vuex";
+import {getUserCharacterByNameAndServer, signUpUserCharacter} from "@/module/BeefApiModule";
 
 export default defineComponent({
   name: "SignUp",
@@ -61,8 +62,13 @@ export default defineComponent({
         failureOpen('キャラクター名が正しくありません')
         return
       }
+      const userCharacter = await getUserCharacterByNameAndServer(characterName.value, server.value)
+      if(userCharacter.length !== 0) {
+        failureOpen('すでに登録されたキャラクターです')
+      }
+
+      await signUpUserCharacter(character.Results[0].ID, characterName.value, server.value, password.value)
       store.dispatch('updateIsLoading', false)
-      console.log('登録できます')
     }
 
     return {

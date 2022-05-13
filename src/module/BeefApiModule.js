@@ -1,5 +1,6 @@
 const {getResponseByUrl, postResponseByUrl, deleteResponseByUrl} = require("@/module/UrlModule");
 const {BEEF_API_URL, DEBUG_API_URL} = require("@/module/ModuleType");
+const {UserCharacter} = require("@/class/UserCharacter");
 
 module.exports = {
 
@@ -66,5 +67,31 @@ module.exports = {
   async getNewsListLimit(limit) {
     const url = BEEF_API_URL + 'news/limit/' + limit
     return await getResponseByUrl(url)
+  },
+
+  /* ユーザ取得API */
+
+  /**
+   * BeefAPIでキャラクター情報を取得する
+   * @param {string} name 名前
+   * @param {string} server サーバ名
+   * @return {Array} キャラクター情報
+   */
+  async getUserCharacterByNameAndServer(name, server) {
+    const url = DEBUG_API_URL + 'character/' + name + '/server/' + server
+    return await getResponseByUrl(url)
+  },
+
+  /**
+   * BeefAPiでキャラクタ情報を登録する
+   * @param {number} id ID
+   * @param {string} name キャラクタ名
+   * @param {string} server サーバ
+   * @param {string} password パスワード
+   */
+  signUpUserCharacter(id, name, server, password) {
+    const url = DEBUG_API_URL + 'sign-up'
+    const userCharacter = new UserCharacter(id, name, server, password)
+    postResponseByUrl(url, userCharacter)
   }
 }
