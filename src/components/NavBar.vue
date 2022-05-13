@@ -18,16 +18,40 @@
     <v-divider />
     <v-list-item prepend-icon="mdi-account-search" title="キャラ検索" value="キャラ検索" to="/character" />
     <v-list-item prepend-icon="mdi-store" title="アイテム検索" value="アイテム検索" to="/item"/>
+
+    <template v-slot:append>
+      <div class="pa-2">
+        <v-btn
+          block
+          color="error"
+          @click="logout"
+          v-show="user.id !== 0"
+          to="/"
+        >
+          Logout
+        </v-btn>
+        <v-btn
+          block
+          color="warning"
+          v-show="user.id === 0"
+          to="/sign-up"
+        >
+          アカウント作成
+        </v-btn>
+      </div>
+    </template>
   </v-navigation-drawer>
 
   <LoadingCircular />
 </template>
 
 <script>
-import {onMounted, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import EorzeaTime from "@/components/EorzeaTime";
 import LoadingCircular from "@/components/LoaingCircular";
 import {useStore} from "vuex";
+import {UserCharacter} from "@/class/UserCharacter";
+
 export default {
   name: "NavBar",
   components: {LoadingCircular, EorzeaTime},
@@ -35,16 +59,20 @@ export default {
     const store = useStore()
 
     const drawer = ref(false)
-    const user = ref({})
 
-    onMounted(() => {
-      user.value = store.getters['user/getUserCharacter']
-      console.log(user.value)
-    })
+    watch(() => store.getters['user/getUserCharacter'])
+
+    const logout = () => {
+      store.dispatch('user/updateUserCharacter', new UserCharacter(0,'','','',0, []))
+      drawer.value = false
+    }
 
     return{
-      user,
-      drawer
+      user: computed(() => store.getters['user/getUserCharacter']),
+      drawer,
+
+
+      logout
     }
   }
 }

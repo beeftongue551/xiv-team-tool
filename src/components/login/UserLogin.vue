@@ -21,12 +21,14 @@ import SearchFailure from "@/components/SearchFailure";
 import InputServer from "@/components/character/InputServer";
 import {useStore} from "vuex";
 import {getUserCharacterByNameAndServer, loginUserCharacter} from "@/module/BeefApiModule";
+import {useRouter} from "vue-router";
 
 export default defineComponent({
   name: "UserLogin",
   components: {SearchFailure, InputServer},
   setup() {
     const store = useStore()
+    const router = useRouter()
 
     const characterName = ref('')
     const server = ref('')
@@ -67,6 +69,7 @@ export default defineComponent({
       store.dispatch('user/updateUserCharacter', user)
       console.log(store.getters['user/getUserCharacter'])
       store.dispatch('updateIsLoading', false)
+      router.push('/')
     }
 
     return {

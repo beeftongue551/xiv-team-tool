@@ -1,6 +1,6 @@
 <template>
-  <v-autocomplete v-model="dataCenter" :items="dataCenters" dense filled label="DC" @update:search="changedDataCenter" />
-  <v-autocomplete v-model="server" :items="servers" dense filled label="サーバー" @update:search="changedServer"/>
+  <v-select v-model="dataCenter" :items="dataCenters" dense filled label="DC" @update:modelValue="changedDataCenter" />
+  <v-select v-model="server" :items="servers" dense filled label="サーバー" @update:modelValue="changedServer"/>
 </template>
 
 <script>

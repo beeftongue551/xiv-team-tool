@@ -1,4 +1,5 @@
 <template>
+  <h3>アカウント作成</h3>
   <SignUp />
 </template>
 
