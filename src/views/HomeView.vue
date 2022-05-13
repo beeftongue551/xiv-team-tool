@@ -82,7 +82,7 @@ export default defineComponent({
     const newsDetails = ref([])
 
     onMounted(async () => {
-      newsDetails.value = await getNewsListLimit(1)
+      newsDetails.value = await getNewsListLimit(3)
     })
 
     return {

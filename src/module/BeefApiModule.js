@@ -1,4 +1,5 @@
 const {getResponseByUrl, postResponseByUrl, deleteResponseByUrl} = require("@/module/UrlModule");
+// eslint-disable-next-line no-unused-vars
 const {BEEF_API_URL, DEBUG_API_URL} = require("@/module/ModuleType");
 const {UserCharacter} = require("@/class/UserCharacter");
 
@@ -19,12 +20,12 @@ module.exports = {
    * @return {Promise<*>} スケジュール表
    */
   async getXIVScheduleListByName(name) {
-    const url = DEBUG_API_URL + 'schedule/user/' + name
+    const url = BEEF_API_URL + 'schedule/user/' + name
     return await getResponseByUrl(url)
   },
 
   async getXIVScheduleListWhereAfterToday() {
-    const url = DEBUG_API_URL + 'schedule/afterToday'
+    const url = BEEF_API_URL + 'schedule/afterToday'
     return await getResponseByUrl(url)
   },
 
@@ -34,7 +35,7 @@ module.exports = {
    * @return {Promise<*>}
    */
   async createXIVSchedule(schedule) {
-    const url = DEBUG_API_URL + 'schedule'
+    const url = BEEF_API_URL + 'schedule'
     return await postResponseByUrl(url, schedule)
   },
 
@@ -44,7 +45,7 @@ module.exports = {
    * @return {Promise<*>}
    */
   async deleteXIVScheduleByName(name) {
-    const url = DEBUG_API_URL + 'delete/name/' + name
+    const url = BEEF_API_URL + 'delete/name/' + name
     return await deleteResponseByUrl(url)
   },
 
@@ -78,7 +79,7 @@ module.exports = {
    * @return {Array} キャラクター情報
    */
   async getUserCharacterByNameAndServer(name, server) {
-    const url = DEBUG_API_URL + 'character/' + name + '/server/' + server
+    const url = BEEF_API_URL + 'character/' + name + '/server/' + server
     return await getResponseByUrl(url)
   },
 
@@ -90,7 +91,7 @@ module.exports = {
    * @param {string} password パスワード
    */
   signUpUserCharacter(id, name, server, password) {
-    const url = DEBUG_API_URL + 'sign-up'
+    const url = BEEF_API_URL + 'sign-up'
     const userCharacter = new UserCharacter(id, name, server, password)
     postResponseByUrl(url, userCharacter)
   },
@@ -102,7 +103,7 @@ module.exports = {
    * @return {UserCharacter} キャラクタ情報
    */
   async loginUserCharacter(id,password) {
-    const url = DEBUG_API_URL + 'login'
+    const url = BEEF_API_URL + 'login'
     const userCharacter = new UserCharacter(id, '', '', password)
     const response = await postResponseByUrl(url, userCharacter)
     return new UserCharacter(response.id, response.characterName, response.serverName, '', response.teamId, response.favoriteItemId)
