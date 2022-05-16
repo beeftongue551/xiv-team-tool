@@ -1,6 +1,4 @@
-import {UserCharacter} from "@/class/UserCharacter";
 import {UPDATE_USER_CHARACTER} from "@/store/mutation-type";
-import createPersistedState from 'vuex-persistedstate'
 
 export default {
   namespaced: true,
@@ -22,10 +20,4 @@ export default {
       commit(UPDATE_USER_CHARACTER, payload)
     }
   },
-  plugins: [
-    createPersistedState({
-      key: 'xiv-team-tool',
-      storage: localStorage
-    })
-  ]
 }

@@ -5,6 +5,7 @@ import {UPDATE_IS_LOADING, UPDATE_OPEN_MODAL} from "@/store/mutation-type";
 import ItemStore from "@/store/item-store";
 import RecipeStore from "@/store/recipe-store";
 import UserStore from "@/store/user-store";
+import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
   state: {
@@ -41,5 +42,12 @@ export default createStore({
     recipe: RecipeStore,
     pagination: PaginationStore,
     user: UserStore
-  }
+  },
+  plugins: [
+    createPersistedState({
+      key: 'xiv-team-tool',
+      paths: ['user'],
+      storage: localStorage
+    })
+  ]
 })
