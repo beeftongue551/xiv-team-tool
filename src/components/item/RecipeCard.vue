@@ -49,6 +49,10 @@ export default defineComponent({
       recipeData.value = newVal
       const itemIngredients = []
       let totalGill = 0
+      if(recipeData.value === undefined ) {
+        store.dispatch('updateIsLoading', false)
+        return
+      }
       for (const itemIngredient of recipeData.value.itemIngredients) {
         itemIngredient["amountResult"] = itemIngredient.amount
         const marketData =  await getMarketByIDs([itemIngredient.id], 'Mana')
