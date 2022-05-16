@@ -7,6 +7,7 @@
 <script>
 import {defineComponent, onMounted, ref} from "vue";
 import EorzeaTime from "eorzea-time";
+import dayjs from "dayjs";
 
 export default defineComponent({
   name: "EorzeaTime",
@@ -20,12 +21,13 @@ export default defineComponent({
      */
     const updateTime = () => {
       //リアルタイムの更新を行う
-      let currentDate = new Date()
-      realTime.value = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds()
+      let currentDate = new dayjs()
+      realTime.value = currentDate.format('hh') + ':' + currentDate.format('mm') + ':' + currentDate.format('ss')
       //エオルゼア時間の取得を行う
       const time = new EorzeaTime();
       eorzeaTime.value = time.toString()
     }
+
     onMounted(()=>{
       setInterval(updateTime, 1000)
     })
