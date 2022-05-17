@@ -6,6 +6,8 @@ import ScheduleEditView from "@/views/ScheduleEditView";
 import SignUpView from "@/views/SignUpView";
 import LoginView from "@/views/LoginView";
 import TeamEditView from "@/views/TeamEditView";
+import TeamDisplayView from "@/views/TeamDisplayView";
+import MemberEditView from "@/views/MemberEditView";
 const routes = [
   {
     path: '/',
@@ -41,6 +43,16 @@ const routes = [
     path: '/team/edit',
     name: 'teamEdit',
     component: TeamEditView
+  },
+  {
+    path: '/team/display',
+    name: 'teamDisplay',
+    component: TeamDisplayView
+  },
+  {
+    path: '/team/member-edit',
+    name: 'memberEdit',
+    component: MemberEditView
   }
 ]
 

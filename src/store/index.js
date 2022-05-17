@@ -6,6 +6,7 @@ import ItemStore from "@/store/item-store";
 import RecipeStore from "@/store/recipe-store";
 import UserStore from "@/store/user-store";
 import createPersistedState from "vuex-persistedstate";
+import memberStore from "@/store/member-store";
 
 export default createStore({
   state: {
@@ -41,7 +42,8 @@ export default createStore({
     item: ItemStore,
     recipe: RecipeStore,
     pagination: PaginationStore,
-    user: UserStore
+    user: UserStore,
+    member: memberStore
   },
   plugins: [
     createPersistedState({

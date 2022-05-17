@@ -129,6 +129,16 @@ module.exports = {
   },
 
   /**
+   * 固定IDで固定情報を取得する
+   * @param id 固定ID
+   * @return {Promise<*>} 固定情報
+   */
+  async getTeamById(id) {
+    const url = DEBUG_API_URL + 'team/search/id/' + id
+    return await getResponseByUrl(url)
+  },
+
+  /**
    * キャラクタＩＤをリーダＩＤとし、固定名を指定し固定の作成を行う
    * @param {int} characterId キャラクタＩＤ
    * @param {string} teamName 固定名
@@ -143,5 +153,89 @@ module.exports = {
       password: password
     }
     return await postResponseByUrl(url, body)
-  }
+  },
+
+  /* ここから固定メンバ情報の更新 */
+
+  async updateTeamMemberByMainTank(characterId, job, teamId) {
+    const url = DEBUG_API_URL + 'team/main-tank'
+    const body = {
+      characterId: characterId,
+      jobName: job,
+      teamId: teamId
+    }
+    return await putResponseByUrl(url, body)
+  },
+
+  async updateTeamMemberBySubTank(characterId, job, teamId) {
+    const url = DEBUG_API_URL + 'team/sub-tank'
+    const body = {
+      characterId: characterId,
+      jobName: job,
+      teamId: teamId
+    }
+    return await putResponseByUrl(url, body)
+  },
+
+  async updateTeamMemberByHealer1(characterId, job, teamId) {
+    const url = DEBUG_API_URL + 'team/healer1'
+    const body = {
+      characterId: characterId,
+      jobName: job,
+      teamId: teamId
+    }
+    return await putResponseByUrl(url, body)
+  },
+
+  async updateTeamMemberByHealer2(characterId, job, teamId) {
+    const url = DEBUG_API_URL + 'team/healer2'
+    const body = {
+      characterId: characterId,
+      jobName: job,
+      teamId: teamId
+    }
+    return await putResponseByUrl(url, body)
+  },
+
+  async updateTeamMemberByDps1(characterId, job, teamId) {
+    const url = DEBUG_API_URL + 'team/dps1'
+    const body = {
+      characterId: characterId,
+      jobName: job,
+      teamId: teamId
+    }
+    return await putResponseByUrl(url, body)
+  },
+
+  async updateTeamMemberByDps2(characterId, job, teamId) {
+    const url = DEBUG_API_URL + 'team/dps2'
+    const body = {
+      characterId: characterId,
+      jobName: job,
+      teamId: teamId
+    }
+    return await putResponseByUrl(url, body)
+  },
+
+  async updateTeamMemberByDps3(characterId, job, teamId) {
+    const url = DEBUG_API_URL + 'team/dps3'
+    const body = {
+      characterId: characterId,
+      jobName: job,
+      teamId: teamId
+    }
+    return await putResponseByUrl(url, body)
+  },
+
+  async updateTeamMemberByDps4(characterId, job, teamId) {
+    const url = DEBUG_API_URL + 'team/dps4'
+    const body = {
+      characterId: characterId,
+      jobName: job,
+      teamId: teamId
+    }
+    return await putResponseByUrl(url, body)
+  },
+
+  /* ここまで */
 }
