@@ -23,12 +23,14 @@ import SearchFailure from "@/components/SearchFailure";
 import {getCharactersData} from "@/module/XIVApiModule";
 import {useStore} from "vuex";
 import {getUserCharacterByNameAndServer, signUpUserCharacter} from "@/module/BeefApiModule";
+import {useRouter} from "vue-router";
 
 export default defineComponent({
   name: "SignUp",
   components: {SearchFailure, InputServer},
   setup() {
     const store = useStore()
+    const router = useRouter()
 
     const characterName = ref('')
     const server = ref('')
@@ -70,6 +72,7 @@ export default defineComponent({
 
       await signUpUserCharacter(character.Results[0].ID, characterName.value, server.value, password.value)
       store.dispatch('updateIsLoading', false)
+      router.back()
     }
 
     return {
