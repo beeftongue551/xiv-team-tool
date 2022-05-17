@@ -23,6 +23,15 @@
       <div class="pa-2">
         <v-btn
           block
+          color="warning"
+          v-show="user.id !== 0 || user.teamId !== 0"
+          to="/team/display"
+        >
+          固定管理画面
+        </v-btn>
+        <v-label />
+        <v-btn
+          block
           color="error"
           @click="logout"
           v-show="user.id !== 0"

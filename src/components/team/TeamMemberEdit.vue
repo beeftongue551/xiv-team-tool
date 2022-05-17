@@ -6,7 +6,7 @@
     <v-select v-model="job" :items="jobs" label="ジョブ"></v-select>
     <div class="d-flex justify-space-around">
       <v-btn color="success" @click="editMember">追加/変更</v-btn>
-      <v-btn color="warning" to="/sign-up">追加/変更</v-btn>
+      <v-btn color="warning" to="/sign-up">アカウント作成</v-btn>
       <v-btn color="error" to="/team/display">CANCEL</v-btn>
     </div>
   </v-form>
