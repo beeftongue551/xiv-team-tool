@@ -35,6 +35,9 @@ export default defineComponent({
       setInterval(updateTime, 1000)
     })
 
+    /**
+     * フラグの値によって表示する時間のロケーションを変更する
+     */
     const displayTime = () => {
       if(displayFlag === 0) {
         displayTimeText.value = 'LT : ' + realTime.value
@@ -42,6 +45,10 @@ export default defineComponent({
         displayTimeText.value = 'ET : ' +  eorzeaTime.value
       }
     }
+
+    /**
+     * 時間の表示形式フラグの変更を行う
+     */
     const changeTime = () => {
       if(displayFlag === 0) {
         displayFlag = 1
