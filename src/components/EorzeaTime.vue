@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>ET : {{eorzeaTime}} LT : {{realTime}}</h3>
+    <v-label @click="changeTime">{{displayTimeText}}</v-label>
   </div>
 </template>
 
@@ -12,8 +12,10 @@ import dayjs from "dayjs";
 export default defineComponent({
   name: "EorzeaTime",
   setup() {
-    let realTime = ref('')
-    let eorzeaTime = ref('')
+    const realTime = ref('')
+    const eorzeaTime = ref('')
+    const displayTimeText = ref('')
+    let displayFlag = 0
 
     /**
      * LTとETの更新を行う
@@ -26,15 +28,35 @@ export default defineComponent({
       //エオルゼア時間の取得を行う
       const time = new EorzeaTime();
       eorzeaTime.value = time.toString()
+      displayTime()
     }
 
     onMounted(()=>{
       setInterval(updateTime, 1000)
     })
 
+    const displayTime = () => {
+      if(displayFlag === 0) {
+        displayTimeText.value = 'LT : ' + realTime.value
+      } else if(displayFlag === 1) {
+        displayTimeText.value = 'ET : ' +  eorzeaTime.value
+      }
+    }
+    const changeTime = () => {
+      if(displayFlag === 0) {
+        displayFlag = 1
+      } else if(displayFlag === 1) {
+        displayFlag = 0
+      }
+    }
+
     return {
       realTime,
-      eorzeaTime
+      eorzeaTime,
+      displayTimeText,
+
+      displayTime,
+      changeTime
     }
   }
 })
