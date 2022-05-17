@@ -1,4 +1,5 @@
 import {UPDATE_USER_CHARACTER} from "@/store/mutation-type";
+import {UserCharacter} from "@/class/UserCharacter";
 
 export default {
   namespaced: true,

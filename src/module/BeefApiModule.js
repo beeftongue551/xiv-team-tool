@@ -1,4 +1,4 @@
-const {getResponseByUrl, postResponseByUrl, deleteResponseByUrl} = require("@/module/UrlModule");
+const {getResponseByUrl, postResponseByUrl, deleteResponseByUrl, putResponseByUrl} = require("@/module/UrlModule");
 // eslint-disable-next-line no-unused-vars
 const {BEEF_API_URL, DEBUG_API_URL} = require("@/module/ModuleType");
 const {UserCharacter} = require("@/class/UserCharacter");
@@ -97,15 +97,51 @@ module.exports = {
   },
 
   /**
-   *
+   * キャラクターIDとパスワードが一致するキャラクターデータを取得する
    * @param {number} id ID
    * @param {string} password パスワード
    * @return {UserCharacter} キャラクタ情報
    */
   async loginUserCharacter(id,password) {
-    const url = BEEF_API_URL + 'login'
+    const url = DEBUG_API_URL + 'login'
     const userCharacter = new UserCharacter(id, '', '', password)
     const response = await postResponseByUrl(url, userCharacter)
     return new UserCharacter(response.id, response.characterName, response.serverName, '', response.teamId, response.favoriteItemId)
+  },
+
+  /**
+   * DB上のキャラクターデータを更新する
+   * @param {UserCharacter} characterData
+   */
+  async updateUserCharacter(characterData) {
+    const url = DEBUG_API_URL + 'character'
+    await putResponseByUrl(url, characterData)
+  },
+
+  /**
+   * 固定名が完全に一致する固定情報を取得する
+   * @param teamName 固定名
+   * @return {Promise<*>} 固定情報
+   */
+  async getTeamByTeamName(teamName) {
+    const url = DEBUG_API_URL + 'team/search/name/' + teamName
+    return await getResponseByUrl(url)
+  },
+
+  /**
+   * キャラクタＩＤをリーダＩＤとし、固定名を指定し固定の作成を行う
+   * @param {int} characterId キャラクタＩＤ
+   * @param {string} teamName 固定名
+   * @param {string} password パスワード
+   * @return {Promise<void>}
+   */
+  async createTeamByReaderIdAndTeamName(characterId, teamName, password) {
+    const url = DEBUG_API_URL + 'team'
+    const body = {
+      teamName: teamName,
+      readerId: characterId,
+      password: password
+    }
+    return await postResponseByUrl(url, body)
   }
 }

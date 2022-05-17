@@ -19,7 +19,7 @@ module.exports = {
   },
 
   /**
-   *
+   * Postメソッドで通信を行う
    * @param url
    * @param body
    * @return {Promise<*>}
@@ -48,6 +48,23 @@ module.exports = {
       result = -1
     })
     return result
-  }
+  },
 
+
+  /**
+   * PUTメソッドでサーバー通信を行う
+   * @param url URL
+   * @param body ボディデータ
+   * @return {Promise<*>}
+   */
+  async putResponseByUrl(url, body) {
+    let result
+    await axios.put(url,body).then(response => {
+      result = response
+    }).catch(error => {
+      console.error('通信に失敗しました', error)
+      result = -1
+    })
+    return result
+  }
 }

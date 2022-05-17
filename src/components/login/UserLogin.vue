@@ -61,7 +61,6 @@ export default defineComponent({
         return
       }
       const user = await loginUserCharacter(userCharacters[0].id, password.value)
-      console.log(user)
       if(user.id === undefined) {
         failureOpen('パスワードが間違っています')
         return

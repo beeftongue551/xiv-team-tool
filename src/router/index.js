@@ -5,6 +5,7 @@ import ItemView from "@/views/ItemView";
 import ScheduleEditView from "@/views/ScheduleEditView";
 import SignUpView from "@/views/SignUpView";
 import LoginView from "@/views/LoginView";
+import TeamEditView from "@/views/TeamEditView";
 const routes = [
   {
     path: '/',
@@ -35,6 +36,11 @@ const routes = [
     path:'/login',
     name:'login',
     component: LoginView
+  },
+  {
+    path: '/team/edit',
+    name: 'teamEdit',
+    component: TeamEditView
   }
 ]
 
