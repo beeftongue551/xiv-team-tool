@@ -1,4 +1,5 @@
-const {DEBUG_API_URL} = require("@/module/ModuleType");
+// eslint-disable-next-line no-unused-vars
+const {DEBUG_API_URL, BEEF_API_URL} = require("@/module/ModuleType");
 const {postResponseByUrl} = require("@/module/UrlModule");
 module.exports = {
 
@@ -9,7 +10,7 @@ module.exports = {
    * @return {Promise<*>} 固定情報
    */
   async getTeamByTeamNameAndPassword(teamName, password) {
-    const url = DEBUG_API_URL + 'team/search'
+    const url = BEEF_API_URL + 'team/search'
     const body = {
       teamName: teamName,
       password: password

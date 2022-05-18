@@ -1,10 +1,10 @@
 <template>
   <div>
-<!--    <v-img-->
-<!--        src="../assets/ffxiv_20211205_095817_942.png"-->
-<!--        height="225"-->
-<!--        cover-->
-<!--    ></v-img>-->
+    <v-img
+        src="../assets/ffxiv_20211205_095817_942.png"
+        height="225"
+        cover
+    ></v-img>
     <div class="explanation">
       <label class="explanation-text"><strong>XIVTeamTool</strong>はプレイヤーを手助けする便利サイトを目指して作成されているサイトです。</label>
     </div>

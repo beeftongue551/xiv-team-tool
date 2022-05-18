@@ -103,7 +103,7 @@ module.exports = {
    * @return {UserCharacter} キャラクタ情報
    */
   async loginUserCharacter(id,password) {
-    const url = DEBUG_API_URL + 'login'
+    const url = BEEF_API_URL + 'login'
     const userCharacter = new UserCharacter(id, '', '', password)
     const response = await postResponseByUrl(url, userCharacter)
     return new UserCharacter(response.id, response.characterName, response.serverName, '', response.teamId, response.favoriteItemId)
@@ -114,7 +114,7 @@ module.exports = {
    * @param {UserCharacter} characterData
    */
   async updateUserCharacter(characterData) {
-    const url = DEBUG_API_URL + 'character'
+    const url = BEEF_API_URL + 'character'
     await putResponseByUrl(url, characterData)
   },
 
@@ -124,7 +124,7 @@ module.exports = {
    * @return {Promise<*>} 固定情報
    */
   async getTeamByTeamName(teamName) {
-    const url = DEBUG_API_URL + 'team/search/name/' + teamName
+    const url = BEEF_API_URL + 'team/search/name/' + teamName
     return await getResponseByUrl(url)
   },
 
@@ -134,7 +134,7 @@ module.exports = {
    * @return {Promise<*>} 固定情報
    */
   async getTeamById(id) {
-    const url = DEBUG_API_URL + 'team/search/id/' + id
+    const url = BEEF_API_URL + 'team/search/id/' + id
     return await getResponseByUrl(url)
   },
 
@@ -146,7 +146,7 @@ module.exports = {
    * @return {Promise<void>}
    */
   async createTeamByReaderIdAndTeamName(characterId, teamName, password) {
-    const url = DEBUG_API_URL + 'team'
+    const url = BEEF_API_URL + 'team'
     const body = {
       teamName: teamName,
       readerId: characterId,
@@ -158,7 +158,7 @@ module.exports = {
   /* ここから固定メンバ情報の更新 */
 
   async updateTeamMemberByMainTank(characterId, job, teamId) {
-    const url = DEBUG_API_URL + 'team/main-tank'
+    const url = BEEF_API_URL + 'team/main-tank'
     const body = {
       characterId: characterId,
       jobName: job,
@@ -168,7 +168,7 @@ module.exports = {
   },
 
   async updateTeamMemberBySubTank(characterId, job, teamId) {
-    const url = DEBUG_API_URL + 'team/sub-tank'
+    const url = BEEF_API_URL + 'team/sub-tank'
     const body = {
       characterId: characterId,
       jobName: job,
@@ -178,7 +178,7 @@ module.exports = {
   },
 
   async updateTeamMemberByHealer1(characterId, job, teamId) {
-    const url = DEBUG_API_URL + 'team/healer1'
+    const url = BEEF_API_URL + 'team/healer1'
     const body = {
       characterId: characterId,
       jobName: job,
@@ -188,7 +188,7 @@ module.exports = {
   },
 
   async updateTeamMemberByHealer2(characterId, job, teamId) {
-    const url = DEBUG_API_URL + 'team/healer2'
+    const url = BEEF_API_URL + 'team/healer2'
     const body = {
       characterId: characterId,
       jobName: job,
@@ -198,7 +198,7 @@ module.exports = {
   },
 
   async updateTeamMemberByDps1(characterId, job, teamId) {
-    const url = DEBUG_API_URL + 'team/dps1'
+    const url = BEEF_API_URL + 'team/dps1'
     const body = {
       characterId: characterId,
       jobName: job,
@@ -208,7 +208,7 @@ module.exports = {
   },
 
   async updateTeamMemberByDps2(characterId, job, teamId) {
-    const url = DEBUG_API_URL + 'team/dps2'
+    const url = BEEF_API_URL + 'team/dps2'
     const body = {
       characterId: characterId,
       jobName: job,
@@ -218,7 +218,7 @@ module.exports = {
   },
 
   async updateTeamMemberByDps3(characterId, job, teamId) {
-    const url = DEBUG_API_URL + 'team/dps3'
+    const url = BEEF_API_URL + 'team/dps3'
     const body = {
       characterId: characterId,
       jobName: job,
@@ -228,7 +228,7 @@ module.exports = {
   },
 
   async updateTeamMemberByDps4(characterId, job, teamId) {
-    const url = DEBUG_API_URL + 'team/dps4'
+    const url = BEEF_API_URL + 'team/dps4'
     const body = {
       characterId: characterId,
       jobName: job,
