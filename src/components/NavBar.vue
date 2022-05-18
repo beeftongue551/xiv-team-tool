@@ -24,10 +24,18 @@
         <v-btn
           block
           color="warning"
-          v-show="user.id !== 0 || user.teamId !== 0"
+          v-show="user.id !== 0 && user.teamId !== 0"
           to="/team/display"
         >
-          固定管理画面
+          固定管理
+        </v-btn>
+        <v-btn
+          block
+          color="warning"
+          v-show="user.id !== 0 && user.teamId === 0"
+          to="/team/edit"
+        >
+          固定作成
         </v-btn>
         <v-label />
         <v-btn
