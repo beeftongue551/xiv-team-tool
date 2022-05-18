@@ -27,7 +27,7 @@ const routes = [
     component: ItemView
   },
   {
-    path: '/schedule/edit',
+    path: '/team/schedule/edit',
     name: 'scheduleEdit',
     component: ScheduleEditView
   },

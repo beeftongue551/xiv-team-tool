@@ -1,4 +1,5 @@
 <template>
+  <ScheduleActionButton />
   <ScheduleList />
 </template>
 
@@ -6,10 +7,11 @@
 import {defineComponent, onMounted} from "vue"
 import ScheduleList from "@/components/schedule/ScheduleList";
 import {loginCheck, teamCheck} from "@/module/loginModule";
+import ScheduleActionButton from "@/components/schedule/ScheduleActionButton";
 
 export default defineComponent({
   name: "TeamScheduleView",
-  components: {ScheduleList},
+  components: {ScheduleActionButton, ScheduleList},
   setup() {
     onMounted(() => {
       loginCheck()
