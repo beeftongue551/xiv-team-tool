@@ -1,6 +1,10 @@
 <template>
   <v-text-field v-model="teamName" label="固定名"></v-text-field>
-  <v-text-field v-model="password" label="パスワード"></v-text-field>
+  <v-text-field v-model="password"
+                type="password"
+                maxlength="4"
+                label="パスワード"
+                hint="4文字の英数字で入力してください"/>
   <v-btn variant="outlined" @click="createTeam">
     <v-icon
       large
@@ -53,8 +57,8 @@ export default defineComponent({
         failureOpen('既に固定に所属済みです')
         return
       }
-      if(teamName.value === ''|| password.value === '') {
-        failureOpen('値を入力してください')
+      if(teamName.value === ''|| password.value.length !== 4) {
+        failureOpen('適切な値を入力してください')
         return
       }
       // 固定名をDB上で検索を行い完全一致しているものがなければ処理続行
