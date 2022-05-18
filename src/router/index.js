@@ -8,6 +8,7 @@ import LoginView from "@/views/LoginView";
 import TeamEditView from "@/views/TeamEditView";
 import TeamDisplayView from "@/views/TeamDisplayView";
 import MemberEditView from "@/views/MemberEditView";
+import TeamEntryView from "@/views/TeamEntryView";
 const routes = [
   {
     path: '/',
@@ -53,6 +54,11 @@ const routes = [
     path: '/team/member-edit',
     name: 'memberEdit',
     component: MemberEditView
+  },
+  {
+    path: '/team/entry',
+    name: 'teamEntry',
+    component: TeamEntryView
   }
 ]
 

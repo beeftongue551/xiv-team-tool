@@ -16,7 +16,6 @@
   >
     <v-list-item prepend-icon="mdi-home" title="Home" value="Home" to="/" />
     <v-divider />
-    <v-list-item prepend-icon="mdi-account-search" title="キャラ検索" value="キャラ検索" to="/character" />
     <v-list-item prepend-icon="mdi-store" title="アイテム検索" value="アイテム検索" to="/item"/>
 
     <template v-slot:append>
@@ -37,6 +36,16 @@
         >
           固定作成
         </v-btn>
+        <v-label v-show="user.id !== 0 && user.teamId === 0" />
+        <v-btn
+          block
+          color="warning"
+          v-show="user.id !== 0 && user.teamId === 0"
+          to="/team/entry"
+        >
+          固定参加
+        </v-btn>
+
         <v-label />
         <v-btn
           block
