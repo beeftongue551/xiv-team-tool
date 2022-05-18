@@ -5,14 +5,27 @@ module.exports = {
   /**
    * 未ログイン時にこの関数が呼ばれるとトップページにリダイレクトを行う
    */
-  loginCheck () {
+  loginCheck() {
     const store = useStore()
     const router = useRouter()
     if(
       store.getters['user/getUserCharacter'].id === undefined ||
       store.getters['user/getUserCharacter'].id === 0
     ) {
-      console.log(store.getters['user/getUserCharacter'])
+      router.push('/')
+    }
+  },
+
+  /**
+   * ログインユーザが固定に未所属の場合、この関数が呼ばれるとトップページにリダイレクトを行う
+   */
+  teamCheck() {
+    const store = useStore()
+    const router = useRouter()
+    if(
+      store.getters['user/getUserCharacter'].teamId === undefined ||
+      store.getters['user/getUserCharacter'].teamId === 0
+    ) {
       router.push('/')
     }
   }

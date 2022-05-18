@@ -1,5 +1,5 @@
 <template>
-  <v-btn color="warning">
+  <v-btn color="warning" to="/team/schedule">
     <v-icon>
       mdi-calendar
     </v-icon>

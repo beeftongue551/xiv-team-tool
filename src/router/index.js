@@ -9,6 +9,7 @@ import TeamEditView from "@/views/TeamEditView";
 import TeamDisplayView from "@/views/TeamDisplayView";
 import MemberEditView from "@/views/MemberEditView";
 import TeamEntryView from "@/views/TeamEntryView";
+import TeamScheduleView from "@/views/TeamScheduleView";
 const routes = [
   {
     path: '/',
@@ -59,6 +60,11 @@ const routes = [
     path: '/team/entry',
     name: 'teamEntry',
     component: TeamEntryView
+  },
+  {
+    path: '/team/schedule',
+    name: 'teamSchedule',
+    component: TeamScheduleView
   }
 ]
 
