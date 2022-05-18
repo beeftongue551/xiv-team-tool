@@ -1,10 +1,5 @@
 <template>
-  <v-text-field v-model="teamName" label="固定名"></v-text-field>
-  <v-text-field v-model="password"
-                type="password"
-                maxlength="4"
-                label="パスワード"
-                hint="4文字の英数字で入力してください"/>
+  <TeamInput @change-input="changeInput"/>
   <v-btn variant="outlined" @click="createTeam">
     <v-icon
       large
@@ -27,19 +22,23 @@ import {
   updateUserCharacter
 } from "@/module/BeefApiModule";
 import SearchFailure from "@/components/SearchFailure";
+import TeamInput from "@/components/team/TeamInput";
+import {useRouter} from "vue-router";
 
 export default defineComponent({
   name: "TeamEdit",
-  components: {SearchFailure},
+  components: {TeamInput, SearchFailure},
   setup() {
     const store = useStore()
+    const router = useRouter()
 
-    const teamName = ref('')
-    const password = ref('')
     const userData = store.getters['user/getUserCharacter']
 
     const errMsg = ref('')
     const openFlg = ref(false)
+
+    let teamName = ''
+    let password = ''
 
     const failureOpen = (errorMsg) => {
       errMsg.value = errorMsg
@@ -57,35 +56,40 @@ export default defineComponent({
         failureOpen('既に固定に所属済みです')
         return
       }
-      if(teamName.value === ''|| password.value.length !== 4) {
+      if(teamName === ''|| password.length !== 4) {
         failureOpen('適切な値を入力してください')
         return
       }
       // 固定名をDB上で検索を行い完全一致しているものがなければ処理続行
-      const existingTeam = await getTeamByTeamName(teamName.value)
+      const existingTeam = await getTeamByTeamName(teamName)
       if(existingTeam !== "") {
         failureOpen('その名前は使われています')
         return
       }
       // 処理ユーザを固定リーダーとし、入力された固定名で固定の作成を行う
-      const teamData = await createTeamByReaderIdAndTeamName(userData.id, teamName.value, password.value)
+      const teamData = await createTeamByReaderIdAndTeamName(userData.id, teamName, password)
       // ユーザー情報テーブルに固定IDを追加しアップデートする
       userData.teamId = teamData.id
       await store.dispatch('user/updateUserCharacter', userData)
       updateUserCharacter(userData)
       store.dispatch('updateIsLoading', false)
+      router.push('/team/display')
     }
 
     onMounted(() => {
       loginCheck()
     })
 
+    const changeInput = (...teamInput) => {
+      teamName = teamInput[0].teamName
+      password = teamInput[0].password
+    }
+
     return {
-      teamName,
-      password,
       errMsg,
       openFlg,
-      createTeam
+      createTeam,
+      changeInput
     }
   }
 })
