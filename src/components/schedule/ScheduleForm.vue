@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-form>
-      <v-text-field v-model="nickname"></v-text-field>
       <v-select :items="sevenDays" v-model="day" label="日付"/>
       <v-checkbox
         v-model="isEntry"
@@ -18,10 +17,6 @@
         class="mr-4"
         @click="submitSchedule(true)"
       >送信して追加入力</v-btn>
-      <v-btn
-        color="error"
-        class="mr-4"
-        @click="deleteScheduleByName">削除</v-btn>
     </v-form>
     <SearchFailure :msg="msg" :is-open="isFailure"/>
   </div>
@@ -30,26 +25,25 @@
 <script>
 import {defineComponent, onMounted, ref, watch} from "vue"
 import dayjs from "dayjs"
-// import {createXIVSchedule} from "@/module/ScheduleApiModule"
-// import {Schedule} from "@/class/Schedule"
 import {useRouter} from "vue-router";
 import {Schedule} from "@/class/Schedule";
 import SearchFailure from "@/components/SearchFailure";
-import {
-  createXIVSchedule,
-  deleteXIVScheduleByName,
-  getXIVScheduleListByName
-} from "@/module/BeefApiModule";
+import {useStore} from "vuex";
+import {createXIVSchedule, getXIVScheduleListById} from "@/module/BeefApi/ScheduleModule";
 
 export default defineComponent({
   name: "ScheduleForm",
   components: {SearchFailure},
   setup() {
     const router = useRouter()
+    const store = useStore()
 
-    const nickname = ref('')
     const times = ref(
-      ['20:00', '21:00', '22:00', '23:00']
+      ['20:00', '21:00', '22:00', '23:00', '24:00', '01:00', '02:00',
+        '03:00', '04:00', '05:00', '06:00', '07:00', '08:00',
+        '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
+        '15:00', '16:00', '17:00', '18:00', '19:00'
+      ]
     )
     const time = ref('')
     const sevenDays =ref([])
@@ -77,20 +71,26 @@ export default defineComponent({
 
     const submitSchedule = async (add = false) => {
       let scheduleData;
+      const userData = store.getters["user/getUserCharacter"]
       if (isEntry.value === true) {
-        scheduleData = new Schedule(1, nickname.value, day.value, time.value)
+        scheduleData = new Schedule(userData.id, userData.teamId,1,  day.value, time.value)
       } else {
-        scheduleData = new Schedule(0, nickname.value, day.value, time.value)
+        scheduleData = new Schedule(userData.id, userData.teamId,0,  day.value, time.value)
       }
 
-      console.log(scheduleData)
-
-      if (nickname.value === '' || day.value === '') {
+      if (day.value === '') {
         msg.value = '未入力箇所があります。'
         isFailure.value = true
         return
       }
-      const existingSchedule = await getXIVScheduleListByName(nickname.value)
+
+      if(isEntry.value === true && time.value === '') {
+        msg.value = '未入力箇所があります。'
+        isFailure.value = true
+        return
+      }
+
+      const existingSchedule = await getXIVScheduleListById(userData.id)
 
       for (const schedule of existingSchedule) {
         if (day.value.toString() === schedule.scheduleDate) {
@@ -105,19 +105,12 @@ export default defineComponent({
         day.value = ''
         createXIVSchedule(scheduleData)
       } else {
-        console.log('toHome')
         createXIVSchedule(scheduleData)
-        router.push('/')
+        router.push('/team/schedule')
       }
     }
 
-    const deleteScheduleByName = () => {
-      const result = deleteXIVScheduleByName(nickname.value)
-      console.log(result)
-    }
-
     return {
-      nickname,
       sevenDays,
       isEntry,
       time,
@@ -128,7 +121,6 @@ export default defineComponent({
       isFailure,
       msg,
       submitSchedule,
-      deleteScheduleByName
     }
   }
 })

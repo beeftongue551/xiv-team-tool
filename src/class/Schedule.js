@@ -1,14 +1,14 @@
 export class Schedule {
     userId = 0
     teamId = 0
-    isentry = 0
+    isEntry = 0
     scheduleDate = ''
     startTime = ''
 
-    constructor(userId, teamId, isentry, scheduleDate, startTime) {
+    constructor(userId, teamId, isEntry, scheduleDate, startTime) {
         this.userId = userId
         this.teamId = teamId
-        this.isentry = isentry
+        this.isEntry = isEntry
         this.scheduleDate = scheduleDate
         this.startTime = startTime
     }

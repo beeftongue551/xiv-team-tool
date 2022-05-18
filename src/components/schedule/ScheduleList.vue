@@ -9,13 +9,20 @@
     <tbody>
       <tr v-for="userSchedule of userSchedules" :key="userSchedule.name">
         <td>{{userSchedule.name}}</td>
-        <td>{{userSchedule.day0.startTime}}</td>
-        <td>{{userSchedule.day1.startTime}}</td>
-        <td>{{userSchedule.day2.startTime}}</td>
-        <td>{{userSchedule.day3.startTime}}</td>
-        <td>{{userSchedule.day4.startTime}}</td>
-        <td>{{userSchedule.day5.startTime}}</td>
-        <td>{{userSchedule.day6.startTime}}</td>
+        <td v-if="userSchedule.day0.startTime === '00:00:00'"> ✖</td>
+        <td v-else>{{userSchedule.day0.startTime}}</td>
+        <td v-if="userSchedule.day1.startTime === '00:00:00'"> ✖</td>
+        <td v-else>{{userSchedule.day1.startTime}}</td>
+        <td v-if="userSchedule.day2.startTime === '00:00:00'"> ✖</td>
+        <td v-else>{{userSchedule.day2.startTime}}</td>
+        <td v-if="userSchedule.day3.startTime === '00:00:00'"> ✖</td>
+        <td v-else>{{userSchedule.day3.startTime}}</td>
+        <td v-if="userSchedule.day4.startTime === '00:00:00'"> ✖</td>
+        <td v-else>{{userSchedule.day4.startTime}}</td>
+        <td v-if="userSchedule.day5.startTime === '00:00:00'"> ✖</td>
+        <td v-else>{{userSchedule.day5.startTime}}</td>
+        <td v-if="userSchedule.day6.startTime === '00:00:00'"> ✖</td>
+        <td v-else>{{userSchedule.day6.startTime}}</td>
       </tr>
     </tbody>
   </v-table>

@@ -14,29 +14,10 @@ module.exports = {
     return await getResponseByUrl(url)
   },
 
-  /**
-   * BeefAPIで名前が一致する人のスケジュールを取得する
-   * @param {string} name 名前
-   * @return {Promise<*>} スケジュール表
-   */
-  async getXIVScheduleListByName(name) {
-    const url = BEEF_API_URL + 'schedule/user/' + name
-    return await getResponseByUrl(url)
-  },
 
   async getXIVScheduleListWhereAfterToday() {
     const url = BEEF_API_URL + 'schedule/afterToday'
     return await getResponseByUrl(url)
-  },
-
-  /**
-   * BeefAPIでスケジュールの登録を行う
-   * @param {Schedule} schedule スケジュール
-   * @return {Promise<*>}
-   */
-  async createXIVSchedule(schedule) {
-    const url = BEEF_API_URL + 'schedule'
-    return await postResponseByUrl(url, schedule)
   },
 
   /**
