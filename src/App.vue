@@ -10,7 +10,7 @@
 
 <script>
 import NavBar from "@/components/NavBar";
-import FooterBar from "@/components/FotterBar"
+import FooterBar from "@/components/FooterBar"
 
 export default {
   name: 'App',
