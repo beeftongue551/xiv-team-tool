@@ -111,9 +111,9 @@ export default defineComponent({
         failureOpen('当サイトに未登録のキャラクタです。代表者または本人が登録を行ってください')
         return
       }
-      updateTeamMember(character.Results[0].ID)
       userCharacter[0].teamId = await store.getters["user/getUserCharacter"].teamId
-      updateUserCharacter(userCharacter[0])
+      await updateTeamMember(character.Results[0].ID)
+      await updateUserCharacter(userCharacter[0])
       router.push('/team/display')
     }
 

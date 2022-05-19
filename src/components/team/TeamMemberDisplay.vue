@@ -52,77 +52,77 @@ export default defineComponent({
     const membersUpdate = async () => {
 
       members.value = []
-      setTimeout(async () => {
-        team = await getTeamById(store.getters["user/getUserCharacter"].teamId)
 
-        const mt = await getCharacterName(team.mainTank)
-        const st = await getCharacterName(team.subTank)
-        const h1 = await getCharacterName(team.healer1)
-        const h2 = await getCharacterName(team.healer2)
-        const d1 = await getCharacterName(team.dps1)
-        const d2 = await getCharacterName(team.dps2)
-        const d3 = await getCharacterName(team.dps3)
-        const d4 = await getCharacterName(team.dps4)
+      team = await getTeamById(store.getters["user/getUserCharacter"].teamId)
 
-        members.value.push(
-          {
-            id: team.mainTank,
-            name: mt,
-            role: 'MainTank',
-            job: team.mainTankJob,
-            teamId: team.id
-          },
-          {
-            id: team.subTank,
-            name: st,
-            role: 'SubTank',
-            job: team.subTankJob,
-            teamId: team.id
-          },
-          {
-            id: team.healer1,
-            name: h1,
-            role: 'Healer1',
-            job: team.healer1Job,
-            teamId: team.id
-          },
-          {
-            id: team.healer2,
-            name: h2,
-            role: 'Healer2',
-            job: team.healer2Job,
-            teamId: team.id
-          },
-          {
-            id: team.dps1,
-            name: d1,
-            role: 'DPS1',
-            job: team.dps1Job,
-            teamId: team.id
-          },
-          {
-            id: team.dps2,
-            name: d2,
-            role: 'DPS2',
-            job: team.dps2Job,
-            teamId: team.id
-          },
-          {
-            id: team.dps3,
-            name: d3,
-            role: 'DPS3',
-            job: team.dps3Job,
-            teamId: team.id
-          },
-          {
-            id: team.dps4,
-            name: d4,
-            role: 'DPS4',
-            job: team.dps4Job,
-            teamId: team.id
-          },
-        )
-      },500)
+      const mt = await getCharacterName(team.mainTank)
+      const st = await getCharacterName(team.subTank)
+      const h1 = await getCharacterName(team.healer1)
+      const h2 = await getCharacterName(team.healer2)
+      const d1 = await getCharacterName(team.dps1)
+      const d2 = await getCharacterName(team.dps2)
+      const d3 = await getCharacterName(team.dps3)
+      const d4 = await getCharacterName(team.dps4)
+
+      members.value.push(
+        {
+          id: team.mainTank,
+          name: mt,
+          role: 'MainTank',
+          job: team.mainTankJob,
+          teamId: team.id
+        },
+        {
+          id: team.subTank,
+          name: st,
+          role: 'SubTank',
+          job: team.subTankJob,
+          teamId: team.id
+        },
+        {
+          id: team.healer1,
+          name: h1,
+          role: 'Healer1',
+          job: team.healer1Job,
+          teamId: team.id
+        },
+        {
+          id: team.healer2,
+          name: h2,
+          role: 'Healer2',
+          job: team.healer2Job,
+          teamId: team.id
+        },
+        {
+          id: team.dps1,
+          name: d1,
+          role: 'DPS1',
+          job: team.dps1Job,
+          teamId: team.id
+        },
+        {
+          id: team.dps2,
+          name: d2,
+          role: 'DPS2',
+          job: team.dps2Job,
+          teamId: team.id
+        },
+        {
+          id: team.dps3,
+          name: d3,
+          role: 'DPS3',
+          job: team.dps3Job,
+          teamId: team.id
+        },
+        {
+          id: team.dps4,
+          name: d4,
+          role: 'DPS4',
+          job: team.dps4Job,
+          teamId: team.id
+        },
+      )
+
     }
 
     const getCharacterName = async (id) => {
@@ -144,23 +144,23 @@ export default defineComponent({
       router.push('/team/member-edit')
     }
 
-    const deleteMember = (role) => {
+    const deleteMember = async (role) => {
       if (role === 'MainTank') {
-        updateTeamMemberByMainTank(0, '', store.getters["user/getUserCharacter"].teamId)
+        await updateTeamMemberByMainTank(0, '', store.getters["user/getUserCharacter"].teamId)
       } else if(role === 'SubTank') {
-        updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
+        await updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
       } else if(role === 'Healer1') {
-        updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
+        await updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
       } else if(role === 'Healer2') {
-        updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
+        await updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
       } else if(role === 'DPS1') {
-        updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
+        await updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
       } else if(role === 'DPS2') {
-        updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
+        await updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
       } else if(role === 'DPS3') {
-        updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
+        await updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
       } else if(role === 'DPS4') {
-        updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
+        await updateTeamMemberBySubTank(0, '', store.getters["user/getUserCharacter"].teamId)
       }
       membersUpdate()
     }
