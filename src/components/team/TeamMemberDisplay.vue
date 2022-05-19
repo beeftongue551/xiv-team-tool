@@ -123,7 +123,7 @@ export default defineComponent({
             teamId: team.id
           },
         )
-      },1000)
+      },500)
     }
 
     const getCharacterName = async (id) => {
