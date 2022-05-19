@@ -1,15 +1,17 @@
 <template>
   <div>
-<!--    <v-img-->
-<!--        src="../assets/ffxiv_20211205_095817_942.png"-->
-<!--        height="225"-->
-<!--        cover-->
-<!--    ></v-img>-->
+    <v-img
+        src="../assets/ffxiv_20211205_095817_942.png"
+        height="225"
+        cover
+    ></v-img>
     <div class="explanation">
-      <label class="explanation-text"><strong>XIVTeamTool</strong>はプレイヤーを手助けする便利サイトを目指して作成されているサイトです。</label>
+      <label class="explanation-text"><strong>XIVTeamSite</strong>はプレイヤーを手助けする便利サイトを目指して作成されているサイトです。</label>
     </div>
     <HomeCards :cards-data="characterCardData" />
-    <NewsList title="お知らせ" :news-details="newsDetails" v-show="newsDetails.length"/>
+    <div class="d-flex justify-space-around">
+      <NewsList title="お知らせ" :news-details="newsDetails" v-show="newsDetails.length"/>
+    </div>
   </div>
 </template>
 

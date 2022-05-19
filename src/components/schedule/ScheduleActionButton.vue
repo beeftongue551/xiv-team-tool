@@ -1,17 +1,11 @@
 <template>
   <div class="d-flex justify-space-around">
-
     <BeefTransitionButton
       color="warning"
       to="/team/schedule/add"
       mdi-icon="calendar-edit"
       text="スケジュール入力"/>
-    <BeefTransitionButton
-      color="secondary"
-      to="/team/schedule/edit"
-      mdi-icon="calendar-account"
-      text="MYスケジュール"/>
-  </div>
+      </div>
 </template>
 
 <script>

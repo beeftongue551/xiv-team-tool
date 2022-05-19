@@ -4,7 +4,7 @@ const {getResponseByUrl, postResponseByUrl, deleteResponseByUrl, putResponseByUr
 
 module.exports = {
   async getUserScheduleByUserIdAndTeamIdAndDay(userId, teamId, day) {
-    const url = DEBUG_API_URL + 'schedule/team/' + userId + '/' + teamId + '/' + day
+    const url = BEEF_API_URL + 'schedule/team/' + userId + '/' + teamId + '/' + day
     return getResponseByUrl(url)
   },
 
@@ -24,7 +24,7 @@ module.exports = {
    * @return {Promise<*>} スケジュール表
    */
   async getXIVScheduleListByIdAfter(UserId) {
-    const url = DEBUG_API_URL + 'schedule/user/' + UserId + '/after'
+    const url = BEEF_API_URL + 'schedule/user/' + UserId + '/after'
     return await getResponseByUrl(url)
   },
 
@@ -36,7 +36,7 @@ module.exports = {
    * @return {Promise<*>}
    */
   async updateXIVSchedule(schedule) {
-    const url = DEBUG_API_URL + 'schedule/update'
+    const url = BEEF_API_URL + 'schedule/update'
     return await putResponseByUrl(url, schedule)
   },
 
@@ -57,7 +57,7 @@ module.exports = {
    * @return void
    */
   async deleteXIVScheduleById(id) {
-    const url = DEBUG_API_URL + 'schedule/delete/id/' + id
+    const url = BEEF_API_URL + 'schedule/delete/id/' + id
     await deleteResponseByUrl(url)
   }
 }

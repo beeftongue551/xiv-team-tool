@@ -3,7 +3,7 @@
       color="primary"
   >
     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-    <v-toolbar-title>XIVTeamTool</v-toolbar-title>
+    <v-toolbar-title>XIVTeamSite</v-toolbar-title>
     <v-spacer />
     <EorzeaTime />
     <v-btn to="/login" v-show="user.id===0">LOGIN</v-btn>

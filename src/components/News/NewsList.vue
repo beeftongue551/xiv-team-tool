@@ -1,6 +1,8 @@
 <template>
   <v-row justify="center" >
-    <v-card>
+    <v-card
+      class="mx-auto"
+      max-width="344">
       <v-table max-height="300px">
         <thead>
         <v-list-item-title>{{title}}</v-list-item-title>
