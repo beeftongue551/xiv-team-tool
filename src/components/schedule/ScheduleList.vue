@@ -9,20 +9,13 @@
     <tbody>
       <tr v-for="userSchedule of userSchedules" :key="userSchedule.name">
         <td>{{userSchedule.name}}</td>
-        <td v-if="userSchedule.day0.startTime === '00:00:00'"><v-icon color="red">mdi-close-thick</v-icon></td>
-        <td v-else>{{userSchedule.day0.startTime}}</td>
-        <td v-if="userSchedule.day1.startTime === '00:00:00'"><v-icon color="red">mdi-close-thick</v-icon></td>
-        <td v-else>{{userSchedule.day1.startTime}}</td>
-        <td v-if="userSchedule.day2.startTime === '00:00:00'"><v-icon color="red">mdi-close-thick</v-icon></td>
-        <td v-else>{{userSchedule.day2.startTime}}</td>
-        <td v-if="userSchedule.day3.startTime === '00:00:00'"><v-icon color="red">mdi-close-thick</v-icon></td>
-        <td v-else>{{userSchedule.day3.startTime}}</td>
-        <td v-if="userSchedule.day4.startTime === '00:00:00'"><v-icon color="red">mdi-close-thick</v-icon></td>
-        <td v-else>{{userSchedule.day4.startTime}}</td>
-        <td v-if="userSchedule.day5.startTime === '00:00:00'"><v-icon color="red">mdi-close-thick</v-icon></td>
-        <td v-else>{{userSchedule.day5.startTime}}</td>
-        <td v-if="userSchedule.day6.startTime === '00:00:00'"><v-icon color="red">mdi-close-thick</v-icon></td>
-        <td v-else>{{userSchedule.day6.startTime}}</td>
+        <ScheduleTime :entry="userSchedule.day0.isEntry" :time="userSchedule.day0.startTime" />
+        <ScheduleTime :entry="userSchedule.day1.isEntry" :time="userSchedule.day1.startTime" />
+        <ScheduleTime :entry="userSchedule.day2.isEntry" :time="userSchedule.day2.startTime" />
+        <ScheduleTime :entry="userSchedule.day3.isEntry" :time="userSchedule.day3.startTime" />
+        <ScheduleTime :entry="userSchedule.day4.isEntry" :time="userSchedule.day4.startTime" />
+        <ScheduleTime :entry="userSchedule.day5.isEntry" :time="userSchedule.day5.startTime" />
+        <ScheduleTime :entry="userSchedule.day6.isEntry" :time="userSchedule.day6.startTime" />
       </tr>
     </tbody>
   </v-table>
@@ -37,9 +30,11 @@ import {
   getUserScheduleByUserIdAndTeamIdAndDay
 } from "@/module/BeefApi/ScheduleModule";
 import {getUserById} from "@/module/BeefApi/UserModule";
+import ScheduleTime from "@/components/schedule/ScheduleTime";
 
 export default defineComponent({
   name: "ScheduleList",
+  components: {ScheduleTime},
   setup() {
     const store = useStore()
 
@@ -60,12 +55,21 @@ export default defineComponent({
       await getUserSchedule(teamData.dps4, teamData.id)
     })
 
+    /**
+     * 7日間の日付を格納する
+     */
     const getDays = () => {
       for (let i = 0; i < 7; i++) {
         days.value.push(dayjs().add(i, 'day').format('YYYY-MM-DD'))
       }
     }
 
+    /**
+     * ユーザ毎のスケジュールを取得する
+     * @param {number}  userId ユーザID
+     * @param {number} teamId 固定ID
+     * @return {Promise<void>}
+     */
     const getUserSchedule = async (userId, teamId) => {
       if(userId === undefined || userId === null) {
         return
