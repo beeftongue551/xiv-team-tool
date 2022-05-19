@@ -19,6 +19,16 @@ module.exports = {
   },
 
   /**
+   * UserIdが一致する人の本日以降のスケジュールを取得する
+   * @param {number} id 名前
+   * @return {Promise<*>} スケジュール表
+   */
+  async getXIVScheduleListByIdAfter(id) {
+    const url = BEEF_API_URL + 'schedule/user/' + id + '/after'
+    return await getResponseByUrl(url)
+  },
+
+  /**
    * BeefAPIでスケジュールの登録を行う
    * @param {Schedule} schedule スケジュール
    * @return {Promise<*>}

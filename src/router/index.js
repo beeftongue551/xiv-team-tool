@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CharacterView from "@/views/CharacterView";
 import ItemView from "@/views/ItemView";
-import ScheduleEditView from "@/views/ScheduleEditView";
 import SignUpView from "@/views/SignUpView";
 import LoginView from "@/views/LoginView";
 import TeamEditView from "@/views/TeamEditView";
@@ -10,6 +9,8 @@ import TeamDisplayView from "@/views/TeamDisplayView";
 import MemberEditView from "@/views/MemberEditView";
 import TeamEntryView from "@/views/TeamEntryView";
 import TeamScheduleView from "@/views/TeamScheduleView";
+import ScheduleAddView from "@/views/ScheduleAddView";
+import ScheduleEditView from "@/views/ScheduleEditView";
 const routes = [
   {
     path: '/',
@@ -25,11 +26,6 @@ const routes = [
     path: '/item',
     name: 'item',
     component: ItemView
-  },
-  {
-    path: '/team/schedule/edit',
-    name: 'scheduleEdit',
-    component: ScheduleEditView
   },
   {
     path: '/sign-up',
@@ -65,6 +61,16 @@ const routes = [
     path: '/team/schedule',
     name: 'teamSchedule',
     component: TeamScheduleView
+  },
+  {
+    path: '/team/schedule/add',
+    name: 'scheduleAdd',
+    component: ScheduleAddView
+  },
+  {
+    path: '/team/schedule/edit',
+    name: 'scheduleEdit',
+    component: ScheduleEditView
   }
 ]
 
