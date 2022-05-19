@@ -11,7 +11,7 @@
       <v-icon>
         mdi-calendar
       </v-icon>
-      スケジュール編集
+      MYスケジュール
     </v-btn>
   </div>
 </template>
