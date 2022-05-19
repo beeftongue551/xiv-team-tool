@@ -12,7 +12,7 @@
       <tr v-for="schedule of schedules" :key="schedule.id">
         <td>{{schedule.scheduleDate}}</td>
         <ScheduleTime :entry="schedule.isEntry" :time="schedule.startTime" />
-        <td width="100"><v-btn color="error" @click="deleteSchedule">Delete</v-btn></td>
+        <td width="100"><v-btn color="error" @click="deleteSchedule(schedule.id)">Delete</v-btn></td>
         <td width="100"><v-btn color="secondary">Update</v-btn></td>
       </tr>
     </tbody>
@@ -23,7 +23,7 @@
 <script>
 import {defineComponent, onMounted, ref} from "vue"
 import {useStore} from "vuex";
-import {getXIVScheduleListByIdAfter} from "@/module/BeefApi/ScheduleModule";
+import {deleteXIVScheduleById, getXIVScheduleListByIdAfter} from "@/module/BeefApi/ScheduleModule";
 import ScheduleTime from "@/components/schedule/ScheduleTime";
 import TeamActionFooter from "@/components/team/TeamActionFooter";
 
@@ -43,7 +43,9 @@ export default defineComponent({
       schedules.value = await getXIVScheduleListByIdAfter(userData.id)
     })
 
-    const deleteSchedule = () => {
+    const deleteSchedule = async (id) => {
+      await deleteXIVScheduleById(id)
+      schedules.value = await getXIVScheduleListByIdAfter(userData.id)
     }
 
     return {
