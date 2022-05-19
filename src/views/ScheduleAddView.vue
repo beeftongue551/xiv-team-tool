@@ -1,17 +1,17 @@
 <template>
   <div>
-    <ScheduleForm/>
+    <ScheduleAdd/>
   </div>
 </template>
 
 <script>
 import {defineComponent, onMounted} from "vue";
-import ScheduleForm from "@/components/schedule/ScheduleForm";
+import ScheduleAdd from "@/components/schedule/ScheduleAdd";
 import {teamCheck} from "@/module/loginModule";
 
 export default defineComponent({
   name: "ScheduleView",
-  components: {ScheduleForm},
+  components: {ScheduleAdd},
   setup() {
     onMounted(() => {
       teamCheck()
