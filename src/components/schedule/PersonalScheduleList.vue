@@ -12,12 +12,12 @@
       <tr v-for="schedule of schedules" :key="schedule.id">
         <td>{{schedule.scheduleDate}}</td>
         <ScheduleTime :entry="schedule.isEntry" :time="schedule.startTime" />
-        <td><v-btn color="error">Delete</v-btn></td>
-        <td><v-btn color="secondary">Update</v-btn></td>
+        <td width="100"><v-btn color="error" @click="deleteSchedule">Delete</v-btn></td>
+        <td width="100"><v-btn color="secondary">Update</v-btn></td>
       </tr>
     </tbody>
   </v-table>
-  {{schedules}}
+  <TeamActionFooter />
 </template>
 
 <script>
@@ -25,10 +25,11 @@ import {defineComponent, onMounted, ref} from "vue"
 import {useStore} from "vuex";
 import {getXIVScheduleListByIdAfter} from "@/module/BeefApi/ScheduleModule";
 import ScheduleTime from "@/components/schedule/ScheduleTime";
+import TeamActionFooter from "@/components/team/TeamActionFooter";
 
 export default defineComponent({
   name: "PersonalScheduleList",
-  components: {ScheduleTime},
+  components: {ScheduleTime, TeamActionFooter},
   setup() {
     const store = useStore()
     const userData = store.getters["user/getUserCharacter"]
@@ -41,8 +42,14 @@ export default defineComponent({
       }
       schedules.value = await getXIVScheduleListByIdAfter(userData.id)
     })
+
+    const deleteSchedule = () => {
+    }
+
     return {
-      schedules
+      schedules,
+
+      deleteSchedule
     }
   }
 })

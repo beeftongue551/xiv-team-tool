@@ -1,9 +1,9 @@
 <template>
-  <v-btn color="warning" to="/team/schedule">
+  <v-btn :color="color" :to="to">
     <v-icon>
-      mdi-calendar
+      mdi-{{mdiIcon}}
     </v-icon>
-    スケジュール
+    {{text}}
   </v-btn>
 </template>
 
@@ -11,7 +11,8 @@
 import {defineComponent} from "vue"
 
 export default defineComponent({
-  name: "TeamActionButton",
+  name: "BeefTransitionButton",
+  props:['color', 'to', 'mdiIcon', 'text'],
   setup() {
     return {}
   }

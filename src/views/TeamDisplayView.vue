@@ -1,17 +1,18 @@
 <template>
-  <TeamActionButton />
   <TeamMemberDisplay />
+  <TeamActionFooter />
 </template>
 
 <script>
 import {defineComponent, onMounted, reactive} from "vue"
 import TeamMemberDisplay from "@/components/team/TeamMemberDisplay";
 import {useStore} from "vuex";
-import TeamActionButton from "@/components/team/TeamActionButton";
+
+import TeamActionFooter from "@/components/team/TeamActionFooter";
 
 export default defineComponent({
   name: "TeamDisplayView",
-  components: {TeamActionButton, TeamMemberDisplay},
+  components: {TeamActionFooter, TeamMemberDisplay},
   setup() {
     const store = useStore()
     const teamId = reactive({})
