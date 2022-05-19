@@ -1,8 +1,8 @@
 <template>
-  <td class="text-center" v-if="entry || entry === undefined" >
+  <td class="text-left" v-if="entry || entry === undefined" >
     {{time}}
   </td>
-  <td class="text-center" v-else>
+  <td class="text-left" v-else>
     <v-icon color="red">mdi-close-thick</v-icon>
   </td>
 </template>
