@@ -19,7 +19,6 @@
         <td>{{member.job}}</td>
         <td width="100">
           <v-btn color="secondary" v-if="member.name === ''" @click="editAction(member.role)">追加</v-btn>
-          <v-btn color="success" v-else @click="editAction(member.role)">変更</v-btn>
         </td>
         <td width="100"><v-btn color="error" @click="deleteMember(member.role)" :disabled="!member.name">Delete</v-btn></td>
       </tr>
@@ -131,7 +130,6 @@ export default defineComponent({
         return ''
       }
       const characterData = await getCharacterDetail(id)
-      console.log(characterData)
       return characterData.Name
     }
 
