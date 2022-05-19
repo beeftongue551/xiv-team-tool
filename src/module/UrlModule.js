@@ -60,7 +60,7 @@ module.exports = {
   async putResponseByUrl(url, body) {
     let result
     await axios.put(url,body).then(response => {
-      result = response
+      result = response.data
     }).catch(error => {
       console.error('通信に失敗しました', error)
       result = -1

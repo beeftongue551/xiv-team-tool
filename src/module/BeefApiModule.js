@@ -1,34 +1,9 @@
-const {getResponseByUrl, postResponseByUrl, deleteResponseByUrl, putResponseByUrl} = require("@/module/UrlModule");
+const {getResponseByUrl, postResponseByUrl, putResponseByUrl} = require("@/module/UrlModule");
 // eslint-disable-next-line no-unused-vars
 const {BEEF_API_URL, DEBUG_API_URL} = require("@/module/ModuleType");
 const {UserCharacter} = require("@/class/UserCharacter");
 
 module.exports = {
-
-  /**
-   * BeefAPIでスケジュールの全件取得を行う
-   * @return {Promise<*>}
-   */
-  async getXIVScheduleList() {
-    const url = BEEF_API_URL + 'schedule'
-    return await getResponseByUrl(url)
-  },
-
-
-  async getXIVScheduleListWhereAfterToday() {
-    const url = BEEF_API_URL + 'schedule/afterToday'
-    return await getResponseByUrl(url)
-  },
-
-  /**
-   * BeefAPIで名前が一致するスケジュールの削除を行う
-   * @param {string} name 名前
-   * @return {Promise<*>}
-   */
-  async deleteXIVScheduleByName(name) {
-    const url = BEEF_API_URL + 'delete/name/' + name
-    return await deleteResponseByUrl(url)
-  },
 
   /* お知らせ取得API */
 

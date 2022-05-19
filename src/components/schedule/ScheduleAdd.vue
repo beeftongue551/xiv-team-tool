@@ -81,7 +81,7 @@ export default defineComponent({
           return
         }
       }
-      createXIVSchedule(scheduleData)
+      await createXIVSchedule(scheduleData)
       msg.value = '送信しました'
       date.day = ''
       date.isEntry = false
