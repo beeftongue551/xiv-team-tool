@@ -39,10 +39,21 @@ export default defineComponent({
     const isOpen = ref(false)
 
 
+    /**
+     * サーバ入力コンポーネントでサーバ名が選択された際にサーバ名を保持する
+     *
+     * @param selectServer
+     */
     const changeServer = (...selectServer) =>{
       server.value = selectServer[0]
     }
 
+    /**
+     * snackbar にメッセージを渡し自動で閉じる処理
+     * HACK: この処理が複数のコンポーネントで用いられている
+     *
+     * @param errorMsg
+     */
     const failureOpen = (errorMsg) => {
       msg.value = errorMsg
       isOpen.value = true
@@ -52,7 +63,11 @@ export default defineComponent({
       },5000)
     }
 
-    
+    /**
+     * ユーザ情報用キャラクター登録処理
+     *
+     * @return {Promise<void>}
+     */
     const characterRegistration = async () => {
       store.dispatch('updateIsLoading', true)
       if (characterName.value === '' || server.value === '' || password.value.length !== 4) {

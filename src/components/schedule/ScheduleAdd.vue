@@ -44,13 +44,23 @@ export default defineComponent({
     const isFailure = ref(false)
     const msg = ref('')
 
+    /**
+     * スケジュール入力コンポーネントで入力された値を取得する
+     *
+     * @param {array<object>} inputSchedule
+     */
     const changeInputSchedule = (...inputSchedule) => {
       date.day = inputSchedule[0].day
       date.isEntry = inputSchedule[0].isEntry
       date.time = inputSchedule[0].time
     }
 
-
+    /**
+     * スケジュール情報登録処理
+     *
+     * @param add
+     * @return {Promise<void>}
+     */
     const submitSchedule = async (add = false) => {
       let scheduleData;
       const userData = store.getters["user/getUserCharacter"]

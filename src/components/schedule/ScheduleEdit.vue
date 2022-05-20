@@ -34,24 +34,40 @@ export default defineComponent({
 
     const userData = store.getters["user/getUserCharacter"]
 
+    /**
+     * 初期処理としてpropsに与えられたスケジュール情報を反映する
+     */
     onMounted(() =>{
       date.day = props.scheduleDate.day
       date.isEntry = props.scheduleDate.isEntry
       date.time = props.scheduleDate.time
     })
 
+    /**
+     * propsの値を監視し、スケジュール情報を反映する
+     */
     watch(props, () => {
       date.day = props.scheduleDate.day
       date.isEntry = props.scheduleDate.isEntry
       date.time = props.scheduleDate.time
     })
 
+    /**
+     * スケジュール入力コンポーネントで入力された値を取得する
+     *
+     * @param {array<object>} inputSchedule 入力されたスケジュール
+     */
     const changeInputSchedule = (...inputSchedule) => {
       date.day = inputSchedule[0].day
       date.isEntry = inputSchedule[0].isEntry
       date.time = inputSchedule[0].time
     }
-    
+
+    /**
+     * スケジュール情報更新処理
+     *
+     * @return {Promise<void>}
+     */
     const updateSchedule = async () => {
       if (date.day === '') {
         return
@@ -72,6 +88,9 @@ export default defineComponent({
       emit('close-modal',false)
     }
 
+    /**
+     * モーダルクローズ処理
+     */
     const closeModal = () => {
       emit('close-modal', false)
     }

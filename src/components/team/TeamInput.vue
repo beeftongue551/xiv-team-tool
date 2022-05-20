@@ -18,6 +18,9 @@ export default defineComponent({
     const teamName = ref('')
     const password = ref('')
 
+    /**
+     * 入力された値を親コンポーネントに反映する処理
+     */
     const changeInput = () => {
       emit('change-input', {
         teamName: teamName.value,

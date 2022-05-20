@@ -37,15 +37,30 @@ export default defineComponent({
     let teamName = ''
     let password = ''
 
+    /**
+     * 初期処理
+     * 未ログインである場合はトップページにリダイレクトを行う
+     */
     onMounted(() => {
       loginCheck()
     })
 
+    /**
+     * チーム入力コンポーネントで入力された値を反映する処理
+     *
+     * @param teamInput
+     */
     const changeInput = (...teamInput) => {
       teamName = teamInput[0].teamName
       password = teamInput[0].password
     }
 
+    /**
+     * snackbar にメッセージを渡し自動で閉じる処理
+     * HACK: この処理が複数のコンポーネントで用いられている
+     *
+     * @param errorMsg
+     */
     const failureOpen = (errorMsg) => {
       errMsg.value = errorMsg
       openFlg.value = true
@@ -55,6 +70,11 @@ export default defineComponent({
       },5000)
     }
 
+    /**
+     * 固定所属処理
+     *
+     * @return {Promise<void>}
+     */
     const entryTeam = async () => {
       store.dispatch('updateIsLoading', true)
 

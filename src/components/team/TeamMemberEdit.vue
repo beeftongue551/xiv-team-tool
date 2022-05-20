@@ -48,6 +48,10 @@ export default defineComponent({
 
     let server = ''
 
+    /**
+     * 初期処理
+     * ジョブ選択ボックスの内容を確定する
+     */
     onMounted(() => {
       role.value = store.getters["member/getMember"].role
 
@@ -64,10 +68,20 @@ export default defineComponent({
       }
     })
 
+    /**
+     * サーバ入力が更新された場合に反映する
+     * @param selectServer
+     */
     const changeServer = (...selectServer) =>{
       server = selectServer[0]
     }
 
+    /**
+     * snackbar にメッセージを渡し自動で閉じる処理
+     * HACK: この処理が複数のコンポーネントで用いられている
+     *
+     * @param errorMsg
+     */
     const failureOpen = (errorMsg) => {
       msg.value = errorMsg
       isOpen.value = true
@@ -77,9 +91,13 @@ export default defineComponent({
       },5000)
     }
 
+    /**
+     * チームメンバー情報を更新する
+     * @param id ユーザID
+     * @return {Promise<void>}
+     */
     const updateTeamMember = async (id) => {
       const teamId = await store.getters["member/getMember"].teamId
-
 
       if (role.value === 'MainTank') {
         await updateTeamMemberByMainTank(id, job.value, teamId)
@@ -100,6 +118,12 @@ export default defineComponent({
       }
     }
 
+    /**
+     * 入力チェックを行い、メンバ更新処理を呼び出す
+     * 更新処理後に固定メンバ表示画面に遷移を行う
+     *
+     * @return {Promise<void>}
+     */
     const editMember = async () => {
       const character = await getCharactersData(characterName.value, server)
       if (character.Results.length !== 1 || character.Results[0].Name !== characterName.value) {

@@ -78,6 +78,11 @@ export default defineComponent({
     const store = useStore()
     watch(() => store.getters['item/getItemsData'])
 
+    /**
+     * レシピ情報の検索を行い、レシピ情報をストアに格納する処理
+     * @param {number} id
+     * @return {Promise<void>}
+     */
     const openRecipe = async (id) => {
       const recipeData = await getRecipeByItemID(id)
       store.dispatch('recipe/updateRecipeData', recipeData)

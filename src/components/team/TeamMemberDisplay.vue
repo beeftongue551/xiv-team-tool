@@ -43,12 +43,21 @@ export default defineComponent({
 
     let team = {}
 
+    /**
+     * 初期処理
+     * 表示するメンバ情報を更新する
+     */
     onMounted(() => {
       store.dispatch('updateIsLoading', true)
       membersUpdate()
       store.dispatch('updateIsLoading', false)
     })
 
+    /**
+     * 表示するメンバ情報を更新する
+     *
+     * @return {Promise<void>}
+     */
     const membersUpdate = async () => {
 
       members.value = []
@@ -125,6 +134,12 @@ export default defineComponent({
 
     }
 
+    /**
+     * ユーザIDからキャラクタ名の取得を行う
+     *
+     * @param id ユーザID
+     * @return {Promise<string>} キャラクタ名
+     */
     const getCharacterName = async (id) => {
       if (id === null || id === undefined || id ===0) {
         return ''
@@ -133,6 +148,11 @@ export default defineComponent({
       return characterData.Name
     }
 
+    /**
+     * キャラクタ追加画面への遷移を行う
+     *
+     * @param role
+     */
     const editAction = (role) => {
       //ロールを格納
       store.dispatch('member/updateMember', {
@@ -144,6 +164,12 @@ export default defineComponent({
       router.push('/team/member-edit')
     }
 
+    /**
+     * メンバ情報の削除処理
+     *
+     * @param role
+     * @return {Promise<void>}
+     */
     const deleteMember = async (role) => {
       if (role === 'MainTank') {
         await updateTeamMemberByMainTank(0, '', store.getters["user/getUserCharacter"].teamId)
@@ -164,6 +190,7 @@ export default defineComponent({
       }
       membersUpdate()
     }
+
     return {
       members,
 

@@ -36,6 +36,10 @@ export default defineComponent({
     ]
     const time = ref('')
 
+    /**
+     * 初期処理
+     * 選択できる7日間と時間を格納する
+     */
     onMounted(() => {
       for(let i = 0; i < 7; i++) {
         sevenDays.value.push(dayjs().add(i, 'day').format('YYYY-MM-DD'))
@@ -45,6 +49,9 @@ export default defineComponent({
       }
     })
 
+    /**
+     * 参加可否を監視し、その値によってラベル表示を変更する
+     */
     watch(isEntry, () => {
       if(isEntry.value === true) {
         entryLabel.value = '参加します'
@@ -54,12 +61,18 @@ export default defineComponent({
       }
     })
 
+    /**
+     * propsの値を監視し、その値を表示に反映する
+     */
     watch(props, () => {
       day.value = props.scheduleDate.day
       isEntry.value = props.scheduleDate.isEntry
       time.value = props.scheduleDate.time
     })
 
+    /**
+     * 入力値が更新された際に親コンポーネントにスケジュール情報を渡す
+     */
     const updateValue = () => {
       emit('change-schedule',{
         day: day.value,

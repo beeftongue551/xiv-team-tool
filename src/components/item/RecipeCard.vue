@@ -67,10 +67,16 @@ export default defineComponent({
       store.dispatch('updateIsLoading', false)
     })
 
+    /**
+     * 保持しているレシピ情報を削除し、レシピ表示を閉じる
+     */
     const closeRecipe = () => {
       recipeData.value = {}
     }
 
+    /**
+     * TODO: レシピ詳細ページへ遷移する処理
+     */
     const detailRecipe = () => {
       snackbar.value = true
     }

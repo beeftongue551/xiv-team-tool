@@ -23,6 +23,7 @@
       </tr>
     </tbody>
   </v-table>
+
   <v-dialog
     v-model="openModal"
     hide-overlay
@@ -32,6 +33,7 @@
       <ScheduleEdit :schedule-date="date" @update-schedule="updateSchedule" @close-modal="closeModal"/>
     </v-card>
   </v-dialog>
+
   <TeamActionFooter />
 </template>
 
@@ -61,6 +63,13 @@ export default defineComponent({
       schedules.value = await getXIVScheduleListByIdAfter(userData.id)
     })
 
+    /**
+     * 子コンポーネントのモーダル要素にスケジュール情報を渡し、モーダルを表示する
+     *
+     * @param {string} day 日付
+     * @param {boolean} isEntry 参加: true, 不参加: false
+     * @param {string} time 時間
+     */
     const editSchedule = (day, isEntry, time) => {
       date.day = day
       date.isEntry = isEntry
@@ -68,15 +77,31 @@ export default defineComponent({
       openModal.value = true
     }
 
+    /**
+     * idが一致するスケジュール情報を削除する処理
+     *
+     * @param id
+     * @return {Promise<void>}
+     */
     const deleteSchedule = async (id) => {
       await deleteXIVScheduleById(id)
       schedules.value = await getXIVScheduleListByIdAfter(userData.id)
     }
 
+    /**
+     * 子コンポーネントで更新されたスケジュール情報を反映する処理
+     *
+     * @param {array<object>} scheduleList スケジュール情報リスト
+     */
     const updateSchedule= (...scheduleList) => {
       schedules.value = scheduleList[0]
     }
 
+    /**
+     * 子コンポーネントからモーダルを閉じる処理
+     *
+     * @param {array<boolean>} modalState
+     */
     const closeModal = (...modalState) => {
       openModal.value = modalState[0]
     }

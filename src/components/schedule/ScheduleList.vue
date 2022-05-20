@@ -42,6 +42,10 @@ export default defineComponent({
     const userSchedules = ref([])
 
 
+    /**
+     * 初期処理
+     * ユーザごとのスケジュールを表示する
+     */
     onMounted(async () => {
       getDays()
       const teamData = await getTeamById(store.getters["user/getUserCharacter"].teamId)

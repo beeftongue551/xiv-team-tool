@@ -36,6 +36,12 @@ export default defineComponent({
     const msg = ref('')
     const isOpen = ref(false)
 
+    /**
+     * snackbar にメッセージを渡し自動で閉じる処理
+     * HACK: この処理が複数のコンポーネントで用いられている
+     *
+     * @param errorMsg
+     */
     const failureOpen = (errorMsg) => {
       msg.value = errorMsg
       isOpen.value = true
@@ -45,10 +51,20 @@ export default defineComponent({
       },5000)
     }
 
+    /**
+     * サーバ入力コンポーネントでサーバ名が選択された際にサーバ名を保持する
+     *
+     * @param selectServer
+     */
     const changeServer = (...selectServer) =>{
       server.value = selectServer[0]
     }
 
+    /**
+     * ユーザログイン処理
+     *
+     * @return {Promise<void>}
+     */
     const userLogin = async () => {
       store.dispatch('updateIsLoading', true)
       if (characterName.value === '' || server.value === '' || password.value.length !== 4) {

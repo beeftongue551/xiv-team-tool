@@ -11,18 +11,25 @@
 <script>
 import NavBar from "@/components/NavBar";
 import FooterBar from "@/components/FooterBar"
+import {defineComponent} from "vue/dist/vue";
+import {useRouter} from "vue-router";
 
-export default {
+export default defineComponent ({
   name: 'App',
   components: {
     NavBar,
     FooterBar
   },
+  setup() {
+    const router = useRouter()
 
-  data: () => ({
-    //
-  }),
-}
+    addEventListener("popstate", () => {
+      router.push("/")
+    })
+
+    return{}
+  }
+})
 </script>
 
 <style>
