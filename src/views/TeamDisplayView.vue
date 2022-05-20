@@ -18,7 +18,6 @@ export default defineComponent({
     const teamId = reactive({})
     onMounted(async () => {
       teamId.value = store.getters["user/getUserCharacter"]
-      console.log(teamId.value)
     })
     return {
       teamId: teamId

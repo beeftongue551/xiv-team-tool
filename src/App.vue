@@ -11,7 +11,7 @@
 <script>
 import NavBar from "@/components/NavBar";
 import FooterBar from "@/components/FooterBar"
-import {defineComponent} from "vue/dist/vue";
+import {defineComponent} from "vue";
 import {useRouter} from "vue-router";
 
 export default defineComponent ({
