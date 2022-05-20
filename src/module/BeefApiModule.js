@@ -71,6 +71,7 @@ module.exports = {
    */
   async updateUserCharacter(characterData) {
     const url = BEEF_API_URL + 'character'
+    characterData.favoriteItemId = characterData.favoriteItemId.toString()
     await putResponseByUrl(url, characterData)
   },
 

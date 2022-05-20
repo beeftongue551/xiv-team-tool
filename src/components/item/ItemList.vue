@@ -61,6 +61,10 @@
               </v-col>
             </v-row>
           </v-container>
+          <FavoriteStar
+            :favorite="userData.favoriteItemId.includes(itemData.id)"
+            @click="changeFavorite(itemData.id)"
+            v-if="userData.id !==0" />
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -68,14 +72,19 @@
 </template>
 
 <script>
-import {computed, defineComponent, watch} from "vue";
+import {computed, defineComponent, watch, ref, onBeforeUnmount} from "vue";
 import {useStore} from "vuex";
 import {getRecipeByItemID} from "@/module/XIVApiModule";
+import FavoriteStar from "@/components/FavoriteStar";
+import {updateUserCharacter} from "@/module/BeefApiModule";
 
 export default defineComponent({
   name: "ItemList",
+  components: {FavoriteStar},
   setup () {
     const store = useStore()
+    const userData = ref(store.getters["user/getUserCharacter"])
+    const defaultFavorite = userData.value.favoriteItemId
     watch(() => store.getters['item/getItemsData'])
 
     /**
@@ -88,8 +97,27 @@ export default defineComponent({
       store.dispatch('recipe/updateRecipeData', recipeData)
     }
 
+    const changeFavorite = (id) => {
+      if(userData.value.favoriteItemId.includes(id)) {
+        userData.value.favoriteItemId = userData.value.favoriteItemId.filter((item) => {
+          return item !== id
+        })
+      } else {
+        userData.value.favoriteItemId.push(id)
+      }
+    }
+
+    onBeforeUnmount(() => {
+      if(userData.value.id !== 0 && userData.value.favoriteItemId !== defaultFavorite) {
+        updateUserCharacter(userData.value)
+      }
+    })
+
     return {
       itemsData: computed(() => store.getters['item/getItemsData']),
+      userData,
+
+      changeFavorite,
       openRecipe
     }
   }

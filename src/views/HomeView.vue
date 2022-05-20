@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-img
-        src="../assets/ffxiv_20211205_095817_942.png"
-        height="225"
-        cover
-    ></v-img>
+<!--    <v-img-->
+<!--        src="../assets/ffxiv_20211205_095817_942.png"-->
+<!--        height="225"-->
+<!--        cover-->
+<!--    ></v-img>-->
     <div class="explanation">
       <label class="explanation-text"><strong>XIVTeamSite</strong>はプレイヤーを手助けする便利サイトを目指して作成されているサイトです。</label>
     </div>
@@ -33,6 +33,12 @@ export default defineComponent({
         text: 'アイテムを検索して各DCのマーケット状況を見たい場合はこちら',
         jump: '/item',
         icon: 'mdi-magnify'
+      },
+      {
+        title: 'レシピ検索',
+        text: 'レシピを検索して素材の必要数と金額の概算を確認したい場合はこちら',
+        jump: '/recipe',
+        icon: 'mdi-hammer-wrench'
       }
     ]
 
