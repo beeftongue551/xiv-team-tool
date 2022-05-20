@@ -10,6 +10,7 @@ import TeamEntryView from "@/views/TeamEntryView";
 import TeamScheduleView from "@/views/TeamScheduleView";
 import ScheduleAddView from "@/views/ScheduleAddView";
 import ScheduleEditView from "@/views/ScheduleEditView";
+import RecipeView from "@/views/RecipeView";
 const routes = [
   {
     path: '/',
@@ -20,6 +21,11 @@ const routes = [
     path: '/item',
     name: 'item',
     component: ItemView
+  },
+  {
+    path: '/recipe',
+    name: 'recipe',
+    component: RecipeView
   },
   {
     path: '/sign-up',

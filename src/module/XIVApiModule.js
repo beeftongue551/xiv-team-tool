@@ -26,9 +26,61 @@ module.exports = {
     return characterDetail.Character
   },
 
+  /**
+   * XIVAPIでアイテム名からアイテムの一覧を取得する
+   * @param itemName
+   * @return {Promise<*>}
+   */
   async getItemByName(itemName) {
     const url = XIV_API_URL + 'search?language=ja&indexes=item&columns=ID,Name_ja,Icon,LevelItem&string=' + itemName
     return await getResponseByUrl(url)
+  },
+
+  /**
+   * XIVAPIでアイテム名からレシピの一覧を獲得する
+   * @param itemName
+   * @return {Promise<*>}
+   */
+  async getRecipeByName(itemName) {
+    const url = XIV_API_URL + 'search?language=ja&indexes=recipe&string=' + itemName
+    return await getResponseByUrl(url)
+  },
+
+  /**
+   * XIVAPIでレシピIDからレシピを取得する
+   */
+  async getRecipeById(id) {
+    const url = XIV_API_URL + 'recipe/' + id
+    let recipeData = {
+      itemID: 0,
+      name: '',
+      job:'',
+      itemIngredients: [],
+      amountResult:0
+    }
+    const response = await getResponseByUrl(url)
+
+    //素材データの格納
+    let ingredients = []
+    for (let i = 0; i < 10; i++) {
+      const amountIngredient = 'AmountIngredient' + i
+      const ItemIngredient = 'ItemIngredient' + i
+      if(response[amountIngredient] !== 0) {
+        const ingredientData = {
+          id: response[ItemIngredient].ID,
+          amount: response[amountIngredient],
+          name: response[ItemIngredient].Name_ja
+        }
+        ingredients.push(ingredientData)
+      }
+    }
+
+    //各データの格納
+    recipeData.name = response.Name_ja
+    recipeData.job = response.ClassJob.Name_ja
+    recipeData.amountResult = response.AmountResult
+    recipeData.itemIngredients = ingredients
+    return recipeData
   },
 
   /**
