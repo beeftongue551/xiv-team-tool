@@ -97,6 +97,10 @@ export default defineComponent({
       store.dispatch('recipe/updateRecipeData', recipeData)
     }
 
+    /**
+     * お気に入りアイテム切り替え機能
+     * @param id
+     */
     const changeFavorite = (id) => {
       if(userData.value.favoriteItemId.includes(id)) {
         userData.value.favoriteItemId = userData.value.favoriteItemId.filter((item) => {
@@ -105,8 +109,13 @@ export default defineComponent({
       } else {
         userData.value.favoriteItemId.push(id)
       }
+      store.dispatch('user/updateUserCharacter', userData.value)
     }
 
+    /**
+     * バインドされた要素の親コンポーネントはマウント解除される前に
+     * DB更新を行う
+     */
     onBeforeUnmount(() => {
       if(userData.value.id !== 0 && userData.value.favoriteItemId !== defaultFavorite) {
         updateUserCharacter(userData.value)
