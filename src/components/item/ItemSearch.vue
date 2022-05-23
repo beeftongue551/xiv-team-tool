@@ -4,7 +4,7 @@
       <v-container>
         <v-row >
           <v-col cols="12" md="5">
-            <v-text-field v-model="itemName" label="アイテム名" />
+            <v-text-field v-model="itemName" label="アイテム名" @keyup.prevent.enter.exact="itemSearch"/>
           </v-col>
           <v-col cols="12" md="5">
             <v-autocomplete v-model="dataCenter" :items="dataCenters" dense filled label="DC" @update:search="changedDataCenter"/>
@@ -50,7 +50,7 @@ export default defineComponent({
 
     const itemName = ref('')
     const dataCenters = ref(['Mana','Gaia','Elemental'])
-    const dataCenter = ref('')
+    const dataCenter = ref('Mana')
     let itemsData = ref([])
     let snackbar = ref(false)
 
