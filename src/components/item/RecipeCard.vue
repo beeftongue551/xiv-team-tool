@@ -1,20 +1,19 @@
 <template>
-  <div v-show="recipeData.name">
+  <div v-if="recipe.id">
     <v-card>
       <v-card-header>
-        <v-card-header-text>{{recipeData.name}}</v-card-header-text>
+        <v-card-header-text>{{recipe.itemName}}</v-card-header-text>
       </v-card-header>
-      <v-card-text>作成JOB {{recipeData.job}}</v-card-text>
+      <v-card-text class="text-left">
+        作成JOB {{recipe.job}}
+      </v-card-text>
       <v-table>
         <tbody>
-        <tr
-          v-for="itemIngredient in recipeData.itemIngredients"
-          :key="itemIngredient.name"
-        >
-          <td >{{itemIngredient.name}}</td>
-          <td>必要個数：{{itemIngredient.amountResult}}</td>
-          <td>必要ギル：{{itemIngredient.gill}}</td>
-        </tr>
+          <tr v-for="i in 10" :key="i" v-show="recipe['ingredient'+(i-1)]">
+            <td>{{recipe['ingredient' + (i-1) + 'Name']}}</td>
+            <td>必要個数: {{recipe['amountIngredient' + (i-1)]}}</td>
+            <td>必要ギル: {{recipe['ingredient' + (i-1) + 'Gill']}}</td>
+          </tr>
         </tbody>
       </v-table>
       <v-card-text>一つあたりの最小経費：{{gillParOne}} ギル</v-card-text>
@@ -29,41 +28,51 @@
 </template>
 
 <script>
-import {defineComponent, ref, watch} from "vue";
+import {defineComponent, ref, toRefs, watch} from "vue";
 import {useStore} from "vuex";
-import {getMarketByIDs} from "@/module/UniversalisApiModule";
 import SearchFailure from "@/components/SearchFailure";
+import {getItemById} from "@/module/BeefApi/ItemModule";
+import {getMarketByIDs} from "@/module/UniversalisApiModule";
+import XivIcon from "@/components/XivIcon";
 
 export default defineComponent({
   name: "RecipeCard",
-  components: {SearchFailure},
-  setup() {
+  // eslint-disable-next-line vue/no-unused-components
+  components: {XivIcon, SearchFailure},
+  props:['recipeData'],
+  setup(props) {
+    const { recipeData } = toRefs(props)
+
     const store = useStore()
-    let recipeData = ref({})
+    let recipe = ref({})
     let amount = ref(0)
     let gillParOne = ref(0)
     let snackbar = ref(false)
 
-    watch(() => store.getters['recipe/getRecipeData'],async (newVal) => {
+    watch(recipeData,async () => {
       store.dispatch('updateIsLoading', true)
-      recipeData.value = newVal
-      const itemIngredients = []
+
+      recipe.value = recipeData.value
       let totalGill = 0
-      if(recipeData.value === undefined ) {
-        store.dispatch('updateIsLoading', false)
-        return
+
+      recipe.value.itemName = (await getItemById(recipe.value.itemId)).itemName
+
+      for (let i = 0; i < 10; i++) {
+        const ingredientId = recipe.value['ingredient' + i]
+        if(ingredientId === 0) {
+          continue
+        }
+        const ingredientData = await getItemById(ingredientId)
+        recipe.value['ingredient' + i + 'Name'] = ingredientData.itemName
+        recipe.value['ingredient' + i + 'Icon'] = ingredientData.itemIcon
+        const ingredientMarketData = await getMarketByIDs([ingredientId], 'Mana')
+        recipe.value['ingredient' + i + 'Gill'] = ingredientMarketData.minPrice *  recipe.value['amountIngredient' + i]
+        totalGill += recipe.value['ingredient' + i + 'Gill']
       }
-      for (const itemIngredient of recipeData.value.itemIngredients) {
-        itemIngredient["amountResult"] = itemIngredient.amount
-        const marketData =  await getMarketByIDs([itemIngredient.id], 'Mana')
-        itemIngredient["gill"] = marketData.minPrice * itemIngredient.amountResult
-        totalGill += marketData.minPrice * itemIngredient.amountResult
-        itemIngredients.push(itemIngredient)
-      }
-      recipeData.value.itemIngredients = itemIngredients
-      amount.value = recipeData.value.amountResult
-      gillParOne.value = totalGill / amount.value
-      gillParOne.value = gillParOne.value.toFixed(0)
+
+      gillParOne.value = totalGill / recipe.value.amountResult
+      gillParOne.value = gillParOne.value.toFixed(1)
+
       store.dispatch('updateIsLoading', false)
     })
 
@@ -71,7 +80,7 @@ export default defineComponent({
      * 保持しているレシピ情報を削除し、レシピ表示を閉じる
      */
     const closeRecipe = () => {
-      recipeData.value = {}
+      recipe.value = {}
     }
 
     /**
@@ -82,8 +91,8 @@ export default defineComponent({
     }
 
     return {
+      recipe,
       amount,
-      recipeData,
       gillParOne,
       snackbar,
 

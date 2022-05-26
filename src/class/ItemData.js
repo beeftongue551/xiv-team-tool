@@ -26,6 +26,13 @@ export class ItemData {
     this.name = itemData.Name_ja
     this.icon = itemData.Icon
     this.itemLevel = itemData.LevelItem
+    if(marketData.listings.length === 0) {
+      this.minServer = 'None'
+      this.minPrice = 'None'
+      this.minPriceHQ = 'None'
+      this.averagePrice = 'None'
+      return
+    }
     this.minPrice = marketData.minPrice
     this.minPriceHQ = marketData.minPriceHQ
     this.averagePrice = marketData.averagePrice

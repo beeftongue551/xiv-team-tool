@@ -6,7 +6,7 @@
     <v-toolbar-title>XIVTeamSite</v-toolbar-title>
     <v-spacer />
     <EorzeaTime />
-    <v-btn to="/login" v-show="user.id===0">LOGIN</v-btn>
+<!--    <v-btn to="/login" v-show="user.id===0">LOGIN</v-btn>-->
     <v-btn icon="mdi-home" to="/" />
   </v-app-bar>
 
@@ -20,50 +20,50 @@
 
     <template v-slot:append>
       <div class="pa-2">
-        <v-btn
-          block
-          color="warning"
-          v-show="user.id !== 0 && user.teamId !== 0"
-          to="/team/display"
-        >
-          固定管理
-        </v-btn>
-        <v-btn
-          block
-          color="warning"
-          v-show="user.id !== 0 && user.teamId === 0"
-          to="/team/edit"
-        >
-          固定作成
-        </v-btn>
-        <v-label v-show="user.id !== 0 && user.teamId === 0" />
-        <v-btn
-          block
-          color="warning"
-          v-show="user.id !== 0 && user.teamId === 0"
-          to="/team/entry"
-        >
-          固定参加
-        </v-btn>
+<!--        <v-btn-->
+<!--          block-->
+<!--          color="warning"-->
+<!--          v-show="user.id !== 0 && user.teamId !== 0"-->
+<!--          to="/team/display"-->
+<!--        >-->
+<!--          固定管理-->
+<!--        </v-btn>-->
+<!--        <v-btn-->
+<!--          block-->
+<!--          color="warning"-->
+<!--          v-show="user.id !== 0 && user.teamId === 0"-->
+<!--          to="/team/edit"-->
+<!--        >-->
+<!--          固定作成-->
+<!--        </v-btn>-->
+<!--        <v-label v-show="user.id !== 0 && user.teamId === 0" />-->
+<!--        <v-btn-->
+<!--          block-->
+<!--          color="warning"-->
+<!--          v-show="user.id !== 0 && user.teamId === 0"-->
+<!--          to="/team/entry"-->
+<!--        >-->
+<!--          固定参加-->
+<!--        </v-btn>-->
 
-        <v-label />
-        <v-btn
-          block
-          color="error"
-          @click="logout"
-          v-show="user.id !== 0"
-          to="/"
-        >
-          Logout
-        </v-btn>
-        <v-btn
-          block
-          color="warning"
-          v-show="user.id === 0"
-          to="/sign-up"
-        >
-          アカウント作成
-        </v-btn>
+<!--        <v-label />-->
+<!--        <v-btn-->
+<!--          block-->
+<!--          color="error"-->
+<!--          @click="logout"-->
+<!--          v-show="user.id !== 0"-->
+<!--          to="/"-->
+<!--        >-->
+<!--          Logout-->
+<!--        </v-btn>-->
+<!--        <v-btn-->
+<!--          block-->
+<!--          color="warning"-->
+<!--          v-show="user.id === 0"-->
+<!--          to="/sign-up"-->
+<!--        >-->
+<!--          アカウント作成-->
+<!--        </v-btn>-->
       </div>
     </template>
   </v-navigation-drawer>

@@ -15,5 +15,15 @@ module.exports = {
     url = url.slice(0, -1)
     url += '?listings=1&entries=0'
     return await getResponseByUrl(url)
+  },
+
+  /**
+   * マーケット取引可能アイテムのIDを取得する
+   *
+   * @return {Promise<*>}
+   */
+  async getMarketableItemIds() {
+    const url = 'https://universalis.app/api/marketable'
+    return await getResponseByUrl(url)
   }
 }

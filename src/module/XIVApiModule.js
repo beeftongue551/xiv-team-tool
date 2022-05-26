@@ -36,6 +36,21 @@ module.exports = {
     return await getResponseByUrl(url)
   },
 
+  async getItemByPage(page = 1) {
+    const url = XIV_API_URL + 'item?language=ja&page=' +page
+    return await getResponseByUrl(url)
+  },
+
+  /**
+   * XIVAPIでアイテムIDからアイテム情報を取得する
+   * @param itemId
+   * @return {Promise<void>}
+   */
+  async getItemByIdInXivApi(itemId) {
+    const url = XIV_API_URL + 'item/' + itemId
+    return await getResponseByUrl(url)
+  },
+
   /**
    * XIVAPIでアイテム名からレシピの一覧を獲得する
    * @param itemName
@@ -49,38 +64,19 @@ module.exports = {
   /**
    * XIVAPIでレシピIDからレシピを取得する
    */
-  async getRecipeById(id) {
+  async getRecipeByIdInXivApi(id) {
     const url = XIV_API_URL + 'recipe/' + id
-    let recipeData = {
-      itemID: 0,
-      name: '',
-      job:'',
-      itemIngredients: [],
-      amountResult:0
-    }
-    const response = await getResponseByUrl(url)
+    return await getResponseByUrl(url)
+  },
 
-    //素材データの格納
-    let ingredients = []
-    for (let i = 0; i < 10; i++) {
-      const amountIngredient = 'AmountIngredient' + i
-      const ItemIngredient = 'ItemIngredient' + i
-      if(response[amountIngredient] !== 0) {
-        const ingredientData = {
-          id: response[ItemIngredient].ID,
-          amount: response[amountIngredient],
-          name: response[ItemIngredient].Name_ja
-        }
-        ingredients.push(ingredientData)
-      }
-    }
-
-    //各データの格納
-    recipeData.name = response.Name_ja
-    recipeData.job = response.ClassJob.Name_ja
-    recipeData.amountResult = response.AmountResult
-    recipeData.itemIngredients = ingredients
-    return recipeData
+  /**
+   * XIVAPIで全レシピ一覧を取得する
+   *
+   * @return {Promise<*>}
+   */
+  async getAllRecipe(page = 1) {
+    const url = XIV_API_URL + 'recipe?language=ja&page=' +page
+    return await getResponseByUrl(url)
   },
 
   /**
@@ -134,4 +130,44 @@ module.exports = {
     recipeData.itemIngredients = ingredients
     return recipeData
   },
+
+  /**
+   * XIVAPIでジョブ情報を取得する
+   * @param id
+   * @return {Promise<*>}
+   */
+  async getJobById(id) {
+    const url = XIV_API_URL + 'ClassJob/' + id
+    return await getResponseByUrl(url)
+  },
+
+  /**
+   * 全ジョブの簡易情報を取得する
+   * @return {Promise<*>}
+   */
+  async getAllJob() {
+    const url = XIV_API_URL + 'ClassJob'
+    return await getResponseByUrl(url)
+  },
+
+  /**
+   * XIVAPIでカテゴリ情報を取得する
+   *
+   * @param id カテゴリID
+   * @return {Promise<*>} カテゴリ情報
+   */
+  async getJobCategoryById(id) {
+    const url = XIV_API_URL + 'ClassJobCategory/' + id
+    return await getResponseByUrl(url)
+  },
+
+  /**
+   * 全カテゴリ情報を取得する
+   *
+   * @return {Promise<*>}
+   */
+  async getAllJobCategory(page=1) {
+    const url = XIV_API_URL + 'ClassJobCategory?page=' + page
+    return await getResponseByUrl(url)
+  }
 }

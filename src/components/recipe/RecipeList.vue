@@ -19,7 +19,7 @@
 import {defineComponent, onMounted, ref, watch} from "vue"
 import XivIcon from "@/components/XivIcon";
 import {useStore} from "vuex";
-import {getRecipeById} from "@/module/XIVApiModule";
+import {getRecipeByIdInXivApi} from "@/module/XIVApiModule";
 
 export default defineComponent({
   name: "RecipeList",
@@ -51,7 +51,7 @@ export default defineComponent({
      * @return {Promise<void>}
      */
     const openRecipe = async (id) => {
-      const recipeData = await getRecipeById(id)
+      const recipeData = await getRecipeByIdInXivApi(id)
       store.dispatch('recipe/updateRecipeData', recipeData)
     }
 

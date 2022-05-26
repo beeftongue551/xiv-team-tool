@@ -1,14 +1,66 @@
 <template>
   <div>
-    <v-expansion-panels variant="accordion">
+    <v-expansion-panels variant="accordion" v-if="items !== {}">
       <v-expansion-panel
-        v-for="itemData in itemsData"
-        :key="itemData.id"
+        v-for="item in items"
+        :key="item.itemData.id"
       >
-        <v-expansion-panel-title>
-          {{itemData.name}}
-          <v-spacer />
-          IL: {{itemData.itemLevel}}
+        <v-expansion-panel-title
+          collapse-icon="mdi-store"
+        >
+          <v-row no-gutters>
+            <v-col
+              cols="12"
+              sm="1"
+              class="d-flex align-center"
+            >
+              <XivIcon :icon="item.itemData.itemIcon" size="40" debug="true" />
+            </v-col>
+            <v-col
+              cols="12"
+              sm="11"
+            >
+              <v-row no-gutters>
+                <v-col
+                  cols="12"
+                  sm="8"
+                  class="d-flex align-center"
+                >
+                  <h4>{{item.itemData.itemName}}</h4>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="2"
+                  class="d-flex align-center"
+                >
+                  IL: {{item.itemData.itemLevel}}
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="2"
+                  class="d-flex align-center"
+                >
+                  装備LV: {{item.itemData.equipmentLevel}}
+                </v-col>
+              </v-row>
+              <br>
+              <v-row no-gutters>
+                <v-col
+                  cols="12"
+                  sm="8"
+                  class="d-flex align-center"
+                >
+                  {{item.itemData.itemCategory}}
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  class="text-right">
+                  {{item.itemData.jobCategoryName}}
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <v-container>
@@ -17,19 +69,20 @@
                 cols="12"
                 sm="4"
               >
-                更新時間: {{itemData.lastUploadTime}}
+                最安値：{{item.marketData.minPrice}}
               </v-col>
               <v-col
                   cols="12"
                   sm="4"
               >
-                最安値：{{itemData.minPrice}}
+                販売サーバー：{{item.marketData.listings[0].worldName}}
               </v-col>
               <v-col
                   cols="12"
                   sm="4"
+                  v-if="item.marketData.minPriceHQ"
               >
-                販売サーバー：{{itemData.minServer}}
+                HQ最安値：{{item.marketData.minPriceHQ}}
               </v-col>
             </v-row>
             <v-row no-gutters>
@@ -37,19 +90,19 @@
                   cols="12"
                   sm="4"
               >
-                平均値：{{itemData.averagePrice}}
+                平均値：{{item.marketData.averagePrice}}
               </v-col>
               <v-col
                   cols="12"
                   sm="4"
               >
-                HQ最安値：{{itemData.minPriceHQ}}
+
               </v-col>
               <v-col
                 cols="12"
                 sm="4"
               >
-                <v-btn color="secondary" @click="openRecipe(itemData.id)">
+                <v-btn color="secondary" @click="openRecipe(item.itemData.recipeId)" v-if="item.itemData.recipeId">
                   レシピ検索
                   <v-icon
                   large
@@ -61,10 +114,10 @@
               </v-col>
             </v-row>
           </v-container>
-          <FavoriteStar
-            :favorite="userData.favoriteItemId.includes(itemData.id)"
-            @click="changeFavorite(itemData.id)"
-            v-if="userData.id !==0" />
+            <v-row no-gutters>
+              <v-spacer />
+              <v-label>更新時間: {{item.marketData.lastUploadTime}}</v-label>
+            </v-row>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -72,61 +125,51 @@
 </template>
 
 <script>
-import {computed, defineComponent, watch, ref, onBeforeUnmount} from "vue";
-import {useStore} from "vuex";
-import {getRecipeByItemID} from "@/module/XIVApiModule";
-import FavoriteStar from "@/components/FavoriteStar";
-import {updateUserCharacter} from "@/module/BeefApiModule";
+import {defineComponent, ref, toRefs, watch} from "vue";
+import XivIcon from "@/components/XivIcon";
+import dayjs from "dayjs";
+import {getRecipeByRecipeId} from "@/module/BeefApi/RecipeModule";
 
 export default defineComponent({
   name: "ItemList",
-  components: {FavoriteStar},
-  setup () {
-    const store = useStore()
-    const userData = ref(store.getters["user/getUserCharacter"])
-    const defaultFavorite = userData.value.favoriteItemId
-    watch(() => store.getters['item/getItemsData'])
+  // eslint-disable-next-line vue/no-unused-components
+  components: {XivIcon},
+  props: ['itemsData'],
+  setup (props, { emit }) {
+    const { itemsData } = toRefs(props)
 
-    /**
-     * レシピ情報の検索を行い、レシピ情報をストアに格納する処理
-     * @param {number} id
-     * @return {Promise<void>}
-     */
-    const openRecipe = async (id) => {
-      const recipeData = await getRecipeByItemID(id)
-      store.dispatch('recipe/updateRecipeData', recipeData)
-    }
+    const items = ref({})
 
-    /**
-     * お気に入りアイテム切り替え機能
-     * @param id
-     */
-    const changeFavorite = (id) => {
-      if(userData.value.favoriteItemId.includes(id)) {
-        userData.value.favoriteItemId = userData.value.favoriteItemId.filter((item) => {
-          return item !== id
-        })
-      } else {
-        userData.value.favoriteItemId.push(id)
-      }
-      store.dispatch('user/updateUserCharacter', userData.value)
-    }
-
-    /**
-     * バインドされた要素の親コンポーネントはマウント解除される前に
-     * DB更新を行う
-     */
-    onBeforeUnmount(() => {
-      if(userData.value.id !== 0 && userData.value.favoriteItemId !== defaultFavorite) {
-        updateUserCharacter(userData.value)
+    watch(itemsData, () => {
+      items.value = itemsData.value
+      for (let i = 0; i < items.value.length; i++) {
+        if(items.value[i].marketData === undefined) {
+          continue
+        }
+        const date = dayjs(items.value[i].marketData.lastUploadTime)
+        items.value[i].marketData.lastUploadTime = date.format('YYYY-MM-DD HH:mm:ss')
+        // 出品情報がない場合
+        if(items.value[i].marketData.listings.length === 0) {
+          items.value[i].marketData.listings.push({worldName:'None'})
+          items.value[i].marketData.minPrice = 'None'
+          items.value[i].marketData.averagePrice = 'None'
+        }
       }
     })
 
-    return {
-      itemsData: computed(() => store.getters['item/getItemsData']),
-      userData,
+    /**
+     * レシピ情報の検索を行い、レシピ情報をストアに格納する処理
+     * @param {number} id アイテムID
+     * @return {Promise<void>}
+     */
+    const openRecipe = async (id) => {
+      const recipeData = await getRecipeByRecipeId(id)
+      emit('update-recipe', recipeData)
+    }
 
-      changeFavorite,
+
+    return {
+      items,
       openRecipe
     }
   }

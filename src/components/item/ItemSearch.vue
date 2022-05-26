@@ -36,16 +36,15 @@
 <script>
 import {defineComponent} from "vue";
 import {ref} from "vue";
-import {getItemByName} from "@/module/XIVApiModule";
 import {useStore} from "vuex";
-import {getMarketByIDs} from "@/module/UniversalisApiModule";
-import {ItemData} from "@/class/ItemData";
 import SearchFailure from "@/components/SearchFailure";
+import {getMarketableItemByName} from "@/module/BeefApi/ItemModule";
+import {getMarketByIDs} from "@/module/UniversalisApiModule";
 
 export default defineComponent({
   name: "ItemSearch",
   components: {SearchFailure},
-  setup() {
+  setup(props, { emit }) {
     const store = useStore()
 
     const itemName = ref('')
@@ -59,6 +58,8 @@ export default defineComponent({
      * @return {Promise<void>}
      */
     const itemSearch = async () => {
+      store.dispatch('updateIsLoading', true)
+
       //入力不備がある場合の処理
       if(itemName.value === '' || dataCenter.value === ''){
         snackbar.value = true
@@ -66,30 +67,32 @@ export default defineComponent({
       }
       snackbar.value = false
 
-      store.dispatch('updateIsLoading', true)
-      const xivResponse = await getItemByName(itemName.value)
-      const xivItemData = xivResponse.Results
+      const marketableItemData = await getMarketableItemByName(itemName.value)
+
       let itemIDs = []
-      xivItemData.forEach((item) =>{
-        itemIDs.push(item.ID)
+      marketableItemData.forEach((item) =>{
+        itemIDs.push(item.id)
       })
       const marketData = await getMarketByIDs(itemIDs, dataCenter.value)
       let itemsData = []
-      // storeの初期化
-      store.dispatch('item/updateItemsData', itemsData)
-      xivItemData.forEach((itemData) => {
-        //複数のアイテムでマーケット情報があるものを処理する
-        if(marketData.items!== undefined && marketData.items[itemData.ID] !== undefined) {
-          //必要なデータを格納する
-          itemsData.push(new ItemData(itemData, marketData.items[itemData.ID]))
-        } else if (marketData.items === undefined && marketData.itemID === itemIDs[0]) {
-          //単一のアイテムでマーケット情報があるものを処理する
-          itemsData.push(new ItemData(itemData,marketData))
+
+      marketableItemData.forEach((itemData) => {
+
+        // 複数アイテムの場合は一致するアイテムのマーケットデータをともに格納する
+        if(marketData.items !== undefined) {
+          itemsData.push({
+            itemData: itemData,
+            marketData: marketData.items[itemData.id]
+          })
+        } else {
+          itemsData.push({
+            itemData: itemData,
+            marketData: marketData
+          })
         }
       })
-      // storeにデータを格納する
-      store.dispatch('pagination/updatePagination', xivResponse.Pagination)
-      store.dispatch('item/updateItemsData', itemsData)
+      //親コンポーネントに各アイテムデータを渡す
+      emit('update-items', itemsData)
       store.dispatch('updateIsLoading', false)
     }
 
@@ -99,7 +102,7 @@ export default defineComponent({
       dataCenter,
       itemsData,
       snackbar,
-      itemSearch
+      itemSearch,
     }
   }
 })

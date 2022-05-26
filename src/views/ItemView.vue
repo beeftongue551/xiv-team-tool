@@ -1,31 +1,38 @@
 <template>
   <div>
     <h1>ItemSearch</h1>
-    <ItemSearch />
-    <RecipeCard />
-    <ItemList />
+    <ItemSearch @update-items="getItemsData"/>
+    <RecipeCard :recipe-data="recipeData" />
+    <ItemList :items-data="itemsData" @update-recipe="getRecipeData" />
   </div>
 </template>
 
 <script>
-import {defineComponent} from "vue";
+import {defineComponent, ref} from "vue";
 import ItemSearch from "@/components/item/ItemSearch";
 import RecipeCard from "@/components/item/RecipeCard";
 import ItemList from "@/components/item/ItemList";
-import {useStore} from "vuex";
-import {computed, onMounted} from "vue";
 
 export default defineComponent({
   name: "ItemView",
   components: {ItemList, RecipeCard, ItemSearch},
   setup() {
-    const store = useStore()
-    onMounted(()=> {
-      store.dispatch('item/updateItemsData', {})
-    })
+    const itemsData = ref([])
+    const recipeData = ref({})
+
+    const getItemsData = (...updateItems) => {
+      itemsData.value = updateItems[0]
+    }
+
+    const getRecipeData = (...updateRecipe) => {
+      recipeData.value = updateRecipe[0]
+    }
 
     return {
-      itemsData: computed(() => store.getters['item/getItemsData'])
+      itemsData,
+      recipeData,
+      getItemsData,
+      getRecipeData
     }
   }
 })

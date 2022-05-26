@@ -1,5 +1,7 @@
 <template>
-  <v-img :src=srcUrl width="32" v-show="!debug"></v-img>
+  <v-avatar rounded="0">
+    <v-img :src=srcUrl :height=size v-show="!debug"></v-img>
+  </v-avatar>
 </template>
 
 <script>
@@ -8,7 +10,7 @@ import {XIV_API_URL} from "@/module/ModuleType";
 
 export default defineComponent({
   name: "XivIcon",
-  props: ['icon', 'debug'],
+  props: ['icon', 'size' ,'debug'],
   setup(props) {
 
     const srcUrl = ref('')

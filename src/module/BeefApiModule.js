@@ -195,4 +195,14 @@ module.exports = {
   },
 
   /* ここまで */
+
+  async addJob(jobData) {
+    const url = DEBUG_API_URL + 'job'
+    return await postResponseByUrl(url, jobData)
+  },
+
+  async addJobCategory(categoryData) {
+    const url = DEBUG_API_URL + 'category'
+    return await postResponseByUrl(url, categoryData)
+  }
 }
