@@ -27,6 +27,22 @@ module.exports = {
     return await getResponseByUrl(url)
   },
 
+  async getMarketableItemByNameAndJobAndLevel(itemName, jobAbbreviation, jobLevel) {
+    if(itemName !== '' && jobAbbreviation !== '') {
+      const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/job/' + jobAbbreviation + '/level/' + jobLevel
+      return await getResponseByUrl(url)
+    }else if(itemName !== '' && jobAbbreviation === '') {
+      const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/level/' + jobLevel
+      return await getResponseByUrl(url)
+    } else if(itemName === '' &&jobAbbreviation !== '') {
+      const url = DEBUG_API_URL + 'item/marketable/job/' + jobAbbreviation + '/level/' + jobLevel
+      return await getResponseByUrl(url)
+    } else {
+      const url = DEBUG_API_URL + 'item/marketable/level/' + jobLevel
+      return await getResponseByUrl(url)
+    }
+  },
+
   /**
    * アイテムIDが一致するアイテムをマーケット取引可能とする
    *
