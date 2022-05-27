@@ -17,8 +17,12 @@ export default defineComponent({
 
     onMounted(() => {
       srcUrl.value = XIV_API_URL + props.icon
+      console.log(srcUrl.value)
     })
-    watch(props, () => {srcUrl.value = XIV_API_URL + props.icon})
+    watch(props, () => {
+      srcUrl.value = XIV_API_URL + props.icon
+      console.log(srcUrl.value)
+    })
 
     return {
       srcUrl

@@ -34,5 +34,6 @@ export default defineComponent ({
 
 <style>
 @import "https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css";
+@import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 </style>
 

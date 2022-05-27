@@ -3,7 +3,7 @@
       color="primary"
   >
     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-    <v-toolbar-title>XIVTeamSite</v-toolbar-title>
+    <v-toolbar-title>SmartMarketXIV</v-toolbar-title>
     <v-spacer />
     <EorzeaTime />
 <!--    <v-btn to="/login" v-show="user.id===0">LOGIN</v-btn>-->
@@ -16,7 +16,7 @@
   >
     <v-list-item prepend-icon="mdi-home" title="Home" value="Home" to="/" />
     <v-divider />
-    <v-list-item prepend-icon="mdi-store" title="アイテム検索" value="アイテム検索" to="/item"/>
+    <v-list-item prepend-icon="mdi-store" title="マーケット検索" value="マーケット検索" to="/item"/>
 
     <template v-slot:append>
       <div class="pa-2">

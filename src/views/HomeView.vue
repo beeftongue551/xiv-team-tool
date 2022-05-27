@@ -29,16 +29,10 @@ export default defineComponent({
 
     const characterCardData = [
       {
-        title: 'アイテム検索',
+        title: 'マーケット検索',
         text: 'アイテムを検索して各DCのマーケット状況を見たい場合はこちら',
         jump: '/item',
-        icon: 'mdi-magnify'
-      },
-      {
-        title: 'レシピ検索',
-        text: 'レシピを検索して素材の必要数と金額の概算を確認したい場合はこちら',
-        jump: '/recipe',
-        icon: 'mdi-hammer-wrench'
+        icon: 'mdi-store'
       }
     ]
 

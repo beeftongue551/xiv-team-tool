@@ -20,7 +20,6 @@
       <v-card-actions>
         <v-btn color="error" @click="closeRecipe">close</v-btn>
         <v-spacer />
-        <v-btn color="warning" @click="detailRecipe">詳細レシピ</v-btn>
       </v-card-actions>
     </v-card>
     <SearchFailure :is-open="snackbar" msg="未実装の機能です"/>

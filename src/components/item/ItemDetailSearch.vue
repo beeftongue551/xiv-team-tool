@@ -3,14 +3,6 @@
       <v-row fluid fill-height>
         <v-col
           cols="12"
-          sm="1"
-        >
-          <div class="d-flex align-center">
-            <XivIcon :icon="jobIcon" size="30"/>
-          </div>
-        </v-col>
-        <v-col
-          cols="12"
           sm="8"
         >
           <v-select label="ジョブ/クラス" :items="jobs" v-model="jobSelect" @update:modelValue="updateSelect"/>
@@ -24,9 +16,10 @@
             label="レベル"
             v-model="jobLevel"
             max="90"
+            min="1"
             maxlength="2"
             @update:modelValue="updateNumber"
-            @keyup.prevent.enter.exact="testEnter"
+            @keyup.prevent.enter.exact="pushEnter"
           />
         </v-col>
       </v-row>
@@ -36,11 +29,10 @@
 <script>
 import {defineComponent, onMounted, reactive, ref} from "vue"
 import {getAllJob} from "@/module/BeefApi/JobModule";
-import XivIcon from "@/components/XivIcon";
 
 export default defineComponent({
   name: "ItemDetailSearch",
-  components: {XivIcon},
+  components: {},
   setup(props, { emit }) {
     const jobSelect = ref('')
     const jobsData = ref({})
@@ -76,8 +68,8 @@ export default defineComponent({
 
     const updateNumber = () => {
       jobLevel.value = parseInt(jobLevel.value)
-      if(Number.isNaN(jobLevel) || jobLevel.value < 0) {
-        jobLevel.value = 0
+      if(Number.isNaN(jobLevel) || jobLevel.value <= 0 || isNaN(jobLevel.value)) {
+        jobLevel.value = 1
       }
       if(jobLevel.value > 90) {
         jobLevel.value = 90
@@ -89,7 +81,8 @@ export default defineComponent({
       emit('detail-update', jobAbbreviation, jobLevel.value)
     }
 
-    const testEnter = () => {
+    const pushEnter = () => {
+      emit('push-enter')
     }
 
     return {
@@ -100,7 +93,7 @@ export default defineComponent({
       updateSelect,
       updateNumber,
       updateInput,
-      testEnter
+      pushEnter
     }
   }
 })

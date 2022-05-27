@@ -27,16 +27,12 @@
             </v-btn>
           </v-col>
         </v-row>
-        <v-expansion-panels>
-          <v-expansion-panel @click="openPanel" v-model="openPanels">
-            <v-expansion-panel-title>
-              <label class="text-orange-darken-2">詳細検索</label>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <ItemDetailSearch @detail-update="updateDetailInput"/>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
+        <v-row>
+          <v-col>
+            <v-switch color="orange" label="装備詳細検索" inset v-model="isDetail" />
+          </v-col>
+          <ItemDetailSearch @detail-update="updateDetailInput" @push-enter="itemSearch" v-show="isDetail"/>
+        </v-row>
       </v-container>
     </v-form>
     <SearchFailure :is-open="snackbar" msg="値を入力してください"/>
@@ -63,7 +59,6 @@ export default defineComponent({
     const dataCenter = ref('Mana')
     let itemsData = ref([])
     const isDetail = ref(false)
-    const openPanels = ref([])
     let snackbar = ref(false)
 
     let jobAbbreviation = ''
@@ -76,7 +71,7 @@ export default defineComponent({
     const itemSearch = async () => {
       store.dispatch('updateIsLoading', true)
 
-      if(openPanels.value.length !== 0) {
+      if(isDetail.value) {
         await detailSearch()
         store.dispatch('updateIsLoading', false)
         return
@@ -117,14 +112,6 @@ export default defineComponent({
       //親コンポーネントに各アイテムデータを渡す
       emit('update-items', itemsData)
       store.dispatch('updateIsLoading', false)
-    }
-    
-    const openPanel = () => {
-      if(openPanels.value.length === 0) {
-        openPanels.value.push('詳細検索')
-      } else {
-        openPanels.value = []
-      }
     }
 
     const updateDetailInput = (...inputValue) => {
@@ -168,10 +155,8 @@ export default defineComponent({
       itemsData,
       snackbar,
       isDetail,
-      openPanels,
       itemSearch,
       updateDetailInput,
-      openPanel
     }
   }
 })
