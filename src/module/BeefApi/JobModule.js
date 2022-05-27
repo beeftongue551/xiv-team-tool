@@ -1,9 +1,9 @@
-const {DEBUG_API_URL} = require("@/module/ModuleType");
 const {getResponseByUrl} = require("@/module/UrlModule");
+const {BEEF_API_URL} = require("@/module/ModuleType");
 
 module.exports = {
   async getAllJob() {
-    const url = DEBUG_API_URL + 'job'
+    const url = BEEF_API_URL + 'job'
     return getResponseByUrl(url)
   }
 }

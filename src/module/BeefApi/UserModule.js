@@ -4,7 +4,7 @@ const {getResponseByUrl} = require("@/module/UrlModule");
 
 module.exports = {
   async getUserById(userId) {
-    const url = DEBUG_API_URL + 'character/id/' + userId
+    const url = BEEF_API_URL + 'character/id/' + userId
     return await getResponseByUrl(url)
   }
 }

@@ -12,36 +12,36 @@
           >
             <v-row no-gutters @click="onClickTitle(item.itemData.id)">
               <v-col
-                cols="12"
+                cols="1"
                 sm="1"
                 class="d-flex align-center"
               >
-                <XivIcon :icon="item.itemData.itemIcon" size="40" debug="true" />
+                <XivIcon :icon="item.itemData.itemIcon" size="40"/>
               </v-col>
               <v-col
-                cols="12"
+                cols="11"
                 sm="11"
               >
                 <v-row no-gutters>
                   <v-col
-                    cols="12"
+                    cols="8"
                     sm="8"
                   >
                     <h4>{{item.itemData.itemName}}</h4>
                   </v-col>
                   <v-col
-                    cols="12"
+                    cols="2"
                     sm="2"
-                    class="d-flex align-center"
+                    class="text-center"
                   >
                     IL: {{item.itemData.itemLevel}}
                   </v-col>
                   <v-col
-                    cols="12"
+                    cols="2"
                     sm="2"
                     class="text-right"
                   >
-                    装備LV: {{item.itemData.equipmentLevel}}
+                    LV: {{item.itemData.equipmentLevel}}
                   </v-col>
                 </v-row>
                 <v-row no-gutters>
@@ -56,7 +56,7 @@
                   <v-col
                     cols="12"
                     sm="8"
-                    class="text-right">
+                    class="align-center text-right">
                     {{item.itemData.jobCategoryName}}
                   </v-col>
                 </v-row>
@@ -88,18 +88,18 @@
                   </v-row>
                   <v-row no-gutters>
                     <v-col
-                      cols="12"
+                      cols="7"
                       sm="4"
                     >
-                      HQ最安値：{{item.marketData.minPriceHQ}}
+                      平均価格：{{item.marketData.averagePrice}}
                     </v-col>
                     <v-col
-                      cols="12"
+                      cols="1"
                       sm="4"
                     >
                     </v-col>
                     <v-col
-                      cols="12"
+                      cols="4"
                       sm="4"
                     >
                       <v-btn color="secondary" @click="openRecipe(item.itemData.recipeId)" v-if="item.itemData.recipeId">
@@ -113,11 +113,11 @@
                       </v-btn>
                     </v-col>
                   </v-row>
-                  <v-row no-gutters>
-                    <v-spacer />
-                    <v-label>更新時間: {{item.marketData.lastUploadTime}}</v-label>
-                  </v-row>
                 </v-container>
+                <v-row no-gutters>
+                  <v-spacer />
+                  <v-label>更新時間: {{item.marketData.lastUploadTime}}</v-label>
+                </v-row>
               </div>
             </transition>
           </v-card>
@@ -195,7 +195,7 @@ export default defineComponent({
   opacity: 0;
 }
 .fade-enter-active {
-  transition: opacity 3s;
+  transition: opacity 0.2s;
 }
 .fade-enter-to {
   opacity: 1;

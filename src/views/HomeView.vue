@@ -6,7 +6,7 @@
 <!--        cover-->
 <!--    ></v-img>-->
     <div class="explanation">
-      <label class="explanation-text"><strong>XIVTeamSite</strong>はプレイヤーを手助けする便利サイトを目指して作成されているサイトです。</label>
+      <label class="explanation-text"><strong>SmartMarketXIV</strong>はプレイヤーを手助けする便利サイトを目指して作成されているサイトです。</label>
     </div>
     <HomeCards :cards-data="characterCardData" />
     <div class="d-flex justify-space-around">

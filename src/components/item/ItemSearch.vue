@@ -2,37 +2,43 @@
   <div>
     <v-form>
       <v-container>
-        <v-row >
+        <v-row>
           <v-col cols="12" md="5">
-            <v-text-field autofocus="true" v-model="itemName" label="アイテム名" @keyup.prevent.enter.exact="itemSearch"/>
+            <v-text-field
+              autofocus="true"
+              v-model="itemName"
+              label="アイテム名"
+              @keyup.prevent.enter.exact="itemSearch"
+            />
           </v-col>
-          <v-col cols="12" md="5">
-            <v-autocomplete v-model="dataCenter" :items="dataCenters" dense filled label="DC" @update:search="changedDataCenter"/>
-          </v-col>
-          <v-col cols="12" md="2">
-            <v-btn
-                class="mx-2"
-                fab
-                dark
-                color="teal"
-                @click="itemSearch"
-            >
-              <v-icon
-                  large
+          <v-col cols="12" md="5" >
+            <v-select v-model="dataCenter" :items="dataCenters" dense filled label="DC" @update:search="changedDataCenter">
+              <template v-slot:append>
+                <v-btn
+                  class="mx-2"
+                  fab
                   dark
-                  color="white"
-              >
-                mdi-magnify
-              </v-icon>
-            </v-btn>
+                  color="teal"
+                  @click="itemSearch"
+                >
+                  <v-icon
+                    large
+                    dark
+                    color="white"
+                  >
+                    mdi-magnify
+                  </v-icon>
+                </v-btn>
+              </template>
+            </v-select>
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="2">
             <v-switch color="orange" label="装備詳細検索" inset v-model="isDetail" />
           </v-col>
-          <ItemDetailSearch @detail-update="updateDetailInput" @push-enter="itemSearch" v-show="isDetail"/>
         </v-row>
+        <ItemDetailSearch @detail-update="updateDetailInput" @push-enter="itemSearch" v-show="isDetail"/>
       </v-container>
     </v-form>
     <SearchFailure :is-open="snackbar" msg="値を入力してください"/>
@@ -47,6 +53,7 @@ import SearchFailure from "@/components/SearchFailure";
 import {getMarketableItemByName, getMarketableItemByNameAndJobAndLevel} from "@/module/BeefApi/ItemModule";
 import {getMarketByIDs} from "@/module/UniversalisApiModule";
 import ItemDetailSearch from "@/components/item/ItemDetailSearch";
+
 
 export default defineComponent({
   name: "ItemSearch",

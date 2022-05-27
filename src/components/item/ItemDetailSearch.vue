@@ -2,13 +2,13 @@
     <v-container>
       <v-row fluid fill-height>
         <v-col
-          cols="12"
+          cols="8"
           sm="8"
         >
-          <v-select label="ジョブ/クラス" :items="jobs" v-model="jobSelect" @update:modelValue="updateSelect"/>
+          <v-select label="ジョブ/クラス" :items="jobs" v-model="jobSelect" @update:modelValue="updateSelect" />
         </v-col>
         <v-col
-          cols="12"
+          cols="2"
           sm="2"
         >
           <v-text-field

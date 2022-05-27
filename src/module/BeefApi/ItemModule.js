@@ -12,7 +12,7 @@ module.exports = {
    * @return {Promise<*>} アイテム情報
    */
   async getItemById(itemId) {
-    const url = DEBUG_API_URL + 'item/id/' + itemId
+    const url = BEEF_API_URL + 'item/id/' + itemId
     return await getResponseByUrl(url)
   },
 
@@ -23,22 +23,22 @@ module.exports = {
    * @return {Promise<*>} アイテム情報
    */
   async getMarketableItemByName(itemName) {
-    const url = DEBUG_API_URL + 'item/marketable/name/' + itemName
+    const url = BEEF_API_URL + 'item/marketable/name/' + itemName
     return await getResponseByUrl(url)
   },
 
   async getMarketableItemByNameAndJobAndLevel(itemName, jobAbbreviation, jobLevel) {
     if(itemName !== '' && jobAbbreviation !== '') {
-      const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/job/' + jobAbbreviation + '/level/' + jobLevel
+      const url = BEEF_API_URL + 'item/marketable/name/' + itemName + '/job/' + jobAbbreviation + '/level/' + jobLevel
       return await getResponseByUrl(url)
     }else if(itemName !== '' && jobAbbreviation === '') {
-      const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/level/' + jobLevel
+      const url = BEEF_API_URL + 'item/marketable/name/' + itemName + '/level/' + jobLevel
       return await getResponseByUrl(url)
     } else if(itemName === '' &&jobAbbreviation !== '') {
-      const url = DEBUG_API_URL + 'item/marketable/job/' + jobAbbreviation + '/level/' + jobLevel
+      const url = BEEF_API_URL + 'item/marketable/job/' + jobAbbreviation + '/level/' + jobLevel
       return await getResponseByUrl(url)
     } else {
-      const url = DEBUG_API_URL + 'item/marketable/level/' + jobLevel
+      const url = BEEF_API_URL + 'item/marketable/level/' + jobLevel
       return await getResponseByUrl(url)
     }
   },
@@ -50,7 +50,7 @@ module.exports = {
    * @return {Promise<*>}
    */
   async updateItemByMarketFlg(itemId) {
-    const url = DEBUG_API_URL + 'item/marketable/' +itemId
+    const url = BEEF_API_URL + 'item/marketable/' +itemId
     return await getResponseByUrl(url)
   },
 
@@ -61,7 +61,7 @@ module.exports = {
    * @return {Promise<number>} 成功時: 1, 失敗時: -1
    */
   async addItem(itemData) {
-    const url = DEBUG_API_URL + 'item'
+    const url = BEEF_API_URL + 'item'
     return await postResponseByUrl(url, itemData)
   },
 
@@ -94,7 +94,7 @@ module.exports = {
             addItemData.classJobCategoryId = 0
           }
           if(addItemData.itemName.charAt(0) !== '†' && addItemData.itemCategory !== '排出停止アイテム'){
-            const url = DEBUG_API_URL + 'item'
+            const url = BEEF_API_URL + 'item'
             const addResult = await postResponseByUrl(url, addItemData)
             if(addResult === -1) {
               console.error('登録失敗エラー' + itemData.ID)
