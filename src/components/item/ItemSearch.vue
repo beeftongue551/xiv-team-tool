@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="text-center">
     <v-form>
       <v-container>
         <v-row>
-          <v-col cols="12" md="5">
+          <v-col cols="12" md="6">
             <v-text-field
               autofocus="true"
               v-model="itemName"
@@ -11,7 +11,7 @@
               @keyup.prevent.enter.exact="itemSearch"
             />
           </v-col>
-          <v-col cols="12" md="5" >
+          <v-col cols="12" md="6" >
             <v-select v-model="dataCenter" :items="dataCenters" dense filled label="DC" @update:search="changedDataCenter">
               <template v-slot:append>
                 <v-btn
@@ -41,7 +41,11 @@
         <ItemDetailSearch @detail-update="updateDetailInput" @push-enter="itemSearch" v-show="isDetail"/>
       </v-container>
     </v-form>
-    <SearchFailure :is-open="snackbar" msg="値を入力してください"/>
+    <v-snackbar
+      v-model="snackbar"
+      color="error"
+      tile
+    >アイテムが見つかりませんでした</v-snackbar>
   </div>
 </template>
 
@@ -49,7 +53,6 @@
 import {defineComponent} from "vue";
 import {ref} from "vue";
 import {useStore} from "vuex";
-import SearchFailure from "@/components/SearchFailure";
 import {getMarketableItemByName, getMarketableItemByNameAndJobAndLevel} from "@/module/BeefApi/ItemModule";
 import {getMarketByIDs} from "@/module/UniversalisApiModule";
 import ItemDetailSearch from "@/components/item/ItemDetailSearch";
@@ -57,7 +60,7 @@ import ItemDetailSearch from "@/components/item/ItemDetailSearch";
 
 export default defineComponent({
   name: "ItemSearch",
-  components: {ItemDetailSearch, SearchFailure},
+  components: {ItemDetailSearch},
   setup(props, { emit }) {
     const store = useStore()
 
@@ -66,7 +69,7 @@ export default defineComponent({
     const dataCenter = ref('Mana')
     let itemsData = ref([])
     const isDetail = ref(false)
-    let snackbar = ref(false)
+    const snackbar = ref(false)
 
     let jobAbbreviation = ''
     let jobLevel = 90
@@ -95,7 +98,7 @@ export default defineComponent({
       const marketableItemData = await getMarketableItemByName(itemName.value)
 
       let itemIDs = []
-      marketableItemData.items.forEach((item) =>{
+      marketableItemData.items.forEach((item) => {
         itemIDs.push(item.id)
       })
       const marketData = await getMarketByIDs(itemIDs, dataCenter.value)
@@ -122,7 +125,7 @@ export default defineComponent({
         itemName: itemName.value,
         dataCenter: dataCenter.value,
         jobAbbreviation: '',
-        jobLevel: 0
+        jobLevel: 90
       }
       //親コンポーネントに各アイテムデータを渡す
       emit('update-items', marketableItemData, searchData)

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>ItemSearch</h1>
+    <TitleBar main-title="MARKET" sub-title="マーケット検索" icon="mdi-store"/>
     <ItemSearch @update-items="getItemsData"/>
-    <RecipeCard :recipe-data="recipeData" />
+    <RecipeCard :recipe-data="recipeData" id="recipe"/>
     <ItemList :items-data="itemsData" :search-data="searchData" @update-recipe="getRecipeData" />
   </div>
 </template>
@@ -12,10 +12,11 @@ import {defineComponent, ref} from "vue";
 import ItemSearch from "@/components/item/ItemSearch";
 import RecipeCard from "@/components/item/RecipeCard";
 import ItemList from "@/components/item/ItemList";
+import TitleBar from "@/components/TitleBar";
 
 export default defineComponent({
   name: "ItemView",
-  components: {ItemList, RecipeCard, ItemSearch},
+  components: {TitleBar, ItemList, RecipeCard, ItemSearch},
   setup() {
     const itemsData = ref([])
     const searchData = ref({})

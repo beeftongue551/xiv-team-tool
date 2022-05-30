@@ -16,8 +16,8 @@
   >
     <v-list-item prepend-icon="mdi-home" title="Home" value="Home" to="/" />
     <v-divider />
-    <v-list-item prepend-icon="mdi-store" title="マーケット検索" value="マーケット検索" to="/item"/>
-
+    <v-list-item prepend-icon="mdi-store" title="マーケット検索" value="マーケット検索" to="/item" />
+    <v-list-item prepend-icon="mdi-hammer-screwdriver" title="レシピ検索" value="レシピ検索" to="/recipe" />
     <template v-slot:append>
       <div class="pa-2">
 <!--        <v-btn-->

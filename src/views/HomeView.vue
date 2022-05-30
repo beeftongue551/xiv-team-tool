@@ -6,7 +6,7 @@
 <!--        cover-->
 <!--    ></v-img>-->
     <div class="explanation">
-      <label class="explanation-text"><strong>SmartMarketXIV</strong>はプレイヤーを手助けする便利サイトを目指して作成されているサイトです。</label>
+      <label class="explanation-text"><strong>SmartMarketXIV</strong>はクラフターを手助けする便利サイトを目指して作成されているサイトです。</label>
     </div>
     <HomeCards :cards-data="characterCardData" />
     <div class="d-flex justify-space-around">
@@ -33,6 +33,11 @@ export default defineComponent({
         text: 'アイテムを検索して各DCのマーケット状況を見たい場合はこちら',
         jump: '/item',
         icon: 'mdi-store'
+      },{
+        title: 'レシピ検索',
+        text: 'レシピを検索して素材の価格を確認したい場合はこちら',
+        jump:'/recipe',
+        icon:'mdi-hammer-screwdriver'
       }
     ]
 

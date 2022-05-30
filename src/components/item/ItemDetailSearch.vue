@@ -15,8 +15,8 @@
             type="number"
             label="レベル"
             v-model="jobLevel"
-            max="90"
-            min="1"
+            max=90
+            min=0
             maxlength="2"
             @update:modelValue="updateNumber"
             @keyup.prevent.enter.exact="pushEnter"
@@ -69,7 +69,7 @@ export default defineComponent({
     const updateNumber = () => {
       jobLevel.value = parseInt(jobLevel.value)
       if(Number.isNaN(jobLevel) || jobLevel.value <= 0 || isNaN(jobLevel.value)) {
-        jobLevel.value = 1
+        jobLevel.value = 0
       }
       if(jobLevel.value > 90) {
         jobLevel.value = 90

@@ -24,7 +24,12 @@ module.exports = {
    * @return {Promise<*>} アイテム情報
    */
   async getMarketableItemByName(itemName, page = 1) {
-    const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/page/' + page
+    const url = BEEF_API_URL + 'item/marketable/name/' + itemName + '/page/' + page
+    return await getResponseByUrl(url)
+  },
+
+  async getCraftableItemByName(itemName, page = 1) {
+    const url = DEBUG_API_URL + 'item/craftable/name/' + itemName + '/page/' + page
     return await getResponseByUrl(url)
   },
 
@@ -39,16 +44,16 @@ module.exports = {
    */
   async getMarketableItemByNameAndJobAndLevel(itemName, jobAbbreviation, jobLevel, page = 1) {
     if(itemName !== '' && jobAbbreviation !== '') {
-      const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/job/' + jobAbbreviation + '/level/' + jobLevel + '/page/' + page
+      const url = BEEF_API_URL + 'item/marketable/name/' + itemName + '/job/' + jobAbbreviation + '/level/' + jobLevel + '/page/' + page
       return await getResponseByUrl(url)
     }else if(itemName !== '' && jobAbbreviation === '') {
-      const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/level/' + jobLevel + '/page/' + page
+      const url = BEEF_API_URL + 'item/marketable/name/' + itemName + '/level/' + jobLevel + '/page/' + page
       return await getResponseByUrl(url)
     } else if(itemName === '' &&jobAbbreviation !== '') {
-      const url = DEBUG_API_URL + 'item/marketable/job/' + jobAbbreviation + '/level/' + jobLevel + '/page/' + page
+      const url = BEEF_API_URL + 'item/marketable/job/' + jobAbbreviation + '/level/' + jobLevel + '/page/' + page
       return await getResponseByUrl(url)
     } else {
-      const url = DEBUG_API_URL + 'item/marketable/level/' + jobLevel + '/page/' + page
+      const url = BEEF_API_URL + 'item/marketable/level/' + jobLevel + '/page/' + page
       return await getResponseByUrl(url)
     }
   },

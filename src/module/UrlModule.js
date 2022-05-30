@@ -7,13 +7,14 @@ module.exports = {
    * @returns {Promise<*>} レスポンス情報
    */
   async getResponseByUrl(url) {
-    let dataCash
+    let dataCash = {}
     await axios.get(url).then(response => {
       return response.data
     }).then(data => {
       dataCash = data
     }).catch(error => {
       console.error('通信に失敗しました',error)
+      return dataCash
     })
     return dataCash
   },

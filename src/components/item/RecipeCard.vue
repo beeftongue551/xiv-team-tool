@@ -5,7 +5,20 @@
         <v-card-header-text>{{recipe.itemName}}</v-card-header-text>
       </v-card-header>
       <v-card-text class="text-left">
-        作成JOB {{recipe.job}}
+        <v-container>
+          <v-row no-gutters>
+            <v-col
+              cols = 6>
+              作成JOB {{recipe.job}}
+            </v-col>
+            <v-col
+              cols = 6>
+              <div v-if="recipe.recipeBook !== ''" class="text-right">
+                秘伝書: {{recipe.recipeBook}}
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card-text>
       <v-table>
         <tbody>
@@ -22,7 +35,6 @@
         <v-spacer />
       </v-card-actions>
     </v-card>
-    <SearchFailure :is-open="snackbar" msg="未実装の機能です"/>
   </div>
 </template>
 
@@ -72,8 +84,19 @@ export default defineComponent({
       gillParOne.value = totalGill / recipe.value.amountResult
       gillParOne.value = gillParOne.value.toFixed(1)
 
+      recipeScroll()
+
       store.dispatch('updateIsLoading', false)
     })
+
+    const recipeScroll = () => {
+      const recipeElement = document.getElementById("recipe")
+      const recipePosition = recipeElement.getBoundingClientRect().top
+      window.scrollTo({
+        top: recipePosition,
+        behavior: 'smooth'
+      })
+    }
 
     /**
      * 保持しているレシピ情報を削除し、レシピ表示を閉じる

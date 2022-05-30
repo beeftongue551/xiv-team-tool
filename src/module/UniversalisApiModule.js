@@ -14,6 +14,9 @@ module.exports = {
     })
     url = url.slice(0, -1)
     url += '?listings=1&entries=0'
+    if(url === 'https://universalis.app/api/v2/Mana?listings=1&entries=0'){
+      return
+    }
     return await getResponseByUrl(url)
   },
 
