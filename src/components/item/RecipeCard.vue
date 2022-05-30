@@ -67,17 +67,26 @@ export default defineComponent({
       let totalGill = 0
 
       recipe.value.itemName = (await getItemById(recipe.value.itemId)).itemName
+      const ingredientIds = []
+      for (let i = 0; i < 10; i++) {
+        const ingredientId = recipe.value['ingredient' + i]
+        if(ingredientId === 0) {
+          continue
+        }
+        ingredientIds.push(ingredientId)
+        const ingredientData = await getItemById(ingredientId)
+        recipe.value['ingredient' + i + 'Name'] = ingredientData.itemName
+        recipe.value['ingredient' + i + 'Icon'] = ingredientData.itemIcon
+      }
+
+      const ingredientMarketData = await getMarketByIDs(ingredientIds, 'Mana')
 
       for (let i = 0; i < 10; i++) {
         const ingredientId = recipe.value['ingredient' + i]
         if(ingredientId === 0) {
           continue
         }
-        const ingredientData = await getItemById(ingredientId)
-        recipe.value['ingredient' + i + 'Name'] = ingredientData.itemName
-        recipe.value['ingredient' + i + 'Icon'] = ingredientData.itemIcon
-        const ingredientMarketData = await getMarketByIDs([ingredientId], 'Mana')
-        recipe.value['ingredient' + i + 'Gill'] = ingredientMarketData.minPrice *  recipe.value['amountIngredient' + i]
+        recipe.value['ingredient' + i + 'Gill'] = ingredientMarketData.items[ingredientId].minPrice *  recipe.value['amountIngredient' + i]
         totalGill += recipe.value['ingredient' + i + 'Gill']
       }
 
