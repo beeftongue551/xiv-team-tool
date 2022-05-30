@@ -3,7 +3,7 @@
     <h1>ItemSearch</h1>
     <ItemSearch @update-items="getItemsData"/>
     <RecipeCard :recipe-data="recipeData" />
-    <ItemList :items-data="itemsData" @update-recipe="getRecipeData" />
+    <ItemList :items-data="itemsData" :search-data="searchData" @update-recipe="getRecipeData" />
   </div>
 </template>
 
@@ -18,10 +18,12 @@ export default defineComponent({
   components: {ItemList, RecipeCard, ItemSearch},
   setup() {
     const itemsData = ref([])
+    const searchData = ref({})
     const recipeData = ref({})
 
     const getItemsData = (...updateItems) => {
       itemsData.value = updateItems[0]
+      searchData.value = updateItems[1]
     }
 
     const getRecipeData = (...updateRecipe) => {
@@ -30,6 +32,7 @@ export default defineComponent({
 
     return {
       itemsData,
+      searchData,
       recipeData,
       getItemsData,
       getRecipeData

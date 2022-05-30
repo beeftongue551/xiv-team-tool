@@ -20,25 +20,35 @@ module.exports = {
    * アイテム名を含むマーケット取引可能なアイテム情報を取得する
    *
    * @param {string} itemName アイテム名
+   * @param {number} page ページ
    * @return {Promise<*>} アイテム情報
    */
-  async getMarketableItemByName(itemName) {
-    const url = BEEF_API_URL + 'item/marketable/name/' + itemName
+  async getMarketableItemByName(itemName, page = 1) {
+    const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/page/' + page
     return await getResponseByUrl(url)
   },
 
-  async getMarketableItemByNameAndJobAndLevel(itemName, jobAbbreviation, jobLevel) {
+  /**
+   * アイテム名を含むマーケット取引可能なアイテム情報を取得する
+   *
+   * @param {string} itemName アイテム名
+   * @param {string} jobAbbreviation ジョブ略称
+   * @param {number} jobLevel レベル
+   * @param {number} page ページ
+   * @return {Promise<*>} アイテム情報
+   */
+  async getMarketableItemByNameAndJobAndLevel(itemName, jobAbbreviation, jobLevel, page = 1) {
     if(itemName !== '' && jobAbbreviation !== '') {
-      const url = BEEF_API_URL + 'item/marketable/name/' + itemName + '/job/' + jobAbbreviation + '/level/' + jobLevel
+      const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/job/' + jobAbbreviation + '/level/' + jobLevel + '/page/' + page
       return await getResponseByUrl(url)
     }else if(itemName !== '' && jobAbbreviation === '') {
-      const url = BEEF_API_URL + 'item/marketable/name/' + itemName + '/level/' + jobLevel
+      const url = DEBUG_API_URL + 'item/marketable/name/' + itemName + '/level/' + jobLevel + '/page/' + page
       return await getResponseByUrl(url)
     } else if(itemName === '' &&jobAbbreviation !== '') {
-      const url = BEEF_API_URL + 'item/marketable/job/' + jobAbbreviation + '/level/' + jobLevel
+      const url = DEBUG_API_URL + 'item/marketable/job/' + jobAbbreviation + '/level/' + jobLevel + '/page/' + page
       return await getResponseByUrl(url)
     } else {
-      const url = BEEF_API_URL + 'item/marketable/level/' + jobLevel
+      const url = DEBUG_API_URL + 'item/marketable/level/' + jobLevel + '/page/' + page
       return await getResponseByUrl(url)
     }
   },

@@ -95,13 +95,13 @@ export default defineComponent({
       const marketableItemData = await getMarketableItemByName(itemName.value)
 
       let itemIDs = []
-      marketableItemData.forEach((item) =>{
+      marketableItemData.items.forEach((item) =>{
         itemIDs.push(item.id)
       })
       const marketData = await getMarketByIDs(itemIDs, dataCenter.value)
       let itemsData = []
 
-      marketableItemData.forEach((itemData) => {
+      marketableItemData.items.forEach((itemData) => {
 
         // 複数アイテムの場合は一致するアイテムのマーケットデータをともに格納する
         if(marketData.items !== undefined) {
@@ -116,8 +116,16 @@ export default defineComponent({
           })
         }
       })
+      marketableItemData.items = itemsData
+      const searchData = {
+        isDetail: false,
+        itemName: itemName.value,
+        dataCenter: dataCenter.value,
+        jobAbbreviation: '',
+        jobLevel: 0
+      }
       //親コンポーネントに各アイテムデータを渡す
-      emit('update-items', itemsData)
+      emit('update-items', marketableItemData, searchData)
       store.dispatch('updateIsLoading', false)
     }
 
@@ -129,14 +137,14 @@ export default defineComponent({
     const detailSearch = async () => {
       const marketableItemData = await getMarketableItemByNameAndJobAndLevel(itemName.value, jobAbbreviation, jobLevel)
       let itemIDs = []
-      marketableItemData.forEach((item) =>{
+      marketableItemData.items.forEach((item) =>{
         itemIDs.push(item.id)
       })
 
       const marketData = await getMarketByIDs(itemIDs, dataCenter.value)
       let itemsData = []
 
-      marketableItemData.forEach((itemData) => {
+      marketableItemData.items.forEach((itemData) => {
 
         // 複数アイテムの場合は一致するアイテムのマーケットデータをともに格納する
         if(marketData.items !== undefined) {
@@ -151,8 +159,16 @@ export default defineComponent({
           })
         }
       })
+      marketableItemData.items = itemsData
+      const searchData = {
+        isDetail: true,
+        itemName: itemName.value,
+        dataCenter: dataCenter.value,
+        jobAbbreviation: jobAbbreviation,
+        jobLevel: jobLevel
+      }
       //親コンポーネントに各アイテムデータを渡す
-      emit('update-items', itemsData)
+      emit('update-items', marketableItemData, searchData)
     }
 
     return {

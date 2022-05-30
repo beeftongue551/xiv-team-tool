@@ -16,7 +16,7 @@
                 sm="1"
                 class="d-flex align-center"
               >
-                <XivIcon :icon="item.itemData.itemIcon" size="40"/>
+                <XivIcon :icon="item.itemData.itemIcon" size="40" debug="true"/>
               </v-col>
               <v-col
                 cols="11"
@@ -124,6 +124,13 @@
         </v-container>
       </div>
     </div>
+    <div class="text-center">
+      <v-pagination
+        v-model="page"
+        :length="pagination.pageTotal"
+        @update:modelValue="pageUpdate"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
@@ -132,19 +139,40 @@ import {defineComponent, ref, toRefs, watch} from "vue";
 import XivIcon from "@/components/XivIcon";
 import dayjs from "dayjs";
 import {getRecipeByRecipeId} from "@/module/BeefApi/RecipeModule";
+import {getMarketableItemByName, getMarketableItemByNameAndJobAndLevel} from "@/module/BeefApi/ItemModule";
+import {getMarketByIDs} from "@/module/UniversalisApiModule";
+import {useStore} from "vuex";
 
 export default defineComponent({
   name: "ItemList",
   // eslint-disable-next-line vue/no-unused-components
   components: {XivIcon},
-  props: ['itemsData'],
+  props: ['itemsData', 'searchData'],
   setup (props, { emit }) {
     const { itemsData } = toRefs(props)
+    const { searchData } = toRefs(props)
+
+    const childItemsData = ref(props.itemsData)
+
+    const store = useStore()
 
     const items = ref({})
+    const pagination = ref({
+      page: 0,
+      pageNext: 0,
+      pagePrev: 0,
+      pageTotal: 0,
+      resultsParPage: 0,
+      resultsTotal: 0
+    })
+    const page = ref(1)
 
     watch(itemsData, () => {
-      items.value = itemsData.value
+      childItemsData.value = itemsData.value
+    })
+
+    watch(childItemsData, () => {
+      items.value = childItemsData.value.items
       for (let i = 0; i < items.value.length; i++) {
         items.value[i].active = false
         if(items.value[i].marketData === undefined) {
@@ -159,7 +187,75 @@ export default defineComponent({
           items.value[i].marketData.averagePrice = 'None'
         }
       }
+      pagination.value = childItemsData.value.pagination
+      page.value = pagination.value.page
     })
+
+    const detailSearch = async () => {
+      const marketableItemData = await getMarketableItemByNameAndJobAndLevel(searchData.value.itemName, searchData.value.jobAbbreviation, searchData.value.jobLevel, page.value)
+      let itemIDs = []
+      marketableItemData.items.forEach((item) => {
+        itemIDs.push(item.id)
+      })
+
+      const marketData = await getMarketByIDs(itemIDs, searchData.value.dataCenter)
+      let newItemsData = []
+
+      marketableItemData.items.forEach((itemData) => {
+
+        // 複数アイテムの場合は一致するアイテムのマーケットデータをともに格納する
+        if (marketData.items !== undefined) {
+          newItemsData.push({
+            itemData: itemData,
+            marketData: marketData.items[itemData.id]
+          })
+        } else {
+          newItemsData.push({
+            itemData: itemData,
+            marketData: marketData
+          })
+        }
+      })
+      marketableItemData.items = newItemsData
+      childItemsData.value = marketableItemData
+    }
+
+    const pageUpdate = async () => {
+      store.dispatch('updateIsLoading', true)
+      if(searchData.value.isDetail) {
+        await detailSearch()
+        store.dispatch('updateIsLoading', false)
+        return
+      }
+
+      const marketableItemData = await getMarketableItemByName(searchData.value.itemName, page.value)
+
+      let itemIDs = []
+      marketableItemData.items.forEach((item) =>{
+        itemIDs.push(item.id)
+      })
+      const marketData = await getMarketByIDs(itemIDs, searchData.value.dataCenter)
+      let newItemsData = []
+
+      marketableItemData.items.forEach((itemData) => {
+
+        // 複数アイテムの場合は一致するアイテムのマーケットデータをともに格納する
+        if(marketData.items !== undefined) {
+          newItemsData.push({
+            itemData: itemData,
+            marketData: marketData.items[itemData.id]
+          })
+        } else {
+          newItemsData.push({
+            itemData: itemData,
+            marketData: marketData
+          })
+        }
+      })
+      marketableItemData.items = newItemsData
+      childItemsData.value = marketableItemData
+      store.dispatch('updateIsLoading', false)
+    }
 
     /**
      * レシピ情報の検索を行い、レシピ情報をストアに格納する処理
@@ -183,6 +279,11 @@ export default defineComponent({
     return {
       items,
       openRecipe,
+
+      pagination,
+      page,
+      pageUpdate,
+
       active,
       onClickTitle
     }
