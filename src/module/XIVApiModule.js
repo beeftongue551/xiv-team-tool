@@ -169,5 +169,15 @@ module.exports = {
   async getAllJobCategory(page=1) {
     const url = XIV_API_URL + 'ClassJobCategory?page=' + page
     return await getResponseByUrl(url)
+  },
+
+  async getCompanyCraftSequence(page = 1) {
+    const url = XIV_API_URL + 'CompanyCraftSequence?page=' + page
+    return await getResponseByUrl(url)
+  },
+
+  async getCompanyCraftSequenceById(id) {
+    const url = XIV_API_URL + 'CompanyCraftSequence/' + id
+    return await getResponseByUrl(url)
   }
 }

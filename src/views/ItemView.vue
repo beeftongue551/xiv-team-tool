@@ -2,7 +2,7 @@
   <div>
     <TitleBar main-title="MARKET" sub-title="マーケット検索" icon="mdi-store"/>
     <ItemSearch @update-items="getItemsData"/>
-    <RecipeCard :recipe-data="recipeData" id="recipe"/>
+    <RecipeCard :recipe-data="recipeData" :data-center="searchData.dataCenter"/>
     <ItemList :items-data="itemsData" :search-data="searchData" @update-recipe="getRecipeData" />
   </div>
 </template>

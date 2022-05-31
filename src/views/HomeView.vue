@@ -12,6 +12,7 @@
     <div class="d-flex justify-space-around">
       <NewsList title="お知らせ" :news-details="newsDetails" v-show="newsDetails.length"/>
     </div>
+<!--    <v-btn @click="onClick"><v-icon color="warning">mid-store</v-icon></v-btn>-->
   </div>
 </template>
 
@@ -45,9 +46,15 @@ export default defineComponent({
       newsDetails.value = await getNewsListLimit(3)
     })
 
+
+    const onClick = () => {
+
+    }
+
     return {
       newsDetails: newsDetails,
-      characterCardData
+      characterCardData,
+      onClick
     }
   }
 });

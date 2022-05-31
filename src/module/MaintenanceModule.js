@@ -53,6 +53,21 @@ module.exports = {
     }
   },
 
+  // async updateCompanyCraftSequence() {
+  //   let allCompanyCraftSequence = await getCompanyCraftSequence()
+  //   const pageTotal = allCompanyCraftSequence.Pagination.PageTotal
+  //   for (let i = 0; i < pageTotal; i++) {
+  //     allCompanyCraftSequence = await getCompanyCraftSequence(i)
+  //     for (let j = 0; j < allCompanyCraftSequence.Results.length; j++) {
+  //       const companyCraftSequence = await getCompanyCraftSequenceById(allCompanyCraftSequence.Results[j].ID)
+  //       const addCompanyCraftSequence = {
+  //         id: companyCraftSequence.ID, companyCraftDraft: companyCraftSequence.CompanyCraftDraft.Name_ja,
+  //         CompanyCraftProcess0Id:
+  //       }
+  //     }
+  //   }
+  // }
+
   async updateMarketableItems() {
     const marketableIds = await getMarketableItemIds()
     for(let i = 0; i < marketableIds.length; i++) {

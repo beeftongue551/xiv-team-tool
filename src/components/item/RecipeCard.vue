@@ -2,14 +2,15 @@
   <div v-if="recipe.id" id="recipe-card">
     <v-card id="recipe-card">
       <v-card-header>
-        <v-card-header-text>{{recipe.itemName}}</v-card-header-text>
+        <v-card-header-text><h3><XivIcon :icon="recipe.itemIcon" size="30" />{{recipe.itemName}}</h3></v-card-header-text>
       </v-card-header>
       <v-card-text class="text-left">
         <v-container>
           <v-row no-gutters>
             <v-col
-              cols = 6>
-              作成JOB {{recipe.job}}
+              cols = 6 class="d-flex align-center">
+              作成JOB: {{recipe.job}}
+              <XivIcon :icon="recipe.jobIcon" size="20" />
             </v-col>
             <v-col
               cols = 6>
@@ -30,9 +31,19 @@
         </tbody>
       </v-table>
       <v-card-text>
-        一つあたりの最小経費：{{gillParOne}} ギル
-        <br>
-        合計の経費：{{totalGill}} ギル
+        <v-container>
+          <v-row no-gutters>
+            <v-col>
+              一つあたりの最小経費：{{gillParOne}} ギル
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col>
+              合計の経費：{{totalGill}} ギル
+            </v-col>
+
+          </v-row>
+        </v-container>
       </v-card-text>
 
       <v-card-actions>
@@ -66,7 +77,7 @@ export default defineComponent({
   name: "RecipeCard",
   // eslint-disable-next-line vue/no-unused-components
   components: {XivIcon, SearchFailure, VueNumberInput},
-  props:['recipeData'],
+  props:['recipeData', 'dataCenter'],
   setup(props) {
     const { recipeData } = toRefs(props)
 
@@ -85,8 +96,9 @@ export default defineComponent({
       store.dispatch('updateIsLoading', true)
 
       recipe.value = recipeData.value
-
-      recipe.value.itemName = (await getItemById(recipe.value.itemId)).itemName
+      const itemData = await getItemById(recipe.value.itemId)
+      recipe.value.itemName = itemData.itemName
+      recipe.value.itemIcon = itemData.itemIcon
       const ingredientIds = []
       for (let i = 0; i < 10; i++) {
         const ingredientId = recipe.value['ingredient' + i]
@@ -101,7 +113,7 @@ export default defineComponent({
       }
       minAmount.value = recipe.value.amountResult
       amountResult.value = recipe.value.amountResult
-      const ingredientMarketData = await getMarketByIDs(ingredientIds, 'Mana')
+      const ingredientMarketData = await getMarketByIDs(ingredientIds, props.dataCenter)
 
       for (let i = 0; i < 10; i++) {
         const ingredientId = recipe.value['ingredient' + i]
