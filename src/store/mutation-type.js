@@ -17,7 +17,7 @@ export const UPDATE_SELECTED_DC = 'updateSelectedDC'
 export const UPDATE_PAGINATION = 'updatePagination'
 
 //レシピ
-export const UPDATE_RECIPE_DATA = 'updateRecipeData'
+export const UPDATE_RECIPE_ID = 'updateRecipeId'
 
 // ユーザ情報
 export const UPDATE_USER_CHARACTER = 'updateUserCharacter'

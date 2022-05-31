@@ -50,6 +50,11 @@ export default createStore({
       key: 'xiv-team-tool',
       paths: ['user'],
       storage: localStorage
+    }),
+    createPersistedState({
+      key: 'xiv-team-tool',
+      paths: ['recipe'],
+      storage: sessionStorage
     })
   ]
 })

@@ -19,7 +19,6 @@
 
 <script>
 import {defineComponent, ref, toRefs, watch} from "vue";
-import XivIcon from "@/components/XivIcon";
 import dayjs from "dayjs";
 import {getMarketableItemByName, getMarketableItemByNameAndJobAndLevel} from "@/module/BeefApi/ItemModule";
 import {getMarketByIDs} from "@/module/UniversalisApiModule";
@@ -28,8 +27,7 @@ import ItemExpansionBar from "@/components/item/ItemExpansionBar";
 
 export default defineComponent({
   name: "ItemList",
-  // eslint-disable-next-line vue/no-unused-components
-  components: {ItemExpansionBar, XivIcon},
+  components: {ItemExpansionBar},
   props: ['itemsData', 'searchData'],
   setup (props, { emit }) {
     const { itemsData } = toRefs(props)

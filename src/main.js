@@ -3,16 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-import VueVirtualScroller from "vue-virtual-scroller";
 import { loadFonts } from './plugins/webfontloader'
+import VueNumberInput from "@chenfengyuan/vue-number-input";
 
 loadFonts()
-
-
 
 createApp(App)
   .use(router)
   .use(store)
   .use(vuetify)
-  .use(VueVirtualScroller)
+  .component(VueNumberInput.name, VueNumberInput)
   .mount('#app')

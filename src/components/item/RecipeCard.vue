@@ -1,6 +1,6 @@
 <template>
-  <div v-if="recipe.id">
-    <v-card>
+  <div v-if="recipe.id" id="recipe-card">
+    <v-card id="recipe-card">
       <v-card-header>
         <v-card-header-text>{{recipe.itemName}}</v-card-header-text>
       </v-card-header>
@@ -24,15 +24,30 @@
         <tbody>
           <tr v-for="i in 10" :key="i" v-show="recipe['ingredient'+(i-1)]">
             <td>{{recipe['ingredient' + (i-1) + 'Name']}}</td>
-            <td>必要個数: {{recipe['amountIngredient' + (i-1)]}}</td>
-            <td>必要ギル: {{recipe['ingredient' + (i-1) + 'Gill']}}</td>
+            <td>必要個数: {{recipe['amountIngredient' + (i-1) + 'Result']}}</td>
+            <td>必要ギル: {{recipe['ingredient' + (i-1) + 'GillResult']}}</td>
           </tr>
         </tbody>
       </v-table>
-      <v-card-text>一つあたりの最小経費：{{gillParOne}} ギル</v-card-text>
+      <v-card-text>
+        一つあたりの最小経費：{{gillParOne}} ギル
+        <br>
+        合計の経費：{{totalGill}} ギル
+      </v-card-text>
+
       <v-card-actions>
-        <v-btn color="error" @click="closeRecipe">close</v-btn>
-        <v-spacer />
+        <v-container>
+          <v-row>
+            <v-col cols="4">
+              <v-btn color="error" @click="closeRecipe">close</v-btn>
+            </v-col>
+            <v-col cols="5">
+              <VueNumberInput v-model="amountResult" :min="minAmount" :step="recipe.amountResult" @update:modelValue="updateAmount" controls/>
+            </v-col>
+            <v-col cols="3">
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card-actions>
     </v-card>
   </div>
@@ -45,26 +60,31 @@ import SearchFailure from "@/components/SearchFailure";
 import {getItemById} from "@/module/BeefApi/ItemModule";
 import {getMarketByIDs} from "@/module/UniversalisApiModule";
 import XivIcon from "@/components/XivIcon";
+import VueNumberInput from "@chenfengyuan/vue-number-input";
 
 export default defineComponent({
   name: "RecipeCard",
   // eslint-disable-next-line vue/no-unused-components
-  components: {XivIcon, SearchFailure},
+  components: {XivIcon, SearchFailure, VueNumberInput},
   props:['recipeData'],
   setup(props) {
     const { recipeData } = toRefs(props)
 
     const store = useStore()
-    let recipe = ref({})
-    let amount = ref(0)
-    let gillParOne = ref(0)
-    let snackbar = ref(false)
+
+    const recipe = ref({})
+    const amount = ref(0)
+    const totalGill = ref(0)
+    const gillParOne = ref(0)
+    const snackbar = ref(false)
+
+    const minAmount = ref(1)
+    const amountResult = ref(1)
 
     watch(recipeData,async () => {
       store.dispatch('updateIsLoading', true)
 
       recipe.value = recipeData.value
-      let totalGill = 0
 
       recipe.value.itemName = (await getItemById(recipe.value.itemId)).itemName
       const ingredientIds = []
@@ -77,8 +97,10 @@ export default defineComponent({
         const ingredientData = await getItemById(ingredientId)
         recipe.value['ingredient' + i + 'Name'] = ingredientData.itemName
         recipe.value['ingredient' + i + 'Icon'] = ingredientData.itemIcon
+        recipe.value['amountIngredient' + i + 'Result'] = recipe.value['amountIngredient' + i]
       }
-
+      minAmount.value = recipe.value.amountResult
+      amountResult.value = recipe.value.amountResult
       const ingredientMarketData = await getMarketByIDs(ingredientIds, 'Mana')
 
       for (let i = 0; i < 10; i++) {
@@ -87,10 +109,11 @@ export default defineComponent({
           continue
         }
         recipe.value['ingredient' + i + 'Gill'] = ingredientMarketData.items[ingredientId].minPrice *  recipe.value['amountIngredient' + i]
-        totalGill += recipe.value['ingredient' + i + 'Gill']
+        recipe.value['ingredient' + i + 'GillResult'] = recipe.value['ingredient' + i + 'Gill']
+        totalGill.value += recipe.value['ingredient' + i + 'Gill']
       }
 
-      gillParOne.value = totalGill / recipe.value.amountResult
+      gillParOne.value = totalGill.value / recipe.value.amountResult
       gillParOne.value = gillParOne.value.toFixed(1)
 
       recipeScroll()
@@ -98,9 +121,26 @@ export default defineComponent({
       store.dispatch('updateIsLoading', false)
     })
 
+    const updateAmount = () => {
+      if(amountResult.value % recipe.value.amountResult !== 0) {
+        amountResult.value +=  recipe.value.amountResult - (amountResult.value % recipe.value.amountResult)
+      }
+
+      const count = amountResult.value / recipe.value.amountResult
+      totalGill.value = 0
+      for (let i = 0; i < 10; i++) {
+        recipe.value['amountIngredient' + i + 'Result'] = recipe.value['amountIngredient' + i] * count
+        recipe.value['ingredient' + i + 'GillResult'] = recipe.value['ingredient' + i + 'Gill'] * count
+        if(isNaN(recipe.value['ingredient' + i + 'GillResult'])){
+          continue
+        }
+        totalGill.value += recipe.value['ingredient' + i + 'GillResult']
+      }
+    }
+
     const recipeScroll = () => {
-      const recipeElement = document.getElementById("recipe")
-      const recipePosition = recipeElement.getBoundingClientRect().top
+      const recipeElement = document.getElementById("recipe-card")
+      const recipePosition = recipeElement.getBoundingClientRect().top + 50
       window.scrollTo({
         top: recipePosition,
         behavior: 'smooth'
@@ -114,21 +154,19 @@ export default defineComponent({
       recipe.value = {}
     }
 
-    /**
-     * TODO: レシピ詳細ページへ遷移する処理
-     */
-    const detailRecipe = () => {
-      snackbar.value = true
-    }
 
     return {
       recipe,
       amount,
+      totalGill,
       gillParOne,
       snackbar,
 
-      closeRecipe,
-      detailRecipe
+      minAmount,
+      amountResult,
+
+      updateAmount,
+      closeRecipe
     }
   }
 })
